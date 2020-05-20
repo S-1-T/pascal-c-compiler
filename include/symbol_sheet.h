@@ -1,5 +1,9 @@
-#ifndef SYMBOL_SHEET_H_
-#define SYMBOL_SHEET_H_
+//
+// Created by RinChanNOW! on 2020/5/20.
+//
+
+#ifndef PASCAL_C_COMPILER_SYMBOL_SHEET_H
+#define PASCAL_C_COMPILER_SYMBOL_SHEET_H
 
 #include <string>
 #include <set>
@@ -18,7 +22,7 @@ namespace Symbol {
     enum TYPE {
         VOID, INT, REAL, BOOLEAN, CHAR,
         INT_ARRAY, REAL_ARRAY, BOOLEAN_ARRAY, CHAR_ARRAY,
-        FUNC, PROC, RESERVED, LIB_FUNC
+        FUNC, PROC, RESERVED, LIB_FUNC, ID
     };
 
 //    enum FUNC_TYPE {
@@ -100,4 +104,4 @@ private:
 };
 
 
-#endif
+#endif //PASCAL_C_COMPILER_SYMBOL_SHEET_H
