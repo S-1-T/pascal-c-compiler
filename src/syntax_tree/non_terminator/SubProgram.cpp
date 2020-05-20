@@ -51,4 +51,17 @@ public:
     Symbol::TYPE mReturnType = Symbol::VOID;
 };
 
+class SubProgramBody {
+public:
+    SubProgramBody() = default;
+    SubProgramBody(ConstDeclarations *constDeclarations, VarDeclarations *varDeclarations,
+            CompoundStatement *compoundStatement):
+    mConstDeclarations(constDeclarations), mVarDeclarations(varDeclarations), mCompoundStatement(compoundStatement) {}
 
+
+    std::string outputCodes();
+
+    ConstDeclarations *mConstDeclarations = nullptr;
+    VarDeclarations *mVarDeclarations = nullptr;
+    CompoundStatement *mCompoundStatement = nullptr;
+};

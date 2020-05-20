@@ -34,10 +34,8 @@ public:
 class Parameter {
 public:
     Parameter() = default;
-    Parameter(bool var, VarParameter *varParameter):
-    isVar(var), mVarParameter(varParameter) {}
-    Parameter(bool var, ValueParameter *valueParameter):
-    isVar(var), mValueParameter(valueParameter) {}
+    explicit Parameter(VarParameter *varParameter): isVar(true), mVarParameter(varParameter) {}
+    explicit Parameter(ValueParameter *valueParameter): isVar(false), mValueParameter(valueParameter) {}
 
     std::string outputCodes();
 
@@ -49,7 +47,7 @@ public:
 class VarParameter {
 public:
     VarParameter() = default;
-    VarParameter(ValueParameter *valueParameter): mValueParameter(valueParameter) {}
+    explicit VarParameter(ValueParameter *valueParameter): mValueParameter(valueParameter) {}
 
     std::string outputCodes();
 
@@ -66,7 +64,6 @@ public:
 
     IdentifierList *mIdentifierList;
     Symbol::TYPE mReturnType = Symbol::VOID;
-
 };
 
 
