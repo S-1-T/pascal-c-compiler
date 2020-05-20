@@ -39,30 +39,24 @@ class StatementList;
 class Statement;
 class Variable;
 class Expression;
-class Updown;
+//class Updown;
 class CallProcedureStatement;
 class IdVarParts;
 class IdVarPart;
 class ExpressionList;
-class ElsePart;
+//class ElsePart;
 class SimpleExpression;
 class Term;
 class Factor;
-class UnsignConstVariable;
+//class UnsignConstVariable;
 // 终结符
 class Id;
-class Num;
-class Letter;
+class Not;
+class IfThenElseStatement;
+class ForStatement;
 class AssignOp;
-class IfThenElse;
-class For;
 class RelOp;
 class AddOp;
 class MulOp;
-
-// 辅助使用的类，继承自 SubProgramDeclaration
-class FunctionDeclaration;
-class ProcedureDeclaration;
-
 
 #endif //PASCAL_C_COMPILER_SYNTAX_TREE_H

@@ -9,7 +9,9 @@
 typedef std::vector<std::pair<IdentifierList *, Type *> > VariableList;
 
 class VarDeclarations {
-    VarDeclarations(VarDeclaration *varDeclaration): mVarDeclaration(varDeclaration) {}
+public:
+    VarDeclarations() = default;
+    explicit VarDeclarations(VarDeclaration *varDeclaration): mVarDeclaration(varDeclaration) {}
 
     std::string outputCodes();
 
@@ -17,7 +19,9 @@ class VarDeclarations {
 };
 
 class VarDeclaration {
-    VarDeclaration(VariableList variableList) { mVariableList = std::move(variableList); }
+public:
+    VarDeclaration() = default;
+    explicit VarDeclaration(VariableList variableList) { mVariableList = std::move(variableList); }
 
     std::string outputCodes();
 

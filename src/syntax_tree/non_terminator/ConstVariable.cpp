@@ -9,7 +9,9 @@
 class ConstVariable {
 public:
     ConstVariable() = default;
-    explicit ConstVariable(Symbol::TYPE type): mType(type) {}
+    explicit ConstVariable(Id *id): mType(Symbol::ID), mId(id) {}
+    explicit ConstVariable(float num): mType(Symbol::REAL) { mValue.realValue = num; }
+    explicit ConstVariable(char letter): mType(Symbol::CHAR) {mValue.charValue = letter; }
 
     std::string outputCodes();
 

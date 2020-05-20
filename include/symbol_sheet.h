@@ -14,21 +14,12 @@
 class SymbolSheet;
 
 namespace Symbol {
-    //
-//    enum GENRE {
-//        NIL, VAL, SUBPROG, ARRAY
-//    };
     // 符号类型
     enum TYPE {
         VOID, INT, REAL, BOOLEAN, CHAR,
         INT_ARRAY, REAL_ARRAY, BOOLEAN_ARRAY, CHAR_ARRAY,
         FUNC, PROC, RESERVED, LIB_FUNC, ID
     };
-
-//    enum FUNC_TYPE {
-//        NONE, FUNC, PROC
-//    };
-
     typedef std::string Name;
     // 用于表示数组的上下界，可以是多维数组
     typedef std::pair<int, int> Range;
