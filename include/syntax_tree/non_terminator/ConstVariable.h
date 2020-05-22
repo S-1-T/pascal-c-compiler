@@ -1,8 +1,12 @@
 //
-// Created by RinChanNOW! on 2020/5/20.
+// Created by RinChanNOW! on 2020/5/22.
 //
-#include "syntax_tree.h"
-#include "symbol_sheet.h"
+
+#ifndef PASCAL_C_COMPILER_CONSTVARIABLE_H
+#define PASCAL_C_COMPILER_CONSTVARIABLE_H
+
+#include "syntax_tree/syntax_tree_nodes.h"
+#include "symbol_sheet/symbol_sheet.h"
 
 #include <string>
 
@@ -23,3 +27,6 @@ public:
 
     int mLineNo = 0;
 };
+
+
+#endif //PASCAL_C_COMPILER_CONSTVARIABLE_H

@@ -1,7 +1,11 @@
 //
-// Created by RinChanNOW! on 2020/5/20.
+// Created by RinChanNOW! on 2020/5/22.
 //
-#include "syntax_tree.h"
+
+#ifndef PASCAL_C_COMPILER_OPERATORS_H
+#define PASCAL_C_COMPILER_OPERATORS_H
+
+#include "syntax_tree/syntax_tree_nodes.h"
 
 #include <string>
 
@@ -22,7 +26,7 @@ public:
 
     RelOp() = default;
     RelOp(SimpleExpression *s1, RelType relType, SimpleExpression *s2):
-    mSimpleExpression1(s1), mRelType(relType), mSimpleExpression2(s2) {}
+            mSimpleExpression1(s1), mRelType(relType), mSimpleExpression2(s2) {}
 
     std::string outputCodes();
 
@@ -37,7 +41,7 @@ public:
 
     AddOp() = default;
     AddOp(SimpleExpression *simpleExpression, AddType addType, Term *term):
-    mSimpleExpression(simpleExpression), mAddType(addType), mTerm(term) {}
+            mSimpleExpression(simpleExpression), mAddType(addType), mTerm(term) {}
 
     std::string outputCodes();
 
@@ -52,7 +56,7 @@ public:
 
     MulOp() = default;
     MulOp(Term *term, MulType mulType, Factor *factor):
-    mTerm(term), mMulType(mulType), mFactor(factor) {}
+            mTerm(term), mMulType(mulType), mFactor(factor) {}
 
     std::string outputCodes();
 
@@ -60,3 +64,5 @@ public:
     Term *mTerm = nullptr;
     Factor* mFactor = nullptr;
 };
+
+#endif //PASCAL_C_COMPILER_OPERATORS_H

@@ -1,8 +1,12 @@
 //
-// Created by RinChanNOW! on 2020/5/20.
+// Created by RinChanNOW! on 2020/5/22.
 //
-#include "syntax_tree.h"
-#include "symbol_sheet.h"
+
+#ifndef PASCAL_C_COMPILER_SUBPROGRAM_H
+#define PASCAL_C_COMPILER_SUBPROGRAM_H
+
+#include "syntax_tree/syntax_tree_nodes.h"
+#include "symbol_sheet/symbol_sheet.h"
 
 #include <string>
 #include <vector>
@@ -26,7 +30,7 @@ class SubProgramDeclaration {
 public:
     SubProgramDeclaration() = default;
     SubProgramDeclaration(SubProgramHead *subProgramHead, SubProgramBody *subProgramBody):
-    mSubProgramHead(subProgramHead), mSubProgramBody(subProgramBody) {}
+            mSubProgramHead(subProgramHead), mSubProgramBody(subProgramBody) {}
 
     std::string outputCodes();
 
@@ -39,9 +43,9 @@ class SubProgramHead {
 public:
     SubProgramHead() = default;
     SubProgramHead(Symbol::TYPE type, FormalParameter *formalParameter):
-    mProgramType(type), mFormalParameter(formalParameter) {}
+            mProgramType(type), mFormalParameter(formalParameter) {}
     SubProgramHead(Symbol::TYPE type, FormalParameter *formalParameter, Symbol::TYPE returnType):
-    mProgramType(type), mFormalParameter(formalParameter), mReturnType(returnType) {}
+            mProgramType(type), mFormalParameter(formalParameter), mReturnType(returnType) {}
 
     std::string outputCodes();
 
@@ -55,8 +59,8 @@ class SubProgramBody {
 public:
     SubProgramBody() = default;
     SubProgramBody(ConstDeclarations *constDeclarations, VarDeclarations *varDeclarations,
-            CompoundStatement *compoundStatement):
-    mConstDeclarations(constDeclarations), mVarDeclarations(varDeclarations), mCompoundStatement(compoundStatement) {}
+                   CompoundStatement *compoundStatement):
+            mConstDeclarations(constDeclarations), mVarDeclarations(varDeclarations), mCompoundStatement(compoundStatement) {}
 
 
     std::string outputCodes();
@@ -65,3 +69,6 @@ public:
     VarDeclarations *mVarDeclarations = nullptr;
     CompoundStatement *mCompoundStatement = nullptr;
 };
+
+
+#endif //PASCAL_C_COMPILER_SUBPROGRAM_H

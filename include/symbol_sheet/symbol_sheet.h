@@ -48,8 +48,6 @@ namespace Symbol {
     };
 
     struct Property {
-        // 是值、数组还是函数
-//        GENRE genre = NIL;    // VAL or ARRAY or SUBPROG
         // 类型
         TYPE type = VOID;
 //        FUNC_TYPE funcType = NONE;
@@ -63,6 +61,7 @@ namespace Symbol {
         // 函数类型
         int argumentsNum = 0;
         ArgumentsTypes argumentsTypes;
+        TYPE returnType;
         // 其他信息
         int decLine = 0;
         int refLine = -1;
@@ -81,11 +80,11 @@ public:
 
     explicit SymbolSheet(Symbol::Name sheetName);
 
-    bool lookUp(Symbol::Name symbolName);
-    Symbol::TYPE getType(Symbol::Name symbolName);
-    Symbol::TYPE getReturnType(Symbol::Name);
-    int getArgumentsNum(Symbol::Name symbolName);
-    Symbol::ArgumentsTypes getArgumentsTypes(Symbol::Name symbolName);
+    bool lookUp(const Symbol::Name& symbolName);
+    Symbol::TYPE getType(const Symbol::Name& symbolName);
+    Symbol::TYPE getReturnType(const Symbol::Name& symbolName);
+    int getArgumentsNum(const Symbol::Name& symbolName);
+    Symbol::ArgumentsTypes getArgumentsTypes(const Symbol::Name& symbolName);
     Symbol::Name getSheetName();
 private:
     Symbol::Name mSheetName;

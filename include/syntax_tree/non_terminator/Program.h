@@ -1,8 +1,11 @@
 //
-// Created by RinChanNOW! on 2020/5/20.
+// Created by RinChanNOW! on 2020/5/22.
 //
 
-#include "syntax_tree.h"
+#ifndef PASCAL_C_COMPILER_PROGRAM_H
+#define PASCAL_C_COMPILER_PROGRAM_H
+
+#include "syntax_tree/syntax_tree_nodes.h"
 
 #include <string>
 
@@ -10,7 +13,7 @@ class Program {
 public:
     Program() = default;
     Program(Id *id, IdentifierList *idList, ProgramBody *programBody):
-    mProgramId(id), mIdList(idList), mProgramBody(programBody) {}
+            mProgramId(id), mIdList(idList), mProgramBody(programBody) {}
 
     std::string outputCodes();
 
@@ -19,6 +22,8 @@ public:
     ProgramBody *mProgramBody = nullptr;
 
 };
+
+
 
 class ProgramBody {
 public:
@@ -37,3 +42,5 @@ public:
     SubProgramDeclarations *mSubProgramDeclarations = nullptr;
     CompoundStatement *mCompoundStatement = nullptr;
 };
+
+#endif //PASCAL_C_COMPILER_PROGRAM_H
