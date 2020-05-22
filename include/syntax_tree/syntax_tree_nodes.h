@@ -3,8 +3,9 @@
 // 语法树的节点
 //
 
-#ifndef PASCAL_C_COMPILER_SYNTAX_TREE_H
-#define PASCAL_C_COMPILER_SYNTAX_TREE_H
+#ifndef PASCAL_C_COMPILER_SYNTAX_TREE_NODES_H
+#define PASCAL_C_COMPILER_SYNTAX_TREE_NODES_H
+
 // 非终结符
 class Program;
 //class ProgramHead;
@@ -19,7 +20,7 @@ class CompoundStatement;
 class ConstVariable;
 //class TypeDeclaration;
 class Type;
-class StandardType;
+//class StandardType;
 // TODO Record 类型
 // class RecordBody
 class Periods;
@@ -51,7 +52,6 @@ class Factor;
 //class UnsignConstVariable;
 // 终结符
 class Id;
-class Not;
 class IfThenElseStatement;
 class ForStatement;
 class AssignOp;
@@ -59,4 +59,7 @@ class RelOp;
 class AddOp;
 class MulOp;
 
-#endif //PASCAL_C_COMPILER_SYNTAX_TREE_H
+#endif
+
+
+

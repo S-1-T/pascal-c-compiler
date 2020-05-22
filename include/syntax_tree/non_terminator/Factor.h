@@ -1,8 +1,12 @@
 //
-// Created by RinChanNOW! on 2020/5/20.
+// Created by RinChanNOW! on 2020/5/22.
 //
-#include "syntax_tree.h"
-#include "symbol_sheet.h"
+
+#ifndef PASCAL_C_COMPILER_FACTOR_H
+#define PASCAL_C_COMPILER_FACTOR_H
+
+#include "syntax_tree/syntax_tree_nodes.h"
+#include "symbol_sheet/symbol_sheet.h"
 
 #include <string>
 
@@ -16,7 +20,7 @@ public:
     explicit Factor(Variable *variable): mFactorType(VAR), mVariable(variable) {}
     explicit Factor(ExpressionList *expressionList): mFactorType(FUNC_CALL), mExpressionList(expressionList) {}
     explicit Factor(Expression *expression): mFactorType(EXPR), mExpression(expression) {}
-    explicit Factor(Not *n): mFactorType(NOT), mNot(n) {}
+    explicit Factor(Factor *factor): mFactorType(NOT), mFactor(factor) {}
 
     std::string outputCodes();
 
@@ -26,5 +30,8 @@ public:
     Variable *mVariable = nullptr;
     ExpressionList *mExpressionList = nullptr;
     Expression *mExpression = nullptr;
-    Not *mNot = nullptr;
+    Factor *mFactor = nullptr
 };
+
+
+#endif //PASCAL_C_COMPILER_FACTOR_H

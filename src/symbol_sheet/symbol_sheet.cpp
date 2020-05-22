@@ -1,33 +1,34 @@
 //
 // Created by RinChanNOW! on 2020/5/19.
 //
-#include "symbol_sheet.h"
+#include "symbol_sheet/symbol_sheet.h"
 
 #include <iostream>
+#include <utility>
 
 SymbolSheet::SymbolSheet(Symbol::Name sheetName) {
-    mSheetName = sheetName;
+    mSheetName = std::move(sheetName);
     addReservedSymbol();
 }
 
-bool SymbolSheet::lookUp(Symbol::Name symbolName) {
-    return false;
+bool SymbolSheet::lookUp(const Symbol::Name& symbolName) {
+    return mSheet.find(symbolName) != mSheet.end();
 }
 
-Symbol::TYPE SymbolSheet::getType(Symbol::Name symbolName) {
-    return Symbol::VOID;
+Symbol::TYPE SymbolSheet::getType(const Symbol::Name& symbolName) {
+    return mSheet[symbolName].type;
 }
 
-Symbol::TYPE SymbolSheet::getReturnType(Symbol::Name) {
-    return Symbol::VOID;
+Symbol::TYPE SymbolSheet::getReturnType(const Symbol::Name& symbolName) {
+    return mSheet[symbolName].returnType;
 }
 
-int SymbolSheet::getArgumentsNum(Symbol::Name symbolName) {
-    return 0;
+int SymbolSheet::getArgumentsNum(const Symbol::Name& symbolName) {
+    return mSheet[symbolName].argumentsNum;
 }
 
-Symbol::ArgumentsTypes SymbolSheet::getArgumentsTypes(Symbol::Name symbolName) {
-    return Symbol::ArgumentsTypes();
+Symbol::ArgumentsTypes SymbolSheet::getArgumentsTypes(const Symbol::Name& symbolName) {
+    return mSheet[symbolName].argumentsTypes;
 }
 
 Symbol::Name SymbolSheet::getSheetName() {

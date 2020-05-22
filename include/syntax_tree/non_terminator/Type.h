@@ -1,7 +1,11 @@
 //
-// Created by RinChanNOW! on 2020/5/20.
+// Created by RinChanNOW! on 2020/5/22.
 //
-#include "syntax_tree.h"
+
+#ifndef PASCAL_C_COMPILER_TYPE_H
+#define PASCAL_C_COMPILER_TYPE_H
+
+#include "syntax_tree/syntax_tree_nodes.h"
 
 #include <string>
 
@@ -15,3 +19,5 @@ public:
     bool isStandardType = true;
     Periods *mPeriods = nullptr;
 };
+
+#endif //PASCAL_C_COMPILER_TYPE_H

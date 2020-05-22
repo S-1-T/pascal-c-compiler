@@ -1,8 +1,11 @@
 //
-// Created by RinChanNOW! on 2020/5/20.
+// Created by RinChanNOW! on 2020/5/22.
 //
 
-#include "syntax_tree.h"
+#ifndef PASCAL_C_COMPILER_STATEMENTS_H
+#define PASCAL_C_COMPILER_STATEMENTS_H
+
+#include "syntax_tree/syntax_tree_nodes.h"
 
 #include <string>
 #include <vector>
@@ -40,10 +43,10 @@ public:
     explicit Statement(AssignOp *assignOp): mStatementType(ASSIGN), mAssignOp(assignOp) {}
 
     explicit Statement(CallProcedureStatement *callProcedureStatement):
-    mStatementType(CALL_PROC), mCallProcedureStatement(callProcedureStatement) {}
+            mStatementType(CALL_PROC), mCallProcedureStatement(callProcedureStatement) {}
 
     explicit Statement(IfThenElseStatement *ifThenElseStatement):
-    mStatementType(IF_THEN_ELSE), mIfThenElseStatement(ifThenElseStatement) {}
+            mStatementType(IF_THEN_ELSE), mIfThenElseStatement(ifThenElseStatement) {}
 
     explicit Statement(ForStatement *forStatement): mStatementType(FOR), mForStatement(forStatement) {}
 
@@ -55,3 +58,6 @@ public:
     IfThenElseStatement *mIfThenElseStatement = nullptr;
     ForStatement *mForStatement = nullptr;
 };
+
+
+#endif //PASCAL_C_COMPILER_STATEMENTS_H
