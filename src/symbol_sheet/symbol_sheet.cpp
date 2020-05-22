@@ -37,7 +37,7 @@ Symbol::Name SymbolSheet::getSheetName() {
 
 bool SymbolSheet::addReservedSymbol() {
     bool flag = true;
-    for (auto keyword: Symbol::keywords) {
+    for (auto keyword: Symbol::Keywords) {
         Symbol::Property property;
         property.type = Symbol::RESERVED;
         property.value.realValue = 0;

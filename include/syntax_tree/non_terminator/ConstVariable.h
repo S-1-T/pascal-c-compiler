@@ -23,7 +23,7 @@ public:
     Symbol::TYPE mType = Symbol::VOID;
     Symbol::Value mValue{0};
     bool isNegative = false;
-    bool isId = false;
+//    bool isId = false;
 
     int mLineNo = 0;
 };
