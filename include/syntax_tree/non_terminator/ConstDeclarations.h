@@ -18,7 +18,7 @@ public:
     ConstDeclarations() = default;
     explicit ConstDeclarations(ConstDeclaration *constDeclaration): mConstDeclaration(constDeclaration) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     ConstDeclaration *mConstDeclaration = nullptr;
 };

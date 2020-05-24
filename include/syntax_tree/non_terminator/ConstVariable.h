@@ -18,6 +18,24 @@ public:
     explicit ConstVariable(char letter): mType(Symbol::CHAR) {mValue.charValue = letter; }
 
     std::string outputCodes();
+    ConstVariable operator-(ConstVariable &c) {
+        ConstVariable result;
+        if (mType == c.mType) {
+            switch (mType) {
+                case Symbol::INT:
+                    result.mValue.intValue = mValue.intValue - c.mValue.intValue;
+                    result.mType = Symbol::INT;
+                    break;
+                case Symbol::CHAR:
+                    result.mValue.intValue = (int)(mValue.charValue - c.mValue.charValue);
+                    result.mType = Symbol::CHAR;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return result;
+    }
 
     Id *mId = nullptr;
     Symbol::TYPE mType = Symbol::VOID;

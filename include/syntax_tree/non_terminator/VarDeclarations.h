@@ -17,7 +17,7 @@ public:
     VarDeclarations() = default;
     explicit VarDeclarations(VarDeclaration *varDeclaration): mVarDeclaration(varDeclaration) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     VarDeclaration *mVarDeclaration = nullptr;
 };

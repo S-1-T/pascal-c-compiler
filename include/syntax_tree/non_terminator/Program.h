@@ -15,7 +15,7 @@ public:
     Program(Id *id, IdentifierList *idList, ProgramBody *programBody):
             mProgramId(id), mIdList(idList), mProgramBody(programBody) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     Id *mProgramId = nullptr;
     IdentifierList *mIdList = nullptr;
@@ -34,7 +34,7 @@ public:
             mSubProgramDeclarations(subProgramDeclarations), mCompoundStatement(compoundStatement) {}
 
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     ConstDeclarations *mConstDeclarations = nullptr;
 //    TypeDeclarations *mTypeDeclarations = nullptr;

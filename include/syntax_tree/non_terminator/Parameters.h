@@ -18,7 +18,7 @@ public:
     FormalParameter() = default;
     explicit FormalParameter(ParameterLists *parameterLists): mParameterLists(parameterLists) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     ParameterLists *mParameterLists = nullptr;
 };
@@ -41,7 +41,7 @@ public:
     explicit Parameter(VarParameter *varParameter): isVar(true), mVarParameter(varParameter) {}
     explicit Parameter(ValueParameter *valueParameter): isVar(false), mValueParameter(valueParameter) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     bool isVar = false;
     VarParameter *mVarParameter = nullptr;
@@ -53,7 +53,7 @@ public:
     VarParameter() = default;
     explicit VarParameter(ValueParameter *valueParameter): mValueParameter(valueParameter) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     ValueParameter *mValueParameter;
 };
@@ -62,12 +62,12 @@ class ValueParameter {
 public:
     ValueParameter() = default;
     ValueParameter(Symbol::TYPE type, IdentifierList *identifierList):
-            mReturnType(type), mIdentifierList(identifierList) {}
+            mType(type), mIdentifierList(identifierList) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     IdentifierList *mIdentifierList;
-    Symbol::TYPE mReturnType = Symbol::VOID;
+    Symbol::TYPE mType = Symbol::VOID;
 };
 
 

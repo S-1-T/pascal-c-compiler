@@ -18,7 +18,7 @@ public:
     CompoundStatement() = default;
     explicit CompoundStatement(StatementList *statementList): mStatementList(statementList) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     StatementList *mStatementList = nullptr;
 };

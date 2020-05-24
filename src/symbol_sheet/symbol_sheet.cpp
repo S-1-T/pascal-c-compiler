@@ -51,7 +51,7 @@ bool SymbolSheet::addReservedSymbol() {
             break;
         }
     }
-    for (auto func: Symbol::lib_functions) {
+    for (const auto& func: Symbol::lib_functions) {
         Symbol::Property property;
         property.type = Symbol::LIB_FUNC;
         property.value.realValue = 0;

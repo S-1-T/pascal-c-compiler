@@ -32,7 +32,7 @@ public:
     SubProgramDeclaration(SubProgramHead *subProgramHead, SubProgramBody *subProgramBody):
             mSubProgramHead(subProgramHead), mSubProgramBody(subProgramBody) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     SubProgramHead *mSubProgramHead = nullptr;
     SubProgramBody *mSubProgramBody = nullptr;
@@ -47,7 +47,7 @@ public:
     SubProgramHead(Symbol::TYPE type, FormalParameter *formalParameter, Symbol::TYPE returnType):
             mProgramType(type), mFormalParameter(formalParameter), mReturnType(returnType) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     Symbol::TYPE mProgramType = Symbol::VOID;
     Id *mId = nullptr;
@@ -63,7 +63,7 @@ public:
             mConstDeclarations(constDeclarations), mVarDeclarations(varDeclarations), mCompoundStatement(compoundStatement) {}
 
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     ConstDeclarations *mConstDeclarations = nullptr;
     VarDeclarations *mVarDeclarations = nullptr;
