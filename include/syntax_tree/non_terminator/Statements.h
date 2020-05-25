@@ -50,7 +50,7 @@ public:
 
     explicit Statement(ForStatement *forStatement): mStatementType(FOR), mForStatement(forStatement) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     StatementType mStatementType = ERR;
     AssignOp *mAssignOp = nullptr;
@@ -59,5 +59,19 @@ public:
     ForStatement *mForStatement = nullptr;
 };
 
+class CallProcedureStatement {
+public:
+    CallProcedureStatement() = default;
+    explicit CallProcedureStatement(Id *id): hasExpressionList(false), mId(id) {}
+    CallProcedureStatement(Id *id, ExpressionList *expressionList):
+    hasExpressionList(true), mId(id), mExpressionList(expressionList) {}
+
+    std::string outputCodes();
+
+    bool hasExpressionList = false;
+    Id* mId = nullptr;
+    ExpressionList *mExpressionList = nullptr;
+
+};
 
 #endif //PASCAL_C_COMPILER_STATEMENTS_H

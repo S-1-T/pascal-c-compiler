@@ -16,7 +16,7 @@ class SymbolSheet;
 namespace Symbol {
     // 符号类型
     enum TYPE {
-        VOID, INT, REAL, BOOLEAN, CHAR,
+        VOID, INT, REAL, BOOLEAN, CHAR, TYPEDEF,
         INT_ARRAY, REAL_ARRAY, BOOLEAN_ARRAY, CHAR_ARRAY,
         FUNC, PROC, RESERVED, LIB_FUNC, ID
     };
@@ -36,18 +36,18 @@ namespace Symbol {
             "type", "until", "var", "while"
     };
 
-    // Pascal 类型 -> C 类型
-    const std::map<TYPE, std::string> TypeMap = {
-            {VOID, "void"},
-            {INT, "int"},
-            {REAL, "float"},
-            {BOOLEAN, "bool"},
-            {CHAR, "char"},
-            {INT_ARRAY, "int"},
-            {REAL_ARRAY, "float"},
-            {BOOLEAN_ARRAY, "bool"},
-            {CHAR_ARRAY, "char"}
-    };
+//    // Pascal 类型 -> C 类型
+//    const std::map<TYPE, std::string> TypeMap = {
+//            {VOID, "void"},
+//            {INT, "int"},
+//            {REAL, "float"},
+//            {BOOLEAN, "bool"},
+//            {CHAR, "char"},
+//            {INT_ARRAY, "int"},
+//            {REAL_ARRAY, "float"},
+//            {BOOLEAN_ARRAY, "bool"},
+//            {CHAR_ARRAY, "char"}
+//    };
 
     const std::set<Name> lib_functions = {
             "read", "write"

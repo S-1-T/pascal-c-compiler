@@ -28,16 +28,18 @@ public:
 class ProgramBody {
 public:
     ProgramBody() = default;
-    ProgramBody(ConstDeclarations *constDeclarations, VarDeclarations *varDeclarations,
-                SubProgramDeclarations *subProgramDeclarations, CompoundStatement *compoundStatement):
-            mConstDeclarations(constDeclarations), mVarDeclarations(varDeclarations),
+    ProgramBody(ConstDeclarations *constDeclarations,
+            VarDeclarations *varDeclarations, TypeDeclarations *typeDeclarations,
+            SubProgramDeclarations *subProgramDeclarations, CompoundStatement *compoundStatement):
+            mConstDeclarations(constDeclarations),
+            mTypeDeclarations(typeDeclarations), mVarDeclarations(varDeclarations),
             mSubProgramDeclarations(subProgramDeclarations), mCompoundStatement(compoundStatement) {}
 
 
     std::string outputCodes() const;
 
     ConstDeclarations *mConstDeclarations = nullptr;
-//    TypeDeclarations *mTypeDeclarations = nullptr;
+    TypeDeclarations *mTypeDeclarations = nullptr;
     VarDeclarations *mVarDeclarations = nullptr;
     SubProgramDeclarations *mSubProgramDeclarations = nullptr;
     CompoundStatement *mCompoundStatement = nullptr;
