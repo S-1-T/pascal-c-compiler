@@ -15,6 +15,7 @@ public:
 
     std::string outputCodes();
 
+    bool isVarInProc = false;   // 引用调用
     Symbol::TYPE mType = Symbol::VOID;
     Symbol::Name mName;
 
