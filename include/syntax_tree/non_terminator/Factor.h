@@ -22,7 +22,7 @@ public:
     explicit Factor(Expression *expression): mFactorType(EXPR), mExpression(expression) {}
     explicit Factor(Factor *factor): mFactorType(NOT), mFactor(factor) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     FactorType mFactorType = ERR;
     Id *mId = nullptr;
@@ -32,6 +32,5 @@ public:
     Expression *mExpression = nullptr;
     Factor *mFactor = nullptr;
 };
-
 
 #endif //PASCAL_C_COMPILER_FACTOR_H

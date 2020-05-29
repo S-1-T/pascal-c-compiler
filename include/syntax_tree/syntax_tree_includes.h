@@ -9,6 +9,7 @@
 #include "syntax_tree/non_terminator/ConstDeclarations.h"
 #include "syntax_tree/non_terminator/TypeDeclarations.h"
 #include "syntax_tree/non_terminator/ConstVariable.h"
+#include "syntax_tree/non_terminator/Expression.h"
 #include "syntax_tree/non_terminator/Factor.h"
 #include "syntax_tree/non_terminator/IdentifierList.h"
 #include "syntax_tree/non_terminator/Parameters.h"

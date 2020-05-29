@@ -28,7 +28,7 @@ public:
     explicit Expression(SimpleExpression *simpleExpression): isRelOp(false), mSimpleExpression(simpleExpression) {}
     explicit Expression(RelOp *relOp): isRelOp(true), mRelOp(relOp) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     bool isRelOp = false;
     SimpleExpression *mSimpleExpression = nullptr;
@@ -41,7 +41,7 @@ public:
     SimpleExpression(bool sign, Term *term): isSigned(sign), isAddOp(false), mTerm(term) {}
     SimpleExpression(bool sign, AddOp *addOp): isSigned(sign), isAddOp(true), mAddOp(addOp) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     bool isSigned = false;
     bool isAddOp = false;

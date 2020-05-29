@@ -1,11 +1,10 @@
 
 #include "syntax_tree/syntax_tree_includes.h"
-
 #include <string>
 
 using std::string;
 
-string Id::outputCodes() {
+string Id::outputCodes() const {
     if (isVarInProc)
         return mName;
     else
@@ -287,5 +286,144 @@ string Statement::outputCodes() const {
     return output;
 }
 
+string Variable::outputCodes() const {
+    string output;
+    output = mId->outputCodes() + mIdVarParts->outputCodes();
+    return output;
+}
 
+string IdVarParts::outputCodes() {
+    string output;
+    if(!mIdVarPartList.empty()) {
+        for (auto idVarPart : mIdVarPartList) {
+            output += idVarPart->outputCodes();
+        }
+    }
+    return output;
+}
 
+string IdVarPart::outputCodes() const {
+    string output;
+    if (mExpressionList) {
+        output += '[' + mExpressionList->outputCodes() +']';
+    }
+    return output;
+}
+
+string IfThenElseStatement::outputCodes() const {
+    string output;
+    output += "if (" + mCondition->outputCodes() + ") {\n"
+            + mStatement1->outputCodes() + "}\n";
+    if(hasElse) {
+        output += "else {\n" + mStatement2->outputCodes() + "}\n";
+    }
+    return output;
+}
+
+string CallProcedureStatement::outputCodes() {
+    string output = mId->outputCodes();
+    if (hasExpressionList) {
+        output += '(' + mExpressionList->outputCodes() +')';
+    }
+    return output;
+}
+
+string ExpressionList::outputCodes() {
+    string output;
+    for (auto expression = mExpressions.begin(); expression != mExpressions.end(); expression ++) {
+        output += (*expression)->outputCodes();
+        if (expression != mExpressions.end() - 1) {
+            output += ", ";
+        }
+    }
+    return output;
+}
+
+string Expression::outputCodes() const {
+    if (isRelOp) {
+        return mRelOp->outputCodes();
+    } else {
+        return mSimpleExpression->outputCodes();
+    }
+}
+
+string RelOp::outputCodes() const {
+    string relOp;
+    switch (mRelType) {
+        case EQ: relOp = "=="; break;
+        case GT: relOp = '>'; break;
+        case LT: relOp = '<'; break;
+        case GE: relOp = ">="; break;
+        case LE: relOp = "<="; break;
+        default: return string();
+    }
+    return mSimpleExpression1->outputCodes() + ' ' + relOp + ' ' + mSimpleExpression2->outputCodes();
+}
+
+string SimpleExpression::outputCodes() const {
+    if (isAddOp) {
+        return mAddOp->outputCodes();
+    } else {
+        return mTerm->outputCode();
+    }
+}
+
+string AddOp::outputCodes() const {
+    string addOp;
+    switch (mAddType) {
+        case PLUS: addOp = '+';
+            break;
+        case SUB: addOp = '-';
+            break;
+        case OR: addOp = "&&";
+            break;
+        default: return string();
+    }
+    return mSimpleExpression->outputCodes() + ' ' + addOp + ' ' + mTerm->outputCode();
+}
+
+string Term::outputCode() const{
+    if (isMulOp) {
+        return mMulOp->outputCodes();
+    } else {
+        return mFactor->outputCodes();
+    }
+}
+
+string MulOp::outputCodes() const {
+    string mulOp;
+    switch (mMulType) {
+        case MUL:
+            mulOp = '*';
+            break;
+        case DIV:
+            mulOp = '/';
+            break;
+        case MOD:
+            mulOp = '%';
+            break;
+        case AND:
+            mulOp = "&&";
+            break;
+        default:
+            return string();
+    }
+    return mTerm->outputCode() + ' ' + mulOp + ' ' + mFactor->outputCodes();
+}
+
+string Factor::outputCodes() const {
+    switch (mFactorType) {
+        case ERR:
+            return string();
+        case CONST_VAR:
+            return mConstValue->outputCodes();
+        case VAR:
+            return mVariable->outputCodes();
+        case FUNC_CALL:
+            return mId->outputCodes() + '(' + mExpressionList->outputCodes() +')';
+        case EXPR:
+            return '(' + mExpression->outputCodes() + ')';
+        case NOT:
+            return '!' + mFactor->outputCodes();
+    }
+}
