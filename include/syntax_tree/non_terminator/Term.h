@@ -15,7 +15,7 @@ public:
     explicit Term(MulOp *mulOp): isMulOp(true), mMulOp(mulOp) {}
     explicit Term(Factor *factor): isMulOp(false), mFactor(factor) {}
 
-    std::string outputCode();
+    std::string outputCode() const;
 
     bool isMulOp = false;
     MulOp *mMulOp = nullptr;

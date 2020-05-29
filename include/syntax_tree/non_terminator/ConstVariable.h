@@ -17,8 +17,8 @@ public:
     explicit ConstVariable(float num): mType(Symbol::REAL) { mValue.realValue = num; }
     explicit ConstVariable(char letter): mType(Symbol::CHAR) {mValue.charValue = letter; }
 
-    std::string outputCodes();
-    ConstVariable operator-(ConstVariable &c) {
+    std::string outputCodes() const;
+    ConstVariable operator-(ConstVariable &c) const {
         ConstVariable result;
         if (mType == c.mType) {
             switch (mType) {

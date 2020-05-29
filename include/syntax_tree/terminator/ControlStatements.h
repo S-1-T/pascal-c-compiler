@@ -18,7 +18,7 @@ public:
     IfThenElseStatement(Expression *expression, Statement *s1, Statement *s2):
             hasElse(true), mCondition(expression), mStatement1(s1), mStatement2(s2) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     bool hasElse = false;
     Expression *mCondition = nullptr;

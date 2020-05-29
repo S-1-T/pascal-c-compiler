@@ -17,7 +17,7 @@ public:
     Variable() = default;
     Variable(Id *id, IdVarParts *idVarParts): mId(id), mIdVarParts(idVarParts) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     Id *mId = nullptr;
     IdVarParts * mIdVarParts = nullptr;
@@ -26,7 +26,7 @@ public:
 class IdVarParts {
 public:
     IdVarParts() = default;
-    explicit IdVarParts(IdVarPartList idVarPartList) { mIdVarPartList = std::move(idVarPartList) }
+    explicit IdVarParts(IdVarPartList idVarPartList) { mIdVarPartList = std::move(idVarPartList); }
 
     std::string outputCodes();
 
@@ -39,7 +39,7 @@ public:
     IdVarPart() = default;
     explicit IdVarPart(ExpressionList *expressionList): mExpressionList(expressionList) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     ExpressionList *mExpressionList = nullptr;
 };
