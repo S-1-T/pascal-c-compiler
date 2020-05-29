@@ -13,7 +13,7 @@ class Id {
 public:
     Id() = default;
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     bool isVarInProc = false;   // 引用调用
     Symbol::TYPE mType = Symbol::VOID;

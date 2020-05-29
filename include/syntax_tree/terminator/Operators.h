@@ -28,7 +28,7 @@ public:
     RelOp(SimpleExpression *s1, RelType relType, SimpleExpression *s2):
             mSimpleExpression1(s1), mRelType(relType), mSimpleExpression2(s2) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     RelType mRelType = ERR;
     SimpleExpression *mSimpleExpression1 = nullptr;
@@ -43,7 +43,7 @@ public:
     AddOp(SimpleExpression *simpleExpression, AddType addType, Term *term):
             mSimpleExpression(simpleExpression), mAddType(addType), mTerm(term) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     AddType mAddType = ERR;
     SimpleExpression *mSimpleExpression = nullptr;
@@ -58,7 +58,7 @@ public:
     MulOp(Term *term, MulType mulType, Factor *factor):
             mTerm(term), mMulType(mulType), mFactor(factor) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     MulType mMulType = ERR;
     Term *mTerm = nullptr;
