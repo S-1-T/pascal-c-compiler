@@ -30,7 +30,7 @@ public:
     Variable *mVariable = nullptr;
     ExpressionList *mExpressionList = nullptr;
     Expression *mExpression = nullptr;
-    Factor *mFactor = nullptr
+    Factor *mFactor = nullptr;
 };
 
 
