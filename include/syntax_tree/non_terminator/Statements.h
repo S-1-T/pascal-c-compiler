@@ -66,7 +66,7 @@ public:
     CallProcedureStatement(Id *id, ExpressionList *expressionList):
     hasExpressionList(true), mId(id), mExpressionList(expressionList) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     bool hasExpressionList = false;
     Id* mId = nullptr;

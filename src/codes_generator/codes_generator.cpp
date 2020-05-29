@@ -292,6 +292,8 @@ string Variable::outputCodes() const {
     return output;
 }
 
+// TODO 数组访问的问题
+
 string IdVarParts::outputCodes() {
     string output;
     if(!mIdVarPartList.empty()) {
@@ -310,6 +312,8 @@ string IdVarPart::outputCodes() const {
     return output;
 }
 
+// TODO For
+
 string IfThenElseStatement::outputCodes() const {
     string output;
     output += "if (" + mCondition->outputCodes() + ") {\n"
@@ -320,11 +324,12 @@ string IfThenElseStatement::outputCodes() const {
     return output;
 }
 
-string CallProcedureStatement::outputCodes() {
+string CallProcedureStatement::outputCodes() const {
     string output = mId->outputCodes();
     if (hasExpressionList) {
         output += '(' + mExpressionList->outputCodes() +')';
     }
+    output += ";\n";
     return output;
 }
 
@@ -347,6 +352,11 @@ string Expression::outputCodes() const {
     }
 }
 
+string AssignOp::outputCodes() const {
+    string output = mVariable->outputCodes() + " = " + mExpression->outputCodes() + ";\n";
+    return output;
+}
+
 string RelOp::outputCodes() const {
     string relOp;
     switch (mRelType) {
@@ -357,14 +367,17 @@ string RelOp::outputCodes() const {
         case LE: relOp = "<="; break;
         default: return string();
     }
-    return mSimpleExpression1->outputCodes() + ' ' + relOp + ' ' + mSimpleExpression2->outputCodes();
+    return "(" + mSimpleExpression1->outputCodes() + ' ' + relOp + ' ' + mSimpleExpression2->outputCodes() + ")";
 }
 
 string SimpleExpression::outputCodes() const {
     if (isAddOp) {
         return mAddOp->outputCodes();
     } else {
-        return mTerm->outputCode();
+        if (isSigned)
+            return "-(" + mTerm->outputCode() + ")";
+        else
+            return "(" + mTerm->outputCode() + ")";
     }
 }
 
@@ -375,7 +388,7 @@ string AddOp::outputCodes() const {
             break;
         case SUB: addOp = '-';
             break;
-        case OR: addOp = "&&";
+        case OR: addOp = "||";
             break;
         default: return string();
     }
@@ -408,7 +421,7 @@ string MulOp::outputCodes() const {
         default:
             return string();
     }
-    return mTerm->outputCode() + ' ' + mulOp + ' ' + mFactor->outputCodes();
+    return mTerm->outputCode() + " " + mulOp + " " + mFactor->outputCodes();
 }
 
 string Factor::outputCodes() const {
@@ -420,10 +433,10 @@ string Factor::outputCodes() const {
         case VAR:
             return mVariable->outputCodes();
         case FUNC_CALL:
-            return mId->outputCodes() + '(' + mExpressionList->outputCodes() +')';
+            return mId->outputCodes() + "(" + mExpressionList->outputCodes() +")";
         case EXPR:
-            return '(' + mExpression->outputCodes() + ')';
+            return "(" + mExpression->outputCodes() + ")";
         case NOT:
-            return '!' + mFactor->outputCodes();
+            return "!(" + mFactor->outputCodes() + ")";
     }
 }

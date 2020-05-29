@@ -14,7 +14,7 @@ public:
     AssignOp() = default;
     AssignOp(Variable *variable, Expression *expression): mVariable(variable), mExpression(expression) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     Variable *mVariable = nullptr;
     Expression *mExpression = nullptr;
