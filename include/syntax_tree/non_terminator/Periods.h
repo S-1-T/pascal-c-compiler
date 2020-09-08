@@ -27,7 +27,7 @@ public:
     Period() = default;
     Period(ConstVariable *v1, ConstVariable *v2): first(v1), second(v2) {}
 
-    std::string outputCodes();
+    std::string outputCodes() const;
 
     ConstVariable *first = nullptr;
     ConstVariable *second = nullptr;

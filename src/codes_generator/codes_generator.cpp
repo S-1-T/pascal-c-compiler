@@ -292,7 +292,34 @@ string Variable::outputCodes() const {
     return output;
 }
 
-// TODO 数组访问的问题
+// TODO ConstVariable
+string ConstVariable::outputCodes() const {
+    string output;
+    switch (mType) {
+        case Symbol::ID:
+            isNegative? output = "-" + mId->outputCodes() : output = mId->outputCodes();
+            break;
+        case Symbol::INT:
+            isNegative? output = "-" + std::to_string(mValue.intValue) : std::to_string(mValue.intValue);
+            break;
+        case Symbol::REAL:
+            isNegative? output = '-' + std::to_string(mValue.realValue) : std::to_string(mValue.realValue);
+            break;
+        case Symbol::CHAR:
+            output = '\'' + mValue.charValue + '\'';
+            break;
+        default:
+            break;
+    }
+    return output;
+}
+
+// TODO Period
+string Period::outputCodes() const {
+    string output;
+    output = first->outputCodes() + " .. " + second->outputCodes();
+    return output;
+}
 
 string IdVarParts::outputCodes() {
     string output;
@@ -313,6 +340,16 @@ string IdVarPart::outputCodes() const {
 }
 
 // TODO For
+string ForStatement::outputCodes() {
+    string output;
+    output = "for " + mId->outputCodes() + " := " + mInitial->outputCodes();
+    if (isUp) {
+        output += " to ";
+    } else {
+        output += " downto ";
+    }
+    output += mCondition->outputCodes() + " do\n " + mForLoopBody->outputCodes();
+}
 
 string IfThenElseStatement::outputCodes() const {
     string output;
