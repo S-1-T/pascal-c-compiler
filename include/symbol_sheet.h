@@ -6,8 +6,8 @@
 #include <vector>
 #include <map>
 
-#include "syntax_tree/syntax_tree.h"
-#include "../defines/types.h"
+#include "syntax_tree.h"
+#include "types.h"
 
 using namespace std;
 
@@ -47,7 +47,6 @@ struct Property {
 typedef pair<SymbolName, Property> SymbolItem;
 typedef map<SymbolName, Property> SymbolItems;
 class SymbolSheet;
-static map <SymbolSheetName, SymbolSheet> SymbolSheetList;
 typedef map<SymbolSheetName, SymbolSheet>::value_type SymbolSheetItem;
 typedef pair<bool, SymbolSheetName> CreateSymbolSheetResult;
 

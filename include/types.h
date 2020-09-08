@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef PASCAL_C_COMPILER_TYPES_H
 #define PASCAL_C_COMPILER_TYPES_H
 

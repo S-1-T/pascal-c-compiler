@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef PASCAL_C_COMPILER_CONST_H
 #define PASCAL_C_COMPILER_CONST_H
 
@@ -21,29 +23,30 @@
 #define PROCECALL_WRITE 3
 #define PROCECALL_WRITELN 4
 
+// 注意要和词法分析定义的符号区分开
 // the Rel type
-#define EQUAL 0
-#define NOT_EQUAL 1
-#define LESS 2
-#define LESS_EQUAL 3
-#define LARGER 4
-#define LARGER_EQUAL 5
+#define OP_EQUAL 0
+#define OP_NOT_EQUAL 1
+#define OP_LESS 2
+#define OP_LESS_EQUAL 3
+#define OP_LARGER 4
+#define OP_LARGER_EQUAL 5
 
 // the Add type
-#define ADD 0
-#define SUB 1
-#define OR 2
+#define OP_ADD 0
+#define OP_SUB 1
+#define OP_OR 2
 
 // the Mul type
-#define MULTIPLY 0
-#define REAL_DIV 1
-#define INT_DIV 2
-#define MOD 3
-#define AND 4
+#define OP_MULTIPLY 0
+#define OP_REAL_DIV 1
+#define OP_INT_DIV 2
+#define OP_MOD 3
+#define OP_AND 4
 
 // the common type
-#define FUNCTION 0
-#define PROCEDURE 1
+#define SUBPROGRAM_FUNCTION 0
+#define SUBPROGRAM_PROCEDURE 1
 
 // the statement type
 #define STATEMENT_ASSIGN 0

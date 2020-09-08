@@ -1,6 +1,6 @@
 %code requires {
-	#include "Public_define.h"
-	#include "Syntax_Tree.h"
+	#include "const.h"
+	#include "syntax_tree.h"
 }
 
 %code top {
@@ -40,7 +40,7 @@
 %union {
 	Program* program;
 	ProgramBody* programBody;
-	Const Declarations* constDeclarations;
+	ConstDeclarations* constDeclarations;
 	VarDeclarations* varDeclarations;
 	SubProgramDeclarations* subProgramDeclarations;
 	StatementList* statementList;
@@ -124,7 +124,7 @@
 %type <statementList> statement_list
 %type <statement> statement
 %type <variable> variable
-%type <idVarPart> id_var_part
+%type <idVarPart> IdVarPart
 %type <procedureCall> call_procedure_statement
 %type <statement> else_part
 %type <expressionList> expression_list
@@ -570,7 +570,7 @@ statement
 
 
 variable 
-	: IDENTIFIER id_var_part {
+	: IDENTIFIER IdVarPart {
 		Id* tmp = new Id();
 		tmp -> m_name = *($1);
 		tmp -> m_lineno = yylineno;
@@ -588,12 +588,12 @@ variable
 
 
 
-id_var_part 
+IdVarPart
 	: '[' expression_list ']' {
-		$$ = new id_var_part($2);
+		$$ = new IdVarPart($2);
 	}
 	| {
-		$$ = new id_var_part(nullptr);
+		$$ = new IdVarPart(nullptr);
 	}
 	;	
 
@@ -648,37 +648,37 @@ expression
 		$$ = new Expression();
 		$$ -> m_lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
-		$$ -> mp_Relop = new RelOp(LARGER, yylineno, $1, $3);
+		$$ -> mp_Relop = new RelOp(OP_LARGER, yylineno, $1, $3);
 	}
 	| simple_expression '<' simple_expression {
 		$$ = new Expression();
 		$$ -> m_lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
-		$$ -> mp_Relop = new RelOp(LESS, yylineno, $1, $3);
+		$$ -> mp_Relop = new RelOp(OP_LESS, yylineno, $1, $3);
 	}
 	| simple_expression NE_OP simple_expression {
 		$$ = new Expression();
 		$$ -> m_lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
-		$$ -> mp_Relop = new RelOp(NOT_EQUAL, yylineno, $1, $3);
+		$$ -> mp_Relop = new RelOp(OP_NOT_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression LE_OP simple_expression {
 		$$ = new Expression();
 		$$ -> m_lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
-		$$ -> mp_Relop = new RelOp(LESS_EQUAL, yylineno, $1, $3);
+		$$ -> mp_Relop = new RelOp(OP_LESS_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression GE_OP simple_expression {
 		$$ = new Expression();
 		$$ -> m_lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
-		$$ -> mp_Relop = new RelOp(LARGER_EQUAL, yylineno, $1, $3);
+		$$ -> mp_Relop = new RelOp(OP_LARGER_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression '=' simple_expression {
 		$$ = new Expression();
 		$$ -> m_lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
-		$$ -> mp_Relop = new RelOp(EQUAL, yylineno, $1, $3);
+		$$ -> mp_Relop = new RelOp(OP_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression {
 		$$ = new Expression();
@@ -693,31 +693,31 @@ simple_expression
 		$$ = new SimpleExpression(yylineno, nullptr, $1);
 	}
 	| simple_expression '+' term {
-		$$ = new SimpleExpression(yylineno, new AddOp(ADD, yylineno, $1, $3),nullptr);
+		$$ = new SimpleExpression(yylineno, new AddOp(OP_ADD, yylineno, $1, $3),nullptr);
 	}
 	| simple_expression '-' term {
-		$$ = new SimpleExpression(yylineno, new AddOp(SUB, yylineno, $1, $3),nullptr);
+		$$ = new SimpleExpression(yylineno, new AddOp(OP_SUB, yylineno, $1, $3),nullptr);
 	}
 	| simple_expression OR term {
-		$$ = new SimpleExpression(yylineno, new AddOp(OR, yylineno, $1, $3),nullptr);
+		$$ = new SimpleExpression(yylineno, new AddOp(OP_OR, yylineno, $1, $3),nullptr);
 	}
 	;
 
 term 
 	: term '*' factor {
-		$$ = new Term(yylineno, new MulOp(MULTIPLY, yylineno, $1, $3), nullptr);
+		$$ = new Term(yylineno, new MulOp(OP_MULTIPLY, yylineno, $1, $3), nullptr);
 	}
 	| term '/' factor {
-		$$ = new Term(yylineno, new MulOp(REAL_DIV, yylineno, $1, $3), nullptr);
+		$$ = new Term(yylineno, new MulOp(OP_REAL_DIV, yylineno, $1, $3), nullptr);
 	}
 	| term AND factor {
-		$$ = new Term(yylineno, new MulOp(AND, yylineno, $1, $3), nullptr);
+		$$ = new Term(yylineno, new MulOp(OP_AND, yylineno, $1, $3), nullptr);
 	}
 	| term DIV factor {
-		$$ = new Term(yylineno, new MulOp(INT_DIV, yylineno, $1, $3), nullptr);
+		$$ = new Term(yylineno, new MulOp(OP_INT_DIV, yylineno, $1, $3), nullptr);
 	}
 	| term MOD factor {
-		$$ = new Term(yylineno, new MulOp(MOD, yylineno, $1, $3), nullptr);
+		$$ = new Term(yylineno, new MulOp(OP_MOD, yylineno, $1, $3), nullptr);
 	}
 	| factor {
 		$$ = new Term(yylineno, nullptr, $1);

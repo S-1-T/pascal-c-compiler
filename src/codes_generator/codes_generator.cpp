@@ -1,4 +1,4 @@
-#include "codes_generator/codes_generator.h"
+#include "codes_generator.h"
 #include <fstream>
 #include <strstream>
 
@@ -764,27 +764,27 @@ string RelOp::outputCodes() const {
 	codes += mp_Simple_Expression_1->outputCodes();
 
 	switch (m_relopType) {
-	case EQUAL:
+	case OP_EQUAL:
 		codes += " == ";
 		break;
 
-	case NOT_EQUAL:
+	case OP_NOT_EQUAL:
 		codes += " != ";
 		break;
 
-	case LESS:
+	case OP_LESS:
 		codes += " < ";
 		break;
 
-	case LESS_EQUAL:
+	case OP_LESS_EQUAL:
 		codes += " <= ";
 		break;
 
-	case LARGER:
+	case OP_LARGER:
 		codes += " > ";
 		break;
 
-	case LARGER_EQUAL:
+	case OP_LARGER_EQUAL:
 		codes += " >= ";
 		break;
 
@@ -804,15 +804,15 @@ string AddOp::outputCodes() const {
 	codes += mp_Simple_Expression->outputCodes();
 
 	switch (m_addopType) {
-	case ADD:
+	case OP_ADD:
 		codes += " + ";
 		break;
 
-	case SUB:
+	case OP_SUB:
 		codes += " - ";
 		break;
 
-	case OR:
+	case OP_OR:
 		codes += " || ";
 		break;
 
@@ -832,20 +832,20 @@ string MulOp::outputCodes() const {
 	codes += mp_Term->outputCodes();
 
 	switch (m_mulopType) {
-	case MULTIPLY:
+	case OP_MULTIPLY:
 		codes += " * ";
 		break;
 
-	case REAL_DIV:
-	case INT_DIV:
+	case OP_REAL_DIV:
+	case OP_INT_DIV:
 		codes += " / ";
 		break;
 
-	case MOD:
+	case OP_MOD:
 		codes += " % ";
 		break;
 
-	case AND:
+	case OP_AND:
 		codes += " && ";
 		break;
 

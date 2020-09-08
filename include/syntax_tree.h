@@ -1,4 +1,10 @@
-#include "../defines/const.h"
+#pragma once
+
+#ifndef PASCAL_C_COMPILER_SYNTAX_TREE_H
+#define PASCAL_C_COMPILER_SYNTAX_TREE_H
+
+#include "const.h"
+
 #include <utility>
 #include <vector>
 #include <string>
@@ -391,7 +397,7 @@ public:
     }
 
     int getCommonType() override {
-        return PROCEDURE;
+        return SUBPROGRAM_PROCEDURE;
     }
 
     pair<bool, string> createSymbolSheet() override;
@@ -449,7 +455,7 @@ public:
     }
 
     int getCommonType() override {
-        return FUNCTION;
+        return SUBPROGRAM_FUNCTION;
     }
 
     pair<bool, string> createSymbolSheet() override;
@@ -1248,6 +1254,7 @@ public:
     void outputTree();
 };
 
+#endif
 
 
 

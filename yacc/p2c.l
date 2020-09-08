@@ -38,7 +38,7 @@ character [\']({letter}|{digit}|[' '])[\']
 "boolean"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return BOOLEAN; }
 "case"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return CASE; }
 "char"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return CHAR; }
-"const"			{ yylval.m_str = new std::string(yytext); yyrowno + =yyleng;  return CONST; }
+"const"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return CONST; }
 "div"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return DIV; }
 "do"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return DO; }
 "downto"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return DOWNTO; }
@@ -47,7 +47,7 @@ character [\']({letter}|{digit}|[' '])[\']
 "for"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return FOR; }
 "function"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return FUNCTION; }
 "if"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return IF; }
-"integer"		{ yylval.m_str = new std::string(yytext); yyrowno + =yyleng;  return INTEGER; }
+"integer"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return INTEGER; }
 "mod"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return MOD; }
 "not"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return NOT; }
 "of"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return OF; }

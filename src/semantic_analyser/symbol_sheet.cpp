@@ -1,4 +1,6 @@
-#include "semantic_analyser/symbol_sheet.h"
+#include "symbol_sheet.h"
+
+map<SymbolSheetName, SymbolSheet> SymbolSheetList;
 
 // 针对符号表的操作
 bool lookup_symbol(const string& symbolSheet_name, const string& symbol_name) {

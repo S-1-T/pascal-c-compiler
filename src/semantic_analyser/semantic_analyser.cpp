@@ -1,8 +1,13 @@
-#include "semantic_analyser/semantic_analyser.h"
+#include "syntax_tree.h"
+#include "symbol_sheet.h"
+
 #include <iostream>
 #include <map>
 #include <cassert>
 #include <utility>
+#include <set>
+
+extern map<SymbolSheetName, SymbolSheet> SymbolSheetList;
 
 // 语义分析，DFS
 bool Program::errorDetect() const {
@@ -24,7 +29,7 @@ bool ProgramBody::errorDetect() const {
 }
 
 bool ConstDeclarations::errorDetect(const string& symbolSheet_name) {
-    set <string> id_set;
+    set<string> id_set;
     bool flag = true;
     for (auto const_symbol: mv_Const) {
         if (symbolSheet_name != "0" && const_symbol.first->m_name == symbolSheet_name) {
@@ -49,7 +54,7 @@ bool ConstDeclarations::errorDetect(const string& symbolSheet_name) {
 }
 
 bool VarDeclarations::errorDetect(const string& symbolSheet_name) {
-    set <string> id_set;
+    set<string> id_set;
     SymbolSheet sheet;
     bool flag = true;
     for (auto type_group: mv_Var) {
@@ -208,8 +213,9 @@ bool AssignOp::errorDetect(const string& symbol_sheet_name) const {
         flag = flag && mp_Expression->errorDetect(symbol_sheet_name);
     int type1=mp_Variable->getType();
     int type2=mp_Expression->getType();                         //判断类型是否能转化
-    bool flag1 = (type1 == type2 || type1 == TYPE_INTEGER&&type2 == TYPE_REAL ||
-                  type2 == TYPE_INTEGER&&type1 == TYPE_REAL);
+    bool flag1 = (type1 == type2 ||
+            (type1 == TYPE_INTEGER && type2 == TYPE_REAL) ||
+            (type2 == TYPE_INTEGER && type1 == TYPE_REAL));
     if(!flag1) {
         std::cout << "行" << m_lineno << ": 类型不能转化" << endl;
         flag = false;
@@ -492,8 +498,9 @@ bool RelOp::errorDetect(const string& symbol_sheet_name) {
         bool flag;
         int type1 = mp_Simple_Expression_1->getType();
         int type2 = mp_Simple_Expression_2->getType();   //判断运算符两边是否能进行类型转换
-        flag = (type1 == type2 || type1 == TYPE_INTEGER && type2 == TYPE_REAL ||
-                type2 == TYPE_INTEGER && type1 == TYPE_REAL);
+        flag = (type1 == type2 ||
+                (type1 == TYPE_INTEGER && type2 == TYPE_REAL) ||
+                (type2 == TYPE_INTEGER && type1 == TYPE_REAL));
         if(!flag)
             std::cout << "行" << m_lineno << "逻辑运算符两边操作数不匹配" << endl;
         setType(TYPE_BOOLEAN);
@@ -532,7 +539,7 @@ bool AddOp::errorDetect(const string& symbol_sheet_name) {
     bool flag3 = true;
     int type1 = mp_Simple_Expression->getType();
     int type2 = mp_Term->getType();                     //不同的运算符，两边有不同的要求
-    if (m_addopType == ADD || m_addopType == SUB) {
+    if (m_addopType == OP_ADD || m_addopType == OP_SUB) {
         flag3 = ((type1 == TYPE_INTEGER || type1 == TYPE_REAL) && (type2 == TYPE_INTEGER || type2 == TYPE_REAL));
         //即使类型不对也会附一个正确类型，出错以后不会再继续执行代码翻译
         if(!flag3)
@@ -579,13 +586,13 @@ bool MulOp::errorDetect(const string& symbol_sheet_name) {
         int type2 = mp_Factor->getType();
         int opType = this->checkMulOpType();
         bool flag3 = true;                                    //两边必须为整型或者实型
-        if (opType == MULTIPLY || opType == INT_DIV || opType == REAL_DIV) {
+        if (opType == OP_MULTIPLY || opType == OP_INT_DIV || opType == OP_REAL_DIV) {
             flag3 = ((type1 == TYPE_INTEGER || type1 == TYPE_REAL) && (type2 == TYPE_INTEGER || type2 == TYPE_REAL));
             if (type1 == TYPE_REAL || type2 == TYPE_REAL)
                 setType(TYPE_REAL);
             else
                 setType(TYPE_INTEGER);
-        } else if (opType == MOD) {                     //模运算两边必须为整型
+        } else if (opType == OP_MOD) {                     //模运算两边必须为整型
             flag3 = (type1 == type2) && (type1 == TYPE_INTEGER);
             setType(TYPE_INTEGER);
         } else {                                              //逻辑运算符两边必须为boolean 型

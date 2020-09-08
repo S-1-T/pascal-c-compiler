@@ -1,11 +1,11 @@
+#include "p2c.tab.h"
+#include "semantic_analyser.h"
+#include "codes_generator.h"
+
 #include <string>
 #include <iostream>
 
-#include "../include/pasc.tab.h"
-#include "semantic_analyser/semantic_analyser.h"
-#include "codes_generator/codes_generator.h"
-
-#define COMPILE_TO_BIN false
+#define COMPILE_TO_BIN true
 
 using namespace std;
 

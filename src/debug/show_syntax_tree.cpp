@@ -1,5 +1,4 @@
-#include "syntax_tree/syntax_tree.h"
-#include <cstdio>
+#include "syntax_tree.h"
 #include <iostream>
 
 using namespace std;
