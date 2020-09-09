@@ -65,17 +65,17 @@ class ProgramHead
 public:
     ProgramHead(Id *id, IdList *idList)
     {
-        m_Id = id;
-        m_Id_List = idList;
+        m_ID = id;
+        m_IDList = idList;
     }
     ProgramHead()
     {
-        m_Id = nullptr;
-        m_Id_List = nullptr;
+        m_ID = nullptr;
+        m_IDList = nullptr;
     };
 
-    Id *m_Id;
-    IdList *m_Id_List;
+    Id *m_ID;
+    IdList *m_IDList;
 };
 
 class CompoundStatement
@@ -83,14 +83,14 @@ class CompoundStatement
 public:
     explicit CompoundStatement(StatementList *statementList)
     {
-        m_Statement_List = statementList;
+        m_StatementList = statementList;
     }
     CompoundStatement()
     {
-        m_Statement_List = nullptr;
+        m_StatementList = nullptr;
     };
 
-    StatementList *m_Statement_List;
+    StatementList *m_StatementList;
 };
 
 class ConstDeclaration
@@ -99,12 +99,12 @@ public:
     ConstDeclaration() = default;
     ;
 
-    explicit ConstDeclaration(vector<pair<Id *, ConstValue *>> Mv_Const)
+    explicit ConstDeclaration(vector<pair<Id *, ConstValue *>> constVector)
     {
-        mv_Const = std::move(Mv_Const);
+        m_ConstVector = std::move(constVector);
     }
 
-    vector<pair<Id *, ConstValue *>> mv_Const;
+    vector<pair<Id *, ConstValue *>> m_ConstVector;
 };
 
 class VarDeclaration
@@ -113,12 +113,12 @@ public:
     VarDeclaration() = default;
     ;
 
-    explicit VarDeclaration(vector<pair<IdList *, Type *>> Mv_Var)
+    explicit VarDeclaration(vector<pair<IdList *, Type *>> variableVector)
     {
-        mv_Var = std::move(Mv_Var);
+        m_VariableVector = std::move(variableVector);
     }
 
-    vector<pair<IdList *, Type *>> mv_Var;
+    vector<pair<IdList *, Type *>> m_VariableVector;
 };
 
 class SubProgramDeclaration
@@ -127,7 +127,7 @@ public:
     SubProgramDeclaration() = default;
     ;
 
-    vector<Subprogram *> mv_Subprogram;
+    vector<Subprogram *> m_subprogram;
 };
 
 class Subprogram
@@ -135,33 +135,33 @@ class Subprogram
 public:
     Subprogram()
     {
-        m_Subprogram_Head = nullptr;
-        m_Subprogram_Body = nullptr;
+        m_SubprogramHead = nullptr;
+        m_SubprogramBody = nullptr;
     };
 
-    SubprogramHead *m_Subprogram_Head;
-    SubprogramBody *m_Subprogram_Body;
+    SubprogramHead *m_SubprogramHead;
+    SubprogramBody *m_SubprogramBody;
 };
 
 class SubprogramHead
 {
 public:
-    SubprogramHead(Id *iD, FormalParameter *formalParameter, int SType)
+    SubprogramHead(Id *id, FormalParameter *formalParameter, int SType)
     {
-        m_ID = iD;
-        m_Formal_Parameter = formalParameter;
-        Simple_Type = SType;
+        m_ID = id;
+        m_FormalParameter = formalParameter;
+        m_SimpleType = SType;
     }
     SubprogramHead()
     {
         m_ID = nullptr;
-        m_Formal_Parameter = nullptr;
-        Simple_Type = 0;
+        m_FormalParameter = nullptr;
+        m_SimpleType = 0;
     }
 
     Id *m_ID;
-    FormalParameter *m_Formal_Parameter;
-    int Simple_Type;
+    FormalParameter *m_FormalParameter;
+    int m_SimpleType;
 };
 
 class SubprogramBody
@@ -170,20 +170,20 @@ public:
     SubprogramBody(ConstDeclarations *constDeclarations, VarDeclarations *varDeclarations,
                    CompoundStatement *compoundStatement)
     {
-        m_Const_Declarations = constDeclarations;
-        m_Var_Declarations = varDeclarations;
-        m_Compound_Statement = compoundStatement;
+        m_ConstDeclarations = constDeclarations;
+        m_VarDeclarations = varDeclarations;
+        m_CompoundStatement = compoundStatement;
     }
     SubprogramBody()
     {
-        m_Const_Declarations = nullptr;
-        m_Var_Declarations = nullptr;
-        m_Compound_Statement = nullptr;
+        m_ConstDeclarations = nullptr;
+        m_VarDeclarations = nullptr;
+        m_CompoundStatement = nullptr;
     }
 
-    ConstDeclarations *m_Const_Declarations;
-    VarDeclarations *m_Var_Declarations;
-    CompoundStatement *m_Compound_Statement;
+    ConstDeclarations *m_ConstDeclarations;
+    VarDeclarations *m_VarDeclarations;
+    CompoundStatement *m_CompoundStatement;
 };
 
 class FormalParameter
@@ -191,14 +191,14 @@ class FormalParameter
 public:
     explicit FormalParameter(ParameterList *parameterList)
     {
-        m_Parameter_List = parameterList;
+        m_ParameterList = parameterList;
     }
     FormalParameter()
     {
-        m_Parameter_List = nullptr;
+        m_ParameterList = nullptr;
     }
 
-    ParameterList *m_Parameter_List;
+    ParameterList *m_ParameterList;
 };
 
 class VarParameter
@@ -206,14 +206,14 @@ class VarParameter
 public:
     explicit VarParameter(ValueParameter *valueParameter)
     {
-        m_Value_Parameter = valueParameter;
+        m_ValueParameter = valueParameter;
     }
     VarParameter()
     {
-        m_Value_Parameter = nullptr;
+        m_ValueParameter = nullptr;
     }
 
-    ValueParameter *m_Value_Parameter;
+    ValueParameter *m_ValueParameter;
 };
 
 class ValueParameter
@@ -221,17 +221,17 @@ class ValueParameter
 public:
     ValueParameter(IdList *idList, int SType)
     {
-        m_Id_List = idList;
-        Simple_Type = SType;
+        m_IDList = idList;
+        m_SimpleType = SType;
     }
     ValueParameter()
     {
-        Simple_Type = 0;
-        m_Id_List = nullptr;
+        m_SimpleType = 0;
+        m_IDList = nullptr;
     }
 
-    int Simple_Type;
-    IdList *m_Id_List;
+    int m_SimpleType;
+    IdList *m_IDList;
 };
 
 class IdVarPart
@@ -239,14 +239,14 @@ class IdVarPart
 public:
     explicit IdVarPart(ExpressionList *expressionList)
     {
-        m_Expression_List = expressionList;
+        m_ExpressionList = expressionList;
     }
     IdVarPart()
     {
-        m_Expression_List = nullptr;
+        m_ExpressionList = nullptr;
     }
 
-    ExpressionList *m_Expression_List; //这个指针可以为NULL
+    ExpressionList *m_ExpressionList; //这个指针可以为NULL
 };
 
 class Program
@@ -254,23 +254,23 @@ class Program
 public:
     Program(Id *Mp_Id, IdList *Mp_Id_List, ProgramBody *Mp_Program_Body)
     {
-        mp_Id = Mp_Id;
-        mp_Id_List = Mp_Id_List;
-        mp_Program_Body = Mp_Program_Body;
+        m_PID = Mp_Id;
+        m_PIDList = Mp_Id_List;
+        m_PProgramBody = Mp_Program_Body;
     }
     Program()
     {
-        mp_Id = nullptr;
-        mp_Id_List = nullptr;
-        mp_Program_Body = nullptr;
+        m_PID = nullptr;
+        m_PIDList = nullptr;
+        m_PProgramBody = nullptr;
     }
     string outputCodes() const;
 
     bool errorDetect() const;
 
-    Id *mp_Id;
-    IdList *mp_Id_List;
-    ProgramBody *mp_Program_Body;
+    Id *m_PID;
+    IdList *m_PIDList;
+    ProgramBody *m_PProgramBody;
 
     void outputTree() const;
 };
@@ -281,17 +281,17 @@ public:
     ProgramBody(ConstDeclarations *Mp_Const_Declarations, VarDeclarations *Mp_Var_Declarations,
                 SubProgramDeclarations *Mp_SubProgram_Declarations, CompoundStatement *Mp_Compound_Statements)
     {
-        mp_Const_Declarations = Mp_Const_Declarations;
-        mp_Var_Declarations = Mp_Var_Declarations;
-        mp_SubProgram_Declarations = Mp_SubProgram_Declarations;
-        mp_Statement_List = Mp_Compound_Statements->m_Statement_List;
+        m_PConstDeclarations = Mp_Const_Declarations;
+        m_PVarDeclarations = Mp_Var_Declarations;
+        m_PSubProgramDeclarations = Mp_SubProgram_Declarations;
+        m_PStatementList = Mp_Compound_Statements->m_StatementList;
     }
     ProgramBody()
     {
-        mp_Const_Declarations = nullptr;
-        mp_Var_Declarations = nullptr;
-        mp_SubProgram_Declarations = nullptr;
-        mp_Statement_List = nullptr;
+        m_PConstDeclarations = nullptr;
+        m_PVarDeclarations = nullptr;
+        m_PSubProgramDeclarations = nullptr;
+        m_PStatementList = nullptr;
     }
 
     string outputCodes() const;
@@ -300,10 +300,10 @@ public:
 
     bool errorDetect() const;
 
-    ConstDeclarations *mp_Const_Declarations;
-    VarDeclarations *mp_Var_Declarations;
-    SubProgramDeclarations *mp_SubProgram_Declarations;
-    StatementList *mp_Statement_List;
+    ConstDeclarations *m_PConstDeclarations;
+    VarDeclarations *m_PVarDeclarations;
+    SubProgramDeclarations *m_PSubProgramDeclarations;
+    StatementList *m_PStatementList;
 
     void outputTree() const;
 };
@@ -311,9 +311,9 @@ public:
 class ConstDeclarations
 {
 public:
-    explicit ConstDeclarations(vector<pair<Id *, ConstValue *>> Mv_Const)
+    explicit ConstDeclarations(vector<pair<Id *, ConstValue *>> constVector)
     {
-        mv_Const = std::move(Mv_Const);
+        m_ConstVector = std::move(constVector);
     }
     ConstDeclarations() = default;
     ;
@@ -322,7 +322,7 @@ public:
 
     string outputCodes();
 
-    vector<pair<Id *, ConstValue *>> mv_Const;
+    vector<pair<Id *, ConstValue *>> m_ConstVector;
 
     void outputTree();
 };
@@ -333,16 +333,16 @@ public:
     VarDeclarations() = default;
     ;
 
-    explicit VarDeclarations(vector<pair<IdList *, Type *>> Mv_Var)
+    explicit VarDeclarations(vector<pair<IdList *, Type *>> variableVector)
     {
-        mv_Var = std::move(Mv_Var);
+        m_VariableVector = std::move(variableVector);
     }
 
     bool errorDetect(const string &symbolSheetName);
 
     string outputCodes();
 
-    vector<pair<IdList *, Type *>> mv_Var;
+    vector<pair<IdList *, Type *>> m_VariableVector;
 
     void outputTree();
 };
@@ -355,7 +355,7 @@ public:
 
     explicit SubProgramDeclarations(vector<Common *> Mv_Common)
     {
-        mv_Common = std::move(Mv_Common);
+        m_CommonVector = std::move(Mv_Common);
     }
 
     bool errorDetect(const string &symbolSheetName);
@@ -364,7 +364,7 @@ public:
 
     string outputCodes();
 
-    vector<Common *> mv_Common;
+    vector<Common *> m_CommonVector;
 
     void outputTree();
 };
@@ -377,14 +377,14 @@ public:
 
     explicit StatementList(vector<Statement *> Mv_Statement)
     {
-        mv_Statement = std::move(Mv_Statement);
+        m_StatementVector = std::move(Mv_Statement);
     }
 
     string outputCodes(const string &name = "");
 
     bool errorDetect(const string &);
 
-    vector<Statement *> mv_Statement;
+    vector<Statement *> m_StatementVector;
 
     void outputTree();
 };
@@ -426,12 +426,12 @@ public:
     Procedure(int lineno, Id *Mp_Id, ParameterList *Mp_Parameter_List, ConstDeclarations *Mp_Const_Declarations, VarDeclarations *Mp_Var_Declarations, StatementList *Mp_Statement_List);
     Procedure()
     {
-        m_lineno = 0;
-        mp_Id = nullptr;
-        mp_Parameter_List = nullptr;
-        mp_Const_Declarations = nullptr;
-        mp_Var_Declarations = nullptr;
-        mp_Statement_List = nullptr;
+        m_Lineno = 0;
+        m_PID = nullptr;
+        m_PParameterList = nullptr;
+        m_PConstDeclarations = nullptr;
+        m_PVarDeclarations = nullptr;
+        m_PStatementList = nullptr;
     }
     string outputCodes() override;
 
@@ -451,36 +451,36 @@ public:
 
     Id *getFuncId() override
     {
-        return mp_Id;
+        return m_PID;
     }
 
     ParameterList *getParamList() override
     {
-        return mp_Parameter_List;
+        return m_PParameterList;
     }
 
     ConstDeclarations *getConstDeclarations() override
     {
-        return mp_Const_Declarations;
+        return m_PConstDeclarations;
     }
 
     VarDeclarations *getVarDeclarations() override
     {
-        return mp_Var_Declarations;
+        return m_PVarDeclarations;
     }
 
     int getLineno() override
     {
-        return m_lineno;
+        return m_Lineno;
     }
 
-    int m_lineno;
+    int m_Lineno;
 
-    Id *mp_Id;
-    ParameterList *mp_Parameter_List;
-    ConstDeclarations *mp_Const_Declarations;
-    VarDeclarations *mp_Var_Declarations;
-    StatementList *mp_Statement_List;
+    Id *m_PID;
+    ParameterList *m_PParameterList;
+    ConstDeclarations *m_PConstDeclarations;
+    VarDeclarations *m_PVarDeclarations;
+    StatementList *m_PStatementList;
 
     void outputTree() override;
 };
@@ -492,19 +492,19 @@ public:
     Function(int returnType, int lineno, Id *Mp_Id, ParameterList *Mp_Parameter_List, ConstDeclarations *Mp_Const_Declarations, VarDeclarations *Mp_Var_Declarations, StatementList *Mp_Statement_List);
     Function()
     {
-        m_returnType = 0;
-        m_lineno = 0;
-        mp_Id = nullptr;
-        mp_Parameter_List = nullptr;
-        mp_Const_Declarations = nullptr;
-        mp_Var_Declarations = nullptr;
-        mp_Statement_List = nullptr;
+        m_ReturnType = 0;
+        m_Lineno = 0;
+        m_PID = nullptr;
+        m_PParameterList = nullptr;
+        m_PConstDeclarations = nullptr;
+        m_PVarDeclarations = nullptr;
+        m_PStatementList = nullptr;
     }
     string outputCodes() override;
 
     int checkReturnType() override
     {
-        return m_returnType;
+        return m_ReturnType;
     }
 
     int getCommonType() override
@@ -518,37 +518,37 @@ public:
 
     Id *getFuncId() override
     {
-        return mp_Id;
+        return m_PID;
     }
 
     ParameterList *getParamList() override
     {
-        return mp_Parameter_List;
+        return m_PParameterList;
     }
 
     ConstDeclarations *getConstDeclarations() override
     {
-        return mp_Const_Declarations;
+        return m_PConstDeclarations;
     }
 
     VarDeclarations *getVarDeclarations() override
     {
-        return mp_Var_Declarations;
+        return m_PVarDeclarations;
     }
 
     int getLineno() override
     {
-        return m_lineno;
+        return m_Lineno;
     }
 
-    int m_returnType;
-    int m_lineno;
+    int m_ReturnType;
+    int m_Lineno;
 
-    Id *mp_Id;
-    ParameterList *mp_Parameter_List;
-    ConstDeclarations *mp_Const_Declarations;
-    VarDeclarations *mp_Var_Declarations;
-    StatementList *mp_Statement_List;
+    Id *m_PID;
+    ParameterList *m_PParameterList;
+    ConstDeclarations *m_PConstDeclarations;
+    VarDeclarations *m_PVarDeclarations;
+    StatementList *m_PStatementList;
 
     void outputTree() override;
 };
@@ -560,11 +560,11 @@ public:
     {
         mp_AssignOp = nullptr;
         mp_Procedure_call = nullptr;
-        mp_Statement_List = nullptr;
+        m_PStatementList = nullptr;
         mp_If_Then_Else = nullptr;
         mp_For = nullptr;
         m_stateType = 0;
-        m_lineno = 0;
+        m_Lineno = 0;
     };
 
     string outputCodes(const string &name = "") const;
@@ -572,11 +572,11 @@ public:
     bool errorDetect(const string &symbolSheetName) const;
 
     int m_stateType;
-    int m_lineno;
+    int m_Lineno;
 
     AssignOp *mp_AssignOp;
     ProcedureCall *mp_Procedure_call;
-    StatementList *mp_Statement_List;
+    StatementList *m_PStatementList;
     IfThenElse *mp_If_Then_Else;
     For *mp_For;
 
@@ -588,11 +588,11 @@ class ParameterList
 public:
     ParameterList()
     {
-        m_lineno = 0;
+        m_Lineno = 0;
     };
     ParameterList(int lineno, vector<Parameter *> Mv_Patameter)
     {
-        m_lineno = lineno;
+        m_Lineno = lineno;
         mv_Patameter = std::move(Mv_Patameter);
     }
 
@@ -600,7 +600,7 @@ public:
 
     string outputCodes();
 
-    int m_lineno;
+    int m_Lineno;
 
     vector<Parameter *> mv_Patameter;
 
@@ -614,8 +614,8 @@ public:
     Variable()
     {
         m_isArray = false;
-        m_lineno = 0;
-        mp_Id = nullptr;
+        m_Lineno = 0;
+        m_PID = nullptr;
         mp_Expression_List = nullptr;
         type = 0;
     };
@@ -627,9 +627,9 @@ public:
     int getType() { return type; }
 
     bool m_isArray;
-    int m_lineno;
+    int m_Lineno;
 
-    Id *mp_Id;
+    Id *m_PID;
     int type;
     ExpressionList *mp_Expression_List;
 
@@ -644,8 +644,8 @@ public:
     {
         m_proCall_Tpye = 0;
         m_expNum = 0;
-        m_lineno = 0;
-        mp_Id = nullptr;
+        m_Lineno = 0;
+        m_PID = nullptr;
         mp_Expression_List = nullptr;
     };
     string outputCodes() const;
@@ -655,9 +655,9 @@ public:
     int m_proCall_Tpye;
 
     int m_expNum;
-    int m_lineno;
+    int m_Lineno;
 
-    Id *mp_Id;
+    Id *m_PID;
     ExpressionList *mp_Expression_List;
 
     void outputTree() const;
@@ -668,16 +668,16 @@ class FunctionCall
 public:
     FunctionCall()
     {
-        mp_Id = nullptr;
+        m_PID = nullptr;
         mp_Expression_List = nullptr;
         m_expNum = 0;
-        m_lineno = 0;
+        m_Lineno = 0;
     };
     FunctionCall(int expNum, int lineno, Id *Mp_Id, ExpressionList *Mp_Expression_List)
     {
         m_expNum = expNum;
-        m_lineno = lineno;
-        mp_Id = Mp_Id;
+        m_Lineno = lineno;
+        m_PID = Mp_Id;
         mp_Expression_List = Mp_Expression_List;
     }
 
@@ -686,9 +686,9 @@ public:
     bool errorDetect(const string &symbolSheetName) const;
 
     int m_expNum;
-    int m_lineno;
+    int m_Lineno;
 
-    Id *mp_Id;
+    Id *m_PID;
     ExpressionList *mp_Expression_List;
 
     void outputTree() const;
@@ -701,7 +701,7 @@ public:
     {
         mp_Relop = nullptr;
         mp_Simple_Expression = nullptr;
-        m_lineno = 0;
+        m_Lineno = 0;
         rangeVal = 0;
         rangeValid = false;
         type = 0;
@@ -719,7 +719,7 @@ public:
 
     bool getRangeValid() { return rangeValid; }
 
-    int m_lineno;
+    int m_Lineno;
     int rangeVal;
     bool rangeValid;
 
@@ -735,9 +735,9 @@ class SimpleExpression
 public:
     SimpleExpression(int lineno, AddOp *Mp_Addop, Term *Mp_Term)
     {
-        m_lineno = lineno;
+        m_Lineno = lineno;
         mp_AddOp = Mp_Addop;
-        mp_Term = Mp_Term;
+        m_PTerm = Mp_Term;
         rangeValid = false;
         rangeVal = 0;
         type = 0;
@@ -745,11 +745,11 @@ public:
     SimpleExpression()
     {
         mp_AddOp = nullptr;
-        mp_Term = nullptr;
+        m_PTerm = nullptr;
         rangeValid = false;
         rangeVal = 0;
         type = 0;
-        m_lineno = 0;
+        m_Lineno = 0;
     }
 
     string outputCodes() const;
@@ -764,13 +764,13 @@ public:
 
     bool getRangeValid() { return rangeValid; }
 
-    int m_lineno;
+    int m_Lineno;
     int type;
     int rangeVal;
     bool rangeValid;
 
     AddOp *mp_AddOp;
-    Term *mp_Term;
+    Term *m_PTerm;
 
     void outputTree() const;
 };
@@ -780,9 +780,9 @@ class Term
 public:
     Term(int lineno, MulOp *Mp_Mulop, Factor *Mp_Factor)
     {
-        m_lineno = lineno;
+        m_Lineno = lineno;
         mp_MulOp = Mp_Mulop;
-        mp_Factor = Mp_Factor;
+        m_PFactor = Mp_Factor;
         rangeValid = false;
         rangeVal = 0;
         type = 0;
@@ -790,8 +790,8 @@ public:
     Term()
     {
         mp_MulOp = nullptr;
-        mp_Factor = nullptr;
-        m_lineno = 0;
+        m_PFactor = nullptr;
+        m_Lineno = 0;
         type = 0;
         rangeVal = 0;
         rangeValid = false;
@@ -809,12 +809,12 @@ public:
 
     bool getRangeValid() { return rangeValid; }
 
-    int m_lineno;
+    int m_Lineno;
     int type;
     int rangeVal;
     bool rangeValid;
     MulOp *mp_MulOp;
-    Factor *mp_Factor;
+    Factor *m_PFactor;
 
     void outputTree() const;
 };
@@ -831,7 +831,7 @@ public:
         m_char = 0;
         m_bool = false;
         m_factorType = 0;
-        m_lineno = 0;
+        m_Lineno = 0;
         type = 0;
 
         mp_Variable = nullptr;
@@ -866,7 +866,7 @@ public:
     bool m_bool;
 
     int m_factorType;
-    int m_lineno;
+    int m_Lineno;
     int type;
 
     Variable *mp_Variable;
@@ -883,17 +883,17 @@ class Not
 public:
     Not()
     {
-        mp_Factor = nullptr;
-        m_lineno = 0;
+        m_PFactor = nullptr;
+        m_Lineno = 0;
     };
 
     string outputCodes() const;
 
     bool errorDetect(const string &symbolSheetName) const;
 
-    int m_lineno;
+    int m_Lineno;
 
-    Factor *mp_Factor;
+    Factor *m_PFactor;
 
     void outputTree() const;
 };
@@ -905,10 +905,10 @@ public:
     {
         rangeVal = 0;
         rangeValid = 0;
-        m_lineno = 0;
+        m_Lineno = 0;
         m_unimusType = 0;
         type = 0;
-        mp_Factor = nullptr;
+        m_PFactor = nullptr;
     };
 
     string outputCodes() const;
@@ -925,10 +925,10 @@ public:
 
     int rangeVal;
     bool rangeValid;
-    int m_lineno;
+    int m_Lineno;
     int m_unimusType;
     int type;
-    Factor *mp_Factor;
+    Factor *m_PFactor;
 
     void outputTree() const;
 };
@@ -938,9 +938,9 @@ class Type
 public:
     Type()
     {
-        m_simpleType = 0;
+        m_SimpleType = 0;
         m_isArray = 0;
-        m_lineno = 0;
+        m_Lineno = 0;
         mp_Period = nullptr;
     };
 
@@ -950,7 +950,7 @@ public:
 
     int checkSimpleType()
     {
-        return m_simpleType;
+        return m_SimpleType;
     }
 
     bool checkIsArray()
@@ -960,14 +960,14 @@ public:
 
     int getLineno()
     {
-        return m_lineno;
+        return m_Lineno;
     }
 
     vector<pair<int, int>> getPeriod() const;
 
-    int m_simpleType;
+    int m_SimpleType;
     bool m_isArray;
-    int m_lineno;
+    int m_Lineno;
 
     Period *mp_Period;
 
@@ -979,7 +979,7 @@ class ConstValue
 public:
     ConstValue()
     {
-        mp_Id = nullptr;
+        m_PID = nullptr;
     };
 
     string outputCodes() const;
@@ -997,9 +997,9 @@ public:
     char m_char;
     bool m_bool;
 
-    int m_lineno;
+    int m_Lineno;
     bool m_isId;
-    Id *mp_Id;
+    Id *m_PID;
 
     void outputTree() const;
 };
@@ -1022,7 +1022,7 @@ public:
 
     bool errorDetect(const string &symbolSheetName) const;
 
-    int m_lineno;
+    int m_Lineno;
 
     Variable *mp_Variable;
     Expression *mp_Expression;
@@ -1050,7 +1050,7 @@ public:
 
     bool errorDetect(const string &symbolSheetName) const;
 
-    int m_lineno;
+    int m_Lineno;
 
     Expression *mp_Expression;
     Statement *mp_Statement_1;
@@ -1064,14 +1064,14 @@ class For
 public:
     For()
     {
-        mp_Id = nullptr;
+        m_PID = nullptr;
         mp_Expression_1 = nullptr;
         mp_Expression_2 = nullptr;
         mp_Statement = nullptr;
     };
     For(Id *_mp_Id, Expression *_mp_Expression_1, Expression *_mp_Expression_2, Statement *_mp_Statment)
     {
-        mp_Id = _mp_Id;
+        m_PID = _mp_Id;
         mp_Expression_1 = _mp_Expression_1;
         mp_Expression_2 = _mp_Expression_2;
         mp_Statement = _mp_Statment;
@@ -1081,9 +1081,9 @@ public:
 
     bool errorDetect(const string &symbolSheetName) const;
 
-    int m_lineno;
+    int m_Lineno;
 
-    Id *mp_Id;
+    Id *m_PID;
     Expression *mp_Expression_1;
     Expression *mp_Expression_2;
     Statement *mp_Statement;
@@ -1096,27 +1096,27 @@ class Parameter
 public:
     Parameter(bool isVal, int lineno, IdList *Mp_Id_List)
     {
-        m_isVal = isVal;
-        m_lineno = lineno;
-        mp_Id_List = Mp_Id_List;
+        m_IsVal = isVal;
+        m_Lineno = lineno;
+        m_PIDList = Mp_Id_List;
     }
     Parameter()
     {
-        mp_Id_List = nullptr;
+        m_PIDList = nullptr;
     }
 
     string outputCodes();
 
     bool isVal()
     {
-        return m_isVal;
+        return m_IsVal;
     }
 
     vector<Id *> getIds() const;
 
     int getLineno()
     {
-        return m_lineno;
+        return m_Lineno;
     }
 
     int getType()
@@ -1126,15 +1126,15 @@ public:
 
     IdList *getIdList()
     {
-        return mp_Id_List;
+        return m_PIDList;
     }
 
     // define whether the parameter is variable element
-    bool m_isVal;
-    int m_lineno;
+    bool m_IsVal;
+    int m_Lineno;
     int m_Type;
 
-    IdList *mp_Id_List;
+    IdList *m_PIDList;
 
     void outputTree() const;
 };
@@ -1151,7 +1151,7 @@ public:
           SimpleExpression *Mp_Simple_Expression_2)
     {
         m_relopType = relopType;
-        m_lineno = lineno;
+        m_Lineno = lineno;
         mp_Simple_Expression_1 = Mp_Simple_Expression_1;
         mp_Simple_Expression_2 = Mp_Simple_Expression_2;
     }
@@ -1171,7 +1171,7 @@ public:
     int getType() { return type; }
 
     int m_relopType;
-    int m_lineno;
+    int m_Lineno;
     int type;
 
     SimpleExpression *mp_Simple_Expression_1;
@@ -1186,14 +1186,14 @@ public:
     AddOp()
     {
         mp_Simple_Expression = nullptr;
-        mp_Term = nullptr;
+        m_PTerm = nullptr;
     };
     AddOp(int addopType, int lineno, SimpleExpression *Mp_Simple_Expression, Term *Mp_Term)
     {
         m_addopType = addopType;
-        m_lineno = lineno;
+        m_Lineno = lineno;
         mp_Simple_Expression = Mp_Simple_Expression;
-        mp_Term = Mp_Term;
+        m_PTerm = Mp_Term;
     }
 
     string outputCodes() const;
@@ -1215,10 +1215,10 @@ public:
     }
 
     int m_addopType;
-    int m_lineno;
+    int m_Lineno;
     int type;
     SimpleExpression *mp_Simple_Expression;
-    Term *mp_Term;
+    Term *m_PTerm;
 
     void outputTree() const;
 };
@@ -1228,15 +1228,15 @@ class MulOp
 public:
     MulOp()
     {
-        mp_Term = nullptr;
-        mp_Factor = nullptr;
+        m_PTerm = nullptr;
+        m_PFactor = nullptr;
     };
     MulOp(int mulopType, int lineno, Term *Mp_Term, Factor *Mp_Factor)
     {
         m_mulopType = mulopType;
-        m_lineno = lineno;
-        mp_Term = Mp_Term;
-        mp_Factor = Mp_Factor;
+        m_Lineno = lineno;
+        m_PTerm = Mp_Term;
+        m_PFactor = Mp_Factor;
     }
 
     string outputCodes() const;
@@ -1253,11 +1253,11 @@ public:
     int getType() { return type; }
 
     int m_mulopType;
-    int m_lineno;
+    int m_Lineno;
     int type;
 
-    Term *mp_Term;
-    Factor *mp_Factor;
+    Term *m_PTerm;
+    Factor *m_PFactor;
 
     void outputTree() const;
 };
@@ -1272,24 +1272,24 @@ public:
 
     int checkType()
     {
-        return m_idType;
+        return m_IDType;
     };
 
     string getName()
     {
-        return m_name;
+        return m_Name;
     }
 
     bool isVal()
     {
-        return m_isVal;
+        return m_IsVal;
     }
 
-    string m_name;
-    int m_idType;
-    int m_lineno;
+    string m_Name;
+    int m_IDType;
+    int m_Lineno;
 
-    bool m_isVal;
+    bool m_IsVal;
 
     void outputTree() const;
 };
@@ -1299,24 +1299,24 @@ class IdList
 public:
     IdList()
     {
-        m_lineno = 0;
+        m_Lineno = 0;
     };
 
     string outputCodes();
 
     vector<Id *> getIds()
     {
-        return mv_Id;
+        return m_IDVector;
     }
 
     int getIdNum()
     {
-        return (int)mv_Id.size();
+        return (int)m_IDVector.size();
     }
 
-    int m_lineno;
+    int m_Lineno;
 
-    vector<Id *> mv_Id;
+    vector<Id *> m_IDVector;
 
     void outputTree();
 };
@@ -1327,18 +1327,18 @@ public:
     Period() = default;
     ;
 
-    Period(vector<pair<int, int>> Mv_dims)
+    Period(vector<pair<int, int>> dimsVector)
     {
-        mv_dims = Mv_dims;
+        m_DimsVector = dimsVector;
     }
 
     string outputCodes();
 
     vector<pair<int, int>> getRange()
     {
-        return mv_dims;
+        return m_DimsVector;
     }
-    vector<pair<int, int>> mv_dims;
+    vector<pair<int, int>> m_DimsVector;
 
     void outputTree();
 };
@@ -1351,8 +1351,8 @@ public:
 
     ExpressionList(vector<Expression *> Mv_Expression, vector<int> MType)
     {
-        mv_Expression = std::move(Mv_Expression);
-        mv_Type = std::move(MType);
+        m_ExpressionVector = std::move(Mv_Expression);
+        m_TypeVector = std::move(MType);
     }
 
     string outputCodes(bool isScanf = false);
@@ -1361,21 +1361,21 @@ public:
 
     vector<Expression *> getExpressions()
     {
-        return mv_Expression;
+        return m_ExpressionVector;
     }
 
     vector<int> getTypes()
     {
-        return mv_Type;
+        return m_TypeVector;
     }
 
     vector<int> rangeVal;
     vector<bool> rangeValid;
-    vector<Expression *> mv_Expression;
+    vector<Expression *> m_ExpressionVector;
 
-    vector<int> mv_Type;
+    vector<int> m_TypeVector;
 
-    vector<bool> mv_VarDefine;
+    vector<bool> m_VarDefineVector;
 
     void outputTree();
 };

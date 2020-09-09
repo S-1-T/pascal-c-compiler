@@ -137,16 +137,16 @@
 
 program 
 	: program_head program_body '.'	{
-		$$ = new Program($1->m_Id, $1->m_Id_List, $2);
+		$$ = new Program($1->m_ID, $1->m_IDList, $2);
 		root = $$;
 	} 
 
 program_head 
 	: PROGRAM IDENTIFIER '(' identifier_list ')' ';' {
 		Id* tmp = new Id();
-		tmp -> m_name = *($2);
-		tmp -> m_lineno = yylineno;
-		tmp -> m_idType = TYPE_ID;
+		tmp -> m_Name = *($2);
+		tmp -> m_Lineno = yylineno;
+		tmp -> m_IDType = TYPE_ID;
 		$$ = new ProgramHead(tmp, $4);
 	}
 	| PROGRAM error {
@@ -170,17 +170,17 @@ identifier_list
 		$$ = new IdList();
 		$$ = $1;
 		Id* tmp = new Id();
-		tmp -> m_name = *($3);
-		tmp -> m_lineno = yylineno;
-		$$ -> mv_Id.push_back(tmp);
+		tmp -> m_Name = *($3);
+		tmp -> m_Lineno = yylineno;
+		$$ -> m_IDVector.push_back(tmp);
 	}
 	| IDENTIFIER {
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
 		$$ = new IdList();
-		$$ -> mv_Id.push_back(tmp);
-		$$ -> m_lineno = yylineno;
+		$$ -> m_IDVector.push_back(tmp);
+		$$ -> m_Lineno = yylineno;
 	}
 	/*
 	| error {
@@ -191,7 +191,7 @@ identifier_list
 
 const_declarations 
 	: CONST const_declaration ';' {
-		$$ = new ConstDeclarations($2 -> mv_Const);
+		$$ = new ConstDeclarations($2 -> m_ConstVector);
 	}
 	| {
 		$$ = new ConstDeclarations();
@@ -201,54 +201,54 @@ const_declarations
 const_declaration 
 	: const_declaration ';' IDENTIFIER '=' const_variable {
 		Id* tmp = new Id();
-		tmp -> m_name = *($3);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($3);
+		tmp -> m_Lineno = yylineno;
 
-		$1 -> mv_Const.push_back(p_Const(tmp, $5));
-		$$ = new ConstDeclaration($1 -> mv_Const);
+		$1 -> m_ConstVector.push_back(p_Const(tmp, $5));
+		$$ = new ConstDeclaration($1 -> m_ConstVector);
 	}
 	| IDENTIFIER '=' const_variable {
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
 		$$ = new ConstDeclaration();
-		$$ -> mv_Const.push_back(p_Const(tmp,$3));
+		$$ -> m_ConstVector.push_back(p_Const(tmp,$3));
 	}
 	;
 
 const_variable 
 	: '+' IDENTIFIER {
 		$$ = new ConstValue();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_postNeg = CONST_POSITIVE;
 		$$ -> m_valueType = TYPE_ID;
 		$$ -> m_isId = true;
 		Id* tmp = new Id();
-		tmp -> m_name = *($2);
-		tmp -> m_lineno = yylineno;
-		$$ -> mp_Id = tmp;
+		tmp -> m_Name = *($2);
+		tmp -> m_Lineno = yylineno;
+		$$ -> m_PID = tmp;
 	}
 	| '-' IDENTIFIER {
 		$$ = new ConstValue();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_postNeg = CONST_NEGATIVE;
 		$$ -> m_valueType = TYPE_ID;
 		$$ -> m_isId = true;
 		Id* tmp = new Id();
-		tmp -> m_name = *($2);
-		tmp -> m_lineno = yylineno;
-		$$ -> mp_Id = tmp;	
+		tmp -> m_Name = *($2);
+		tmp -> m_Lineno = yylineno;
+		$$ -> m_PID = tmp;	
 	} 
 	| IDENTIFIER {
 		$$ = new ConstValue();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_postNeg = CONST_POSITIVE;
 		$$ -> m_valueType = TYPE_ID;
 		$$ -> m_isId = true;
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
-		$$ -> mp_Id = tmp;
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
+		$$ -> m_PID = tmp;
 	}
 	| '+' NUMBER {
 		$$ = new ConstValue();
@@ -301,7 +301,7 @@ const_variable
 
 var_declarations 
 	: VAR var_declaration ';' {
-		$$ = new VarDeclarations($2 -> mv_Var);
+		$$ = new VarDeclarations($2 -> m_VariableVector);
 	}
 	| {
 		vector<p_Var> tmp;
@@ -311,28 +311,28 @@ var_declarations
 
 var_declaration 
 	: var_declaration ';' identifier_list ':' type {
-		$$ = new VarDeclaration($1 -> mv_Var);
-		$$ -> mv_Var.push_back(p_Var($3, $5));
+		$$ = new VarDeclaration($1 -> m_VariableVector);
+		$$ -> m_VariableVector.push_back(p_Var($3, $5));
 	}
 	| identifier_list ':' type {
 		$$ = new VarDeclaration();
-		$$ -> mv_Var.push_back(p_Var($1, $3));
+		$$ -> m_VariableVector.push_back(p_Var($1, $3));
 	}
 	;
 
 type 
 	: standard_type {
 		$$ = new Type();
-		$$ -> m_simpleType = $1;
+		$$ -> m_SimpleType = $1;
 		$$ -> m_isArray = false;
-		$$ -> m_lineno = yylineno; 
+		$$ -> m_Lineno = yylineno; 
 	}
 	| ARRAY '[' period ']' OF standard_type {
 		$$ = new Type();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_isArray = true;
 		$$ -> mp_Period = $3;
-		$$ -> m_simpleType = $6; 
+		$$ -> m_SimpleType = $6; 
 	}
 	| error {
 		$$ = new Type();
@@ -357,12 +357,12 @@ standard_type
 
 period 
 	: period ',' SDIGITS SUBBOUNDARY SDIGITS {
-		$$ = new Period($1 -> mv_dims);
-		$$ -> mv_dims.push_back(p_Per($3, $5));
+		$$ = new Period($1 -> m_DimsVector);
+		$$ -> m_DimsVector.push_back(p_Per($3, $5));
 	}
 	| SDIGITS SUBBOUNDARY SDIGITS {
 		$$ = new Period();
-		$$ -> mv_dims.push_back(p_Per($1, $3));
+		$$ -> m_DimsVector.push_back(p_Per($1, $3));
 	}
 
 SDIGITS
@@ -379,8 +379,8 @@ SDIGITS
 
 subprogram_declarations 
 	: subprogram_declarations subprogram ';' {
-		$$ = new SubProgramDeclarations($1 -> mv_Common);
-		$$ -> mv_Common.push_back($2);
+		$$ = new SubProgramDeclarations($1 -> m_CommonVector);
+		$$ -> m_CommonVector.push_back($2);
 	}
 	| {
 		$$ = new SubProgramDeclarations();
@@ -389,25 +389,25 @@ subprogram_declarations
 
 subprogram
 	: subprogram_head subprogram_body {
-		if($1 -> Simple_Type == TYPE_NULL) {
-			$$ = new Procedure(yylineno, $1 -> m_ID, $1-> m_Formal_Parameter -> m_Parameter_List, $2 -> m_Const_Declarations, $2 -> m_Var_Declarations, $2-> m_Compound_Statement -> m_Statement_List);
+		if($1 -> m_SimpleType == TYPE_NULL) {
+			$$ = new Procedure(yylineno, $1 -> m_ID, $1-> m_FormalParameter -> m_ParameterList, $2 -> m_ConstDeclarations, $2 -> m_VarDeclarations, $2-> m_CompoundStatement -> m_StatementList);
 		}
 		else {
-			$$ = new Function($1 -> Simple_Type, yylineno, $1 -> m_ID, $1-> m_Formal_Parameter -> m_Parameter_List, $2 -> m_Const_Declarations, $2 -> m_Var_Declarations, $2-> m_Compound_Statement -> m_Statement_List);
+			$$ = new Function($1 -> m_SimpleType, yylineno, $1 -> m_ID, $1-> m_FormalParameter -> m_ParameterList, $2 -> m_ConstDeclarations, $2 -> m_VarDeclarations, $2-> m_CompoundStatement -> m_StatementList);
 		}
 	}
 
 subprogram_head 
 	: FUNCTION IDENTIFIER formal_parameter ':' standard_type ';' {
 		Id* tmp = new Id();
-		tmp -> m_name = *($2);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($2);
+		tmp -> m_Lineno = yylineno;
 		$$ = new SubprogramHead(tmp, $3, $5);
 	}
 	| PROCEDURE IDENTIFIER formal_parameter ';' {
 		Id* tmp = new Id();
-		tmp -> m_name = *($2);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($2);
+		tmp -> m_Lineno = yylineno;
 		$$ = new SubprogramHead(tmp, $3, TYPE_NULL);
 	}
 	| FUNCTION error ';' {
@@ -436,20 +436,20 @@ parameter_list
 	}
 	| parameter {
 		$$ = new ParameterList();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mv_Patameter.push_back($1);
 	}
 	;
 
 parameter
 	: var_parameter {
-		$$ = new Parameter(true, yylineno, $1 -> m_Value_Parameter -> m_Id_List);
-		$$ -> m_Type = $1 -> m_Value_Parameter -> Simple_Type;
+		$$ = new Parameter(true, yylineno, $1 -> m_ValueParameter -> m_IDList);
+		$$ -> m_Type = $1 -> m_ValueParameter -> m_SimpleType;
 
 	}
 	| value_parameter {
-		$$ = new Parameter(false, yylineno, $1 -> m_Id_List);
-		$$ -> m_Type = $1 -> Simple_Type;
+		$$ = new Parameter(false, yylineno, $1 -> m_IDList);
+		$$ -> m_Type = $1 -> m_SimpleType;
 	}
 	;
 
@@ -481,14 +481,14 @@ compound_statement
 
 statement_list 
 	: statement_list ';' statement {
-		$$ = new StatementList($1 -> mv_Statement);
+		$$ = new StatementList($1 -> m_StatementVector);
 		if($3 != nullptr)
-			$$ -> mv_Statement.push_back($3);
+			$$ -> m_StatementVector.push_back($3);
 	}
 	| statement {
 		$$ = new StatementList();
 		if($1 != nullptr)
-			$$ -> mv_Statement.push_back($1);
+			$$ -> m_StatementVector.push_back($1);
 	}
 	| statement_list ';' error {
 		$$ = new StatementList();
@@ -503,29 +503,29 @@ statement
 	: variable ASSIGNOP expression {	//赋值
 		$$ = new Statement();
 		$$ -> m_stateType = STATEMENT_ASSIGN;
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_AssignOp = new AssignOp($1, $3);
-		$$ -> mp_AssignOp -> m_lineno = yylineno;
+		$$ -> mp_AssignOp -> m_Lineno = yylineno;
 		$$ -> mp_Procedure_call = nullptr;
-		$$ -> mp_Statement_List = nullptr;
+		$$ -> m_PStatementList = nullptr;
 		$$ -> mp_If_Then_Else = nullptr;
 		$$ -> mp_For = nullptr;
 	}
 	| call_procedure_statement {	//函数
 		$$ = new Statement();
 		$$ -> m_stateType = STATEMENT_PROCEDURE;
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Procedure_call = $1;
 		$$ -> mp_AssignOp = nullptr;
-		$$ -> mp_Statement_List = nullptr;
+		$$ -> m_PStatementList = nullptr;
 		$$ -> mp_If_Then_Else = nullptr;
 		$$ -> mp_For = nullptr;
 	}
 	| compound_statement {	//函数内部
 		$$ = new Statement();
 		$$ -> m_stateType = STATEMENT_COMPOUND;
-		$$ -> m_lineno = yylineno;
-		$$ -> mp_Statement_List = $1 -> m_Statement_List;
+		$$ -> m_Lineno = yylineno;
+		$$ -> m_PStatementList = $1 -> m_StatementList;
 		$$ -> mp_AssignOp = nullptr;
 		$$ -> mp_Procedure_call = nullptr;
 		$$ -> mp_If_Then_Else = nullptr;
@@ -534,11 +534,11 @@ statement
 	| IF expression THEN statement else_part {	//if语句
 		$$ = new Statement();
 		$$ -> m_stateType = STATEMENT_IF;
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_If_Then_Else = new IfThenElse($2, $4, $5);
 		$$ -> mp_AssignOp = nullptr;
 		$$ -> mp_Procedure_call = nullptr;
-		$$ -> mp_Statement_List = nullptr;
+		$$ -> m_PStatementList = nullptr;
 		$$ -> mp_For = nullptr;
 	}
 	| IF error THEN statement else_part {	//expression部分出错
@@ -546,15 +546,15 @@ statement
 	} 
 	| FOR IDENTIFIER ASSIGNOP expression TO expression DO statement {	//for循环
 		Id* tmp = new Id();
-		tmp -> m_name = *($2);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($2);
+		tmp -> m_Lineno = yylineno;
 		$$ = new Statement();
 		$$ -> m_stateType = STATEMENT_FOR;
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_For = new For(tmp, $4, $6, $8);
 		$$ -> mp_AssignOp = nullptr;
 		$$ -> mp_Procedure_call = nullptr;
-		$$ -> mp_Statement_List = nullptr;
+		$$ -> m_PStatementList = nullptr;
 		$$ -> mp_If_Then_Else = nullptr;
 	}
 	| FOR error TO expression DO statement {
@@ -572,14 +572,14 @@ statement
 variable 
 	: IDENTIFIER IdVarPart {
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
 		$$ = new Variable();
-		$$ -> mp_Id = tmp;
-		$$ -> m_lineno = yylineno;
-		if($2 -> m_Expression_List != nullptr){
+		$$ -> m_PID = tmp;
+		$$ -> m_Lineno = yylineno;
+		if($2 -> m_ExpressionList != nullptr){
 			$$ -> m_isArray = true;
-			$$ -> mp_Expression_List = $2 -> m_Expression_List;
+			$$ -> mp_Expression_List = $2 -> m_ExpressionList;
 		}else {
 			$$ -> m_isArray =false;
 			$$ -> mp_Expression_List = nullptr;
@@ -600,23 +600,23 @@ IdVarPart
 call_procedure_statement 
 	: IDENTIFIER {
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
 		$$ = new ProcedureCall();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_expNum = 0;
-		$$ -> mp_Id = tmp;
+		$$ -> m_PID = tmp;
 		$$ -> mp_Expression_List = nullptr;
 
 	}
 	| IDENTIFIER '(' expression_list ')' {
 		$$ = new ProcedureCall();
-		$$ -> m_lineno = yylineno;
-		$$ -> m_expNum = $3 -> mv_Expression.size();
+		$$ -> m_Lineno = yylineno;
+		$$ -> m_expNum = $3 -> m_ExpressionVector.size();
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
-		$$ -> mp_Id = tmp;
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
+		$$ -> m_PID = tmp;
 		$$ -> mp_Expression_List = $3;
 	}
 	;
@@ -634,55 +634,55 @@ else_part
 
 expression_list 
 	: expression_list ',' expression {
-		$$ = new ExpressionList($1 -> mv_Expression, $1 -> mv_Type);
-		$$ -> mv_Expression.push_back($3);
+		$$ = new ExpressionList($1 -> m_ExpressionVector, $1 -> m_TypeVector);
+		$$ -> m_ExpressionVector.push_back($3);
 	}
 	| expression {
 		$$ = new ExpressionList();
-		$$ -> mv_Expression.push_back($1);
+		$$ -> m_ExpressionVector.push_back($1);
 	}
 	;
 
 expression 
 	: simple_expression '>' simple_expression {
 		$$ = new Expression();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
 		$$ -> mp_Relop = new RelOp(OP_LARGER, yylineno, $1, $3);
 	}
 	| simple_expression '<' simple_expression {
 		$$ = new Expression();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
 		$$ -> mp_Relop = new RelOp(OP_LESS, yylineno, $1, $3);
 	}
 	| simple_expression NE_OP simple_expression {
 		$$ = new Expression();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
 		$$ -> mp_Relop = new RelOp(OP_NOT_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression LE_OP simple_expression {
 		$$ = new Expression();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
 		$$ -> mp_Relop = new RelOp(OP_LESS_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression GE_OP simple_expression {
 		$$ = new Expression();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
 		$$ -> mp_Relop = new RelOp(OP_LARGER_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression '=' simple_expression {
 		$$ = new Expression();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Simple_Expression = nullptr;
 		$$ -> mp_Relop = new RelOp(OP_EQUAL, yylineno, $1, $3);
 	}
 	| simple_expression {
 		$$ = new Expression();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Simple_Expression = $1;
 		$$ -> mp_Relop = nullptr;
 	}
@@ -734,31 +734,31 @@ SNUMBER: NUMBER{
 factor 
 	: SDIGITS {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_int = $1;
 		$$ -> m_factorType = FACTOR_VALUE_INT;
 	}
 	| SNUMBER {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_real = $1;
 		$$ -> m_factorType = FACTOR_VALUE_REAL;
 	}
 	| LETTER {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_char = $1;
 		$$ -> m_factorType = FACTOR_VALUE_CHAR;
 	}
 	| BOOL {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> m_bool = $1;
 		$$ -> m_factorType = FACTOR_VALUE_BOOL;
 	}
 	| variable {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Variable = $1;
 		$$ -> mp_Function_Call = nullptr;
 		$$ -> mp_Expression = nullptr;
@@ -768,12 +768,12 @@ factor
 	}
 	| IDENTIFIER '(' expression_list ')' {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Variable = nullptr;
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
-		$$ -> mp_Function_Call = new FunctionCall($3 -> mv_Expression.size(), yylineno, tmp, $3);
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
+		$$ -> mp_Function_Call = new FunctionCall($3 -> m_ExpressionVector.size(), yylineno, tmp, $3);
 		$$ -> mp_Expression = nullptr;
 		$$ -> mp_Not = nullptr;
 		$$ -> mp_Uminus = nullptr;
@@ -781,11 +781,11 @@ factor
 	}
 	| IDENTIFIER '(' ')'{
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Variable = nullptr;
 		Id* tmp = new Id();
-		tmp -> m_name = *($1);
-		tmp -> m_lineno = yylineno;
+		tmp -> m_Name = *($1);
+		tmp -> m_Lineno = yylineno;
 		$$ -> mp_Function_Call = new FunctionCall(0, yylineno, tmp, nullptr);
 		$$ -> mp_Expression = nullptr;
 		$$ -> mp_Not = nullptr;
@@ -794,7 +794,7 @@ factor
 	}
 	| '(' expression ')' {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Variable = nullptr;
 		$$ -> mp_Function_Call = nullptr;
 		$$ -> mp_Expression = $2;
@@ -804,13 +804,13 @@ factor
 	}
 	| NOT factor {
 		$$ = new Factor();
-		$$ -> m_lineno = yylineno;
+		$$ -> m_Lineno = yylineno;
 		$$ -> mp_Variable = nullptr;
 		$$ -> mp_Function_Call = nullptr;
 		$$ -> mp_Expression = nullptr;
 		$$ -> mp_Not = new Not();
-		$$ -> mp_Not -> mp_Factor = $2;
-		$$ -> mp_Not -> m_lineno = yylineno;
+		$$ -> mp_Not -> m_PFactor = $2;
+		$$ -> mp_Not -> m_Lineno = yylineno;
 		$$ -> mp_Uminus = nullptr;
 		$$ -> m_factorType = FACTOR_NOT;
 	}
