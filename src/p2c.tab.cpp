@@ -75,7 +75,7 @@
 	typedef pair<IdList*, Type*> p_Var;
 	typedef pair<int, int> p_Per;
 
-	Program* root;			// 语法树根节点
+	Program* root;			//  AST 根节点
 	int errorNum = 0;				// 错误数量
 
 	int yyparse(void);				// 语法分析接口

@@ -8,6 +8,6 @@
 
 #include "syntax_tree.h"
 
-bool semantic_analyse(Program* root);
+bool semantic_analyse(Program *root);
 
 #endif

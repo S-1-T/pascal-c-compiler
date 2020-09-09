@@ -13,7 +13,7 @@
 	typedef pair<IdList*, Type*> p_Var;
 	typedef pair<int, int> p_Per;
 
-	Program* root;			// 语法树根节点
+	Program* root;					// AST 根节点
 	int errorNum = 0;				// 错误数量
 
 	int yyparse(void);				// 语法分析接口
@@ -98,7 +98,7 @@
 %type <m_int> SDIGITS           // 有符号整数
 %type <m_float> SNUMBER         // 无符号整数
 
-// 语法树节点
+// AST 节点
 %type <program> program
 %type <programHead> program_head
 %type <programBody> program_body

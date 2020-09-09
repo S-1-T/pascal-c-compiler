@@ -3,7 +3,8 @@
 
 using namespace std;
 
-void Program::outputTree() const {
+void Program::outputTree() const
+{
     cout << "Program" << endl;
     if (mp_Id == nullptr)
         cout << "mp_Id is nullptr" << endl;
@@ -19,7 +20,8 @@ void Program::outputTree() const {
         mp_Program_Body->outputTree();
 }
 
-void ProgramBody::outputTree() const {
+void ProgramBody::outputTree() const
+{
     cout << "ProgramBody" << endl;
     if (mp_Const_Declarations == nullptr)
         cout << "mp_Const_Declarations is nullptr" << endl;
@@ -39,241 +41,337 @@ void ProgramBody::outputTree() const {
         mp_Statement_List->outputTree();
 }
 
-void ConstDeclarations::outputTree() {
+void ConstDeclarations::outputTree()
+{
     cout << "ConstDeclarations" << endl;
     if (mv_Const.empty())
         cout << "mv_Const is nullptr" << endl;
     else
-        for (auto & i : mv_Const) {
+        for (auto &i : mv_Const)
+        {
             i.first->outputTree();
             i.second->outputTree();
         }
 }
 
-void VarDeclarations::outputTree() {
+void VarDeclarations::outputTree()
+{
     cout << "VarDeclarations";
     if (mv_Var.empty())
         cout << "mv_Var is nullptr" << endl;
     else
-        for (auto & i : mv_Var) {
+        for (auto &i : mv_Var)
+        {
             i.first->outputTree();
             i.second->outputTree();
         }
-
 }
 
-void SubProgramDeclarations::outputTree() {
+void SubProgramDeclarations::outputTree()
+{
     cout << "SubProgramDeclarations" << endl;
     if (mv_Common.empty())
         cout << "mv_Common is nullptr" << endl;
     else
-        for (auto & i : mv_Common) {
+        for (auto &i : mv_Common)
+        {
             i->outputTree();
         }
 }
 
-void StatementList::outputTree() {
+void StatementList::outputTree()
+{
     cout << "StatementList" << endl;
     if (mv_Statement.empty())
         cout << "mv_Statement is nullptr" << endl;
-    for (auto & i : mv_Statement) {
+    for (auto &i : mv_Statement)
+    {
         i->outputTree();
     }
 }
 
-void Procedure::outputTree() {
+void Procedure::outputTree()
+{
     cout << "Procedure" << endl;
     cout << "m_lineo = " << m_lineno << endl;
-    if (mp_Id == nullptr) {
+    if (mp_Id == nullptr)
+    {
         cout << "mp_Id is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Id->outputTree();
     }
-    if (mp_Parameter_List == nullptr) {
+    if (mp_Parameter_List == nullptr)
+    {
         cout << "mp_Parameter_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Parameter_List->outputTree();
     }
-    if (mp_Const_Declarations == nullptr) {
+    if (mp_Const_Declarations == nullptr)
+    {
         cout << "mp_Const_Declarations is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Const_Declarations->outputTree();
     }
-    if (mp_Var_Declarations == nullptr) {
+    if (mp_Var_Declarations == nullptr)
+    {
         cout << "mp_Var_Declarations is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Var_Declarations->outputTree();
     }
-    if (mp_Statement_List == nullptr) {
+    if (mp_Statement_List == nullptr)
+    {
         cout << "mp_Statement_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Statement_List->outputTree();
     }
 }
 
-void Function::outputTree() {
+void Function::outputTree()
+{
     cout << "Function" << endl;
     cout << "m_returnType = " << m_returnType << endl;
     cout << "m_lineo = " << m_lineno << endl;
-    if (mp_Id == nullptr) {
+    if (mp_Id == nullptr)
+    {
         cout << "mp_Id is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Id->outputTree();
     }
-    if (mp_Parameter_List == nullptr) {
+    if (mp_Parameter_List == nullptr)
+    {
         cout << "mp_Parameter_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Parameter_List->outputTree();
     }
-    if (mp_Const_Declarations == nullptr) {
+    if (mp_Const_Declarations == nullptr)
+    {
         cout << "mp_Const_Declarations is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Const_Declarations->outputTree();
     }
-    if (mp_Var_Declarations == nullptr) {
+    if (mp_Var_Declarations == nullptr)
+    {
         cout << "mp_Var_Declarations is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Var_Declarations->outputTree();
     }
-    if (mp_Statement_List == nullptr) {
+    if (mp_Statement_List == nullptr)
+    {
         cout << "mp_Statement_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Statement_List->outputTree();
     }
 }
 
-void Statement::outputTree() const {
+void Statement::outputTree() const
+{
     cout << "Statement" << endl;
     cout << "m_stateType = " << m_stateType << endl;
     cout << "m_lineno = " << m_lineno << endl;
-    if (mp_AssignOp == nullptr) {
+    if (mp_AssignOp == nullptr)
+    {
         cout << "mp_AssignOp is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_AssignOp->outputTree();
     }
-    if (mp_Procedure_call == nullptr) {
+    if (mp_Procedure_call == nullptr)
+    {
         cout << "mp_Procedure_call is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Procedure_call->outputTree();
     }
-    if (mp_Statement_List == nullptr) {
+    if (mp_Statement_List == nullptr)
+    {
         cout << "mp_Statement_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Statement_List->outputTree();
     }
-    if (mp_If_Then_Else == nullptr) {
+    if (mp_If_Then_Else == nullptr)
+    {
         cout << "mp_If_Then_Else is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_If_Then_Else->outputTree();
     }
-    if (mp_For == nullptr) {
+    if (mp_For == nullptr)
+    {
         cout << "mp_For is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_For->outputTree();
     }
 }
 
-void ParameterList::outputTree() {
+void ParameterList::outputTree()
+{
     cout << "ParameterList" << endl;
     cout << "m_lineno = " << m_lineno << endl;
-    if (mv_Patameter.empty()) {
+    if (mv_Patameter.empty())
+    {
         cout << "mv_Patameter is nullptr" << endl;
-    } else {
-        for (auto & i : mv_Patameter) {
+    }
+    else
+    {
+        for (auto &i : mv_Patameter)
+        {
             i->outputTree();
         }
     }
 }
 
-void Variable::outputTree() const {
+void Variable::outputTree() const
+{
     cout << "Variable" << endl;
     cout << "m_isArray = " << m_isArray << endl;
     cout << "m_lineno = " << m_lineno << endl;
-    if (mp_Id == nullptr) {
+    if (mp_Id == nullptr)
+    {
         cout << "mp_Id is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Id->outputTree();
     }
     cout << "type = " << type << endl;
-    if (mp_Expression_List == nullptr) {
+    if (mp_Expression_List == nullptr)
+    {
         cout << "mp_Expression_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Expression_List->outputTree();
     }
 }
 
-void ProcedureCall::outputTree() const {
+void ProcedureCall::outputTree() const
+{
     cout << "ProcedureCall" << endl;
     cout << "m_proCall_Tpye = " << m_proCall_Tpye << endl;
     cout << "m_expNum = " << m_expNum << endl;
     cout << "m_lineno = " << m_lineno << endl;
-    if (mp_Id == nullptr) {
+    if (mp_Id == nullptr)
+    {
         cout << "mp_Id is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Id->outputTree();
     }
-    if (mp_Expression_List == nullptr) {
+    if (mp_Expression_List == nullptr)
+    {
         cout << "mp_Expression_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Expression_List->outputTree();
     }
 }
 
-void FunctionCall::outputTree() const {
+void FunctionCall::outputTree() const
+{
     cout << "FunctionCall" << endl;
     cout << "m_expNum = " << m_expNum << endl;
     cout << "m_lineno = " << m_lineno << endl;
-    if (mp_Id == nullptr) {
+    if (mp_Id == nullptr)
+    {
         cout << "mp_Id is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Id->outputTree();
     }
-    if (mp_Expression_List == nullptr) {
+    if (mp_Expression_List == nullptr)
+    {
         cout << "mp_Expression_List is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Expression_List->outputTree();
     }
 }
 
-void Expression::outputTree() const {
+void Expression::outputTree() const
+{
     cout << "Expression" << endl;
     cout << "m_lineno = " << m_lineno << endl;
     cout << "rangeVal = " << rangeVal << endl;
     cout << "rangeValid = " << rangeValid << endl;
-    if (mp_Relop == nullptr) {
+    if (mp_Relop == nullptr)
+    {
         cout << "mp_Relop is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Relop->outputTree();
     }
-    if (mp_Simple_Expression == nullptr) {
+    if (mp_Simple_Expression == nullptr)
+    {
         cout << "mp_Simple_Expression is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Simple_Expression->outputTree();
     }
 
     cout << "type = " << type << endl;
 }
 
-void SimpleExpression::outputTree() const {
+void SimpleExpression::outputTree() const
+{
     cout << "SimpleExpression" << endl;
     cout << "type = " << type << endl;
     cout << "m_lineno = " << m_lineno << endl;
     cout << "rangeVal = " << rangeVal << endl;
     cout << "rangeValid = " << rangeValid << endl;
 
-    if (mp_AddOp == nullptr) {
+    if (mp_AddOp == nullptr)
+    {
         cout << "mp_AddOp is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_AddOp->outputTree();
     }
-    if (mp_Term == nullptr) {
+    if (mp_Term == nullptr)
+    {
         cout << "mp_Simple_Expression is nullptr" << endl;
-    } else {
+    }
+    else
+    {
         mp_Term->outputTree();
     }
 }
 
-void ExpressionList::outputTree() {
+void ExpressionList::outputTree()
+{
     cout << "ExpressionList" << endl;
 
     if (rangeVal.empty())
@@ -307,7 +405,8 @@ void ExpressionList::outputTree() {
             cout << mVarDefine << endl;
 }
 
-void Period::outputTree() {
+void Period::outputTree()
+{
     cout << "Period" << endl;
 
     if (mv_dims.empty())
@@ -317,7 +416,8 @@ void Period::outputTree() {
             cout << mdims.first << " " << mdims.second << endl;
 }
 
-void IdList::outputTree() {
+void IdList::outputTree()
+{
     cout << "IdList" << endl;
     cout << "m_lineno is " << m_lineno << endl;
 
@@ -328,7 +428,8 @@ void IdList::outputTree() {
             mId->outputTree();
 }
 
-void Id::outputTree() const {
+void Id::outputTree() const
+{
     cout << "Id" << endl;
     cout << "m_name is " << m_name << endl;
     cout << "m_idType is " << m_idType << endl;
@@ -336,7 +437,8 @@ void Id::outputTree() const {
     cout << "m_isVal is " << m_isVal << endl;
 }
 
-void MulOp::outputTree() const {
+void MulOp::outputTree() const
+{
     cout << "MulOp" << endl;
     cout << "m_mulopType is " << m_mulopType << endl;
     cout << "m_lineno is " << m_lineno << endl;
@@ -351,7 +453,8 @@ void MulOp::outputTree() const {
         mp_Factor->outputTree();
 }
 
-void AddOp::outputTree() const {
+void AddOp::outputTree() const
+{
     cout << "AddOp" << endl;
     cout << "m_addopType is " << m_addopType << endl;
     cout << "m_lineno is " << m_lineno << endl;
@@ -366,7 +469,8 @@ void AddOp::outputTree() const {
         mp_Term->outputTree();
 }
 
-void RelOp::outputTree() const {
+void RelOp::outputTree() const
+{
     cout << "RelOp" << endl;
     cout << "m_relopType is " << m_relopType << endl;
     cout << "m_lineno is " << m_lineno << endl;
@@ -381,7 +485,8 @@ void RelOp::outputTree() const {
         mp_Simple_Expression_2->outputTree();
 }
 
-void Parameter::outputTree() const {
+void Parameter::outputTree() const
+{
     cout << "Parameter" << endl;
     cout << "m_isVal is " << m_isVal << endl;
     cout << "m_lineno is " << m_lineno << endl;
@@ -392,7 +497,8 @@ void Parameter::outputTree() const {
         mp_Id_List->outputTree();
 }
 
-void For::outputTree() const {
+void For::outputTree() const
+{
     cout << "For" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     if (mp_Id == nullptr)
@@ -413,7 +519,8 @@ void For::outputTree() const {
         mp_Statement->outputTree();
 }
 
-void IfThenElse::outputTree() const {
+void IfThenElse::outputTree() const
+{
     cout << "IfThenElse" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     if (mp_Expression == nullptr)
@@ -430,7 +537,8 @@ void IfThenElse::outputTree() const {
         mp_Statement_2->outputTree();
 }
 
-void AssignOp::outputTree() const {
+void AssignOp::outputTree() const
+{
     cout << "AssignOp" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     if (mp_Variable == nullptr)
@@ -443,7 +551,8 @@ void AssignOp::outputTree() const {
         mp_Expression->outputTree();
 }
 
-void ConstValue::outputTree() const {
+void ConstValue::outputTree() const
+{
     cout << "ConstValue" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     cout << "m_isId is " << m_isId << endl;
@@ -459,7 +568,8 @@ void ConstValue::outputTree() const {
         mp_Id->outputTree();
 }
 
-void Type::outputTree() const {
+void Type::outputTree() const
+{
     cout << "Type" << endl;
     cout << "m_simpleType is " << m_simpleType << endl;
     cout << "m_isArray is " << m_isArray << endl;
@@ -470,7 +580,8 @@ void Type::outputTree() const {
         mp_Period->outputTree();
 }
 
-void Uminus::outputTree() const {
+void Uminus::outputTree() const
+{
     cout << "Uminus" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     cout << "rangeVal is " << rangeVal << endl;
@@ -483,7 +594,8 @@ void Uminus::outputTree() const {
         mp_Factor->outputTree();
 }
 
-void Not::outputTree() const {
+void Not::outputTree() const
+{
     cout << "Not" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     if (mp_Factor == nullptr)
@@ -492,7 +604,8 @@ void Not::outputTree() const {
         mp_Factor->outputTree();
 }
 
-void Factor::outputTree() const {
+void Factor::outputTree() const
+{
     cout << "Factor" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     cout << "rangeVal is " << rangeVal << endl;
@@ -525,7 +638,8 @@ void Factor::outputTree() const {
         mp_Uminus->outputTree();
 }
 
-void Term::outputTree() const {
+void Term::outputTree() const
+{
     cout << "Term" << endl;
     cout << "m_lineno is " << m_lineno << endl;
     cout << "rangeVal is " << rangeVal << endl;
@@ -541,10 +655,11 @@ void Term::outputTree() const {
         mp_Factor->outputTree();
 }
 
-Procedure::Procedure(int M_lineno, Id *Mp_Id, ParameterList *Mp_Parameter_List,
+Procedure::Procedure(int lineno, Id *Mp_Id, ParameterList *Mp_Parameter_List,
                      ConstDeclarations *Mp_Const_Declarations, VarDeclarations *Mp_Var_Declarations,
-                     StatementList *Mp_Statement_List) {
-    m_lineno = M_lineno;
+                     StatementList *Mp_Statement_List)
+{
+    m_lineno = lineno;
     mp_Id = Mp_Id;
     mp_Parameter_List = Mp_Parameter_List;
     mp_Const_Declarations = Mp_Const_Declarations;
@@ -552,15 +667,15 @@ Procedure::Procedure(int M_lineno, Id *Mp_Id, ParameterList *Mp_Parameter_List,
     mp_Statement_List = Mp_Statement_List;
 }
 
-Function::Function(int M_returnType, int M_lineno, Id *Mp_Id, ParameterList *Mp_Parameter_List,
+Function::Function(int returnType, int lineno, Id *Mp_Id, ParameterList *Mp_Parameter_List,
                    ConstDeclarations *Mp_Const_Declarations, VarDeclarations *Mp_Var_Declarations,
-                   StatementList *Mp_Statement_List) {
-    m_returnType = M_returnType;
-    m_lineno = M_lineno;
+                   StatementList *Mp_Statement_List)
+{
+    m_returnType = returnType;
+    m_lineno = lineno;
     mp_Id = Mp_Id;
     mp_Parameter_List = Mp_Parameter_List;
     mp_Const_Declarations = Mp_Const_Declarations;
     mp_Var_Declarations = Mp_Var_Declarations;
     mp_Statement_List = Mp_Statement_List;
 }
-

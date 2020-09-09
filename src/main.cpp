@@ -11,19 +11,22 @@ using namespace std;
 
 extern Program *root;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     string fileName;
     string noExtendedNameFileName;
 
     // 处理文件名
-    if (argc != 2) {
-        cout << "Invalid arguments input" << endl;
+    if (argc != 2)
+    {
+        cout << "输入参数无效" << endl;
         exit(1);
     }
     fileName = argv[1];
     int pos = fileName.find('.');
-    if (pos == -1) {
-        cout << "Invalid file name" << endl;
+    if (pos == -1)
+    {
+        cout << "无效的文件" << endl;
         exit(1);
     }
     noExtendedNameFileName = fileName.substr(0, pos);
@@ -34,28 +37,23 @@ int main(int argc, char *argv[]) {
 
     if (lexical_and_syntax_analyse())
         exit(1);
-    cout << "词法&语法分析成功" << endl;
-
+    cout << "词法 & 语法分析成功" << endl;
 
     if (!semantic_analyse(root))
         exit(2);
     cout << "语义分析成功" << endl;
 
-
     generate_codes(root, noExtendedNameFileName);
     cout << "代码生成成功" << endl;
 
     // 生成二进制代码
-    if (COMPILE_TO_BIN) {
-        string gcc_job = "gcc -o ";
-        gcc_job += noExtendedNameFileName;
-        gcc_job += " ";
-        gcc_job += noExtendedNameFileName;
-        gcc_job += ".c";
-        cout << "   GCC PART 1: Doing gcc Compile!\n     "+ gcc_job << endl;
+    if (COMPILE_TO_BIN)
+    {
+        string gcc_job = "gcc -o " + noExtendedNameFileName + " " + noExtendedNameFileName + ".c";
+        cout << "开始可执行文件编译：" + gcc_job << endl;
         system(gcc_job.data());
-        cout << "GCC\t->\tgcc Compile Done!" << endl;
-        cout << "二进制代码文件：\'" + noExtendedNameFileName + "\'"<< endl;
+        cout << "编译结束" << endl;
+        cout << "可执行文件：\'" + noExtendedNameFileName + "\'" << endl;
     }
 
     return 0;
