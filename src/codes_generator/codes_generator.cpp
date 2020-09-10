@@ -122,7 +122,7 @@ string VarDeclarations::outputCodes()
 			codes += " ";
 
 			vector<Id *> mIdVector = i.first->getIds();
-			vector<pair<int, int>> mv_Period = i.second->getPeriod();
+			vector<pair<int, int>> periods = i.second->getPeriod();
 			string Period = i.second->codeGetPeriod();
 
 			for (int j = 0; j < mIdVector.size(); j++)
@@ -137,7 +137,7 @@ string VarDeclarations::outputCodes()
 					codes += ", ";
 
 				arr_id_list.emplace_back(Id, vector<int>());
-				for (auto &k : mv_Period)
+				for (auto &k : periods)
 				{
 					arr_id_list[arr_id_list.size() - 1].second.push_back(k.first);
 				}
@@ -308,7 +308,7 @@ string Parameter::outputCodes() const
 {
 	string codes;
 	string Type;
-	vector<Id *> mv_id = getIds();
+	vector<Id *> ids = getIds();
 
 	switch (mType)
 	{
@@ -332,11 +332,11 @@ string Parameter::outputCodes() const
 		throw TypeException();
 	}
 
-	for (int i = 0; i < mv_id.size(); i++)
+	for (int i = 0; i < ids.size(); i++)
 	{
 		codes += Type;
-		codes += mv_id[i]->outputCodes();
-		if (i != mv_id.size() - 1)
+		codes += ids[i]->outputCodes();
+		if (i != ids.size() - 1)
 			codes += ", ";
 	}
 
