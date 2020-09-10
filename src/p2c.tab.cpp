@@ -112,7 +112,7 @@
 #  endif
 # endif
 
-#include "p2c.tab.h"
+#include "../include/p2c.tab.h"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -2646,6 +2646,6 @@ int lexical_and_syntax_analyse() {
 
 
 extern void yyerror(const char* s) {
-	printf("line: %d, Error '%s'\n",yylineno,s);
+	printf("line %d: '%s'\n", yylineno, s);
 	errorNum++;
 }
