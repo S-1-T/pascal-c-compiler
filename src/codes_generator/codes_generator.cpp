@@ -1,5 +1,6 @@
 #include "codes_generator.h"
 #include "exceptions.h"
+#include "utils.h"
 
 #include <fstream>
 #include <strstream>
@@ -7,17 +8,6 @@
 using namespace std;
 
 vector<pair<string, vector<int>>> arr_id_list;
-
-template <class T>
-string type2str(T type)
-{
-	strstream ss;
-	ss << type;
-	string ret;
-	ss >> ret;
-
-	return ret;
-}
 
 string Program::outputCodes() const
 {
@@ -379,7 +369,7 @@ string Variable::outputCodes() const
 
 			codes += " - ";
 
-			codes += type2str(arr_id_list[index].second[i]);
+			codes += to_str(arr_id_list[index].second[i]);
 
 			codes += "]";
 		}
@@ -577,16 +567,16 @@ string Factor::outputCodes() const
 		break;
 
 	case FACTOR_VALUE_INT:
-		codes += type2str(mInt);
+		codes += to_str(mInt);
 		break;
 
 	case FACTOR_VALUE_REAL:
-		codes += type2str(mReal);
+		codes += to_str(mReal);
 		break;
 
 	case FACTOR_VALUE_CHAR:
 		codes += "\'";
-		codes += type2str(mChar);
+		codes += to_str(mChar);
 		codes += "\'";
 		break;
 
@@ -741,16 +731,16 @@ string ConstValue::outputCodes() const
 		switch (mValueType)
 		{
 		case TYPE_INTEGER:
-			codes += type2str(mInt);
+			codes += to_str(mInt);
 			break;
 
 		case TYPE_REAL:
-			codes += type2str(mReal);
+			codes += to_str(mReal);
 			break;
 
 		case TYPE_CHAR:
 			codes += "\'";
-			codes += type2str(mChar);
+			codes += to_str(mChar);
 			codes += "\'";
 			break;
 
@@ -819,7 +809,7 @@ string Period::outputCodes()
 	{
 		int n = i.second - i.first + 1;
 		codes += "[";
-		codes += type2str(n);
+		codes += to_str(n);
 		codes += "]";
 	}
 
