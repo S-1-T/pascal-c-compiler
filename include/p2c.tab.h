@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.7.2.  */
+/* A Bison parser, made by GNU Bison 3.7.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -36,145 +36,147 @@
    private implementation details that can be changed or removed.  */
 
 #ifndef YY_YY_P2C_TAB_H_INCLUDED
-#define YY_YY_P2C_TAB_H_INCLUDED
+# define YY_YY_P2C_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-#define YYDEBUG 0
+# define YYDEBUG 0
 #endif
 #if YYDEBUG
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 1 "yacc/p2c.y"
+#line 1 ".\\yacc\\p2c.y"
 
-#include "const.h"
-#include "syntax_tree.h"
+	#include "const.h"
+	#include "syntax_tree.h"
 
 #line 54 "p2c.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
-#define YYTOKENTYPE
-enum yytokentype
-{
-  YYEMPTY = -2,
-  YYEOF = 0,           /* "end of file"  */
-  YYerror = 256,       /* error  */
-  YYUNDEF = 257,       /* "invalid token"  */
-  AND = 258,           /* AND  */
-  ARRAY = 259,         /* ARRAY  */
-  BEGIN_L = 260,       /* BEGIN_L  */
-  BOOLEAN = 261,       /* BOOLEAN  */
-  CASE = 262,          /* CASE  */
-  CHAR = 263,          /* CHAR  */
-  CONST = 264,         /* CONST  */
-  DIV = 265,           /* DIV  */
-  DO = 266,            /* DO  */
-  DOWNTO = 267,        /* DOWNTO  */
-  ELSE = 268,          /* ELSE  */
-  END = 269,           /* END  */
-  FOR = 270,           /* FOR  */
-  FUNCTION = 271,      /* FUNCTION  */
-  IF = 272,            /* IF  */
-  INTEGER = 273,       /* INTEGER  */
-  MOD = 274,           /* MOD  */
-  NOT = 275,           /* NOT  */
-  OF = 276,            /* OF  */
-  OR = 277,            /* OR  */
-  PROCEDURE = 278,     /* PROCEDURE  */
-  PROGRAM = 279,       /* PROGRAM  */
-  REAL = 280,          /* REAL  */
-  RECORD = 281,        /* RECORD  */
-  REPEAT = 282,        /* REPEAT  */
-  THEN = 283,          /* THEN  */
-  TO = 284,            /* TO  */
-  TYPE = 285,          /* TYPE  */
-  UNTIL = 286,         /* UNTIL  */
-  VAR = 287,           /* VAR  */
-  WHILE = 288,         /* WHILE  */
-  SUBBOUNDARY = 289,   /* SUBBOUNDARY  */
-  ASSIGNOP = 290,      /* ASSIGNOP  */
-  LE_OP = 291,         /* LE_OP  */
-  GE_OP = 292,         /* GE_OP  */
-  EQ_OP = 293,         /* EQ_OP  */
-  NE_OP = 294,         /* NE_OP  */
-  else_conflict = 295, /* else_conflict  */
-  DIGITS = 296,        /* DIGITS  */
-  NUMBER = 297,        /* NUMBER  */
-  IDENTIFIER = 298,    /* IDENTIFIER  */
-  LETTER = 299,        /* LETTER  */
-  BOOL = 300           /* BOOL  */
-};
-typedef enum yytokentype yytoken_kind_t;
+# define YYTOKENTYPE
+  enum yytokentype
+  {
+    YYEMPTY = -2,
+    YYEOF = 0,                     /* "end of file"  */
+    YYerror = 256,                 /* error  */
+    YYUNDEF = 257,                 /* "invalid token"  */
+    AND = 258,                     /* AND  */
+    ARRAY = 259,                   /* ARRAY  */
+    BEGIN_L = 260,                 /* BEGIN_L  */
+    BOOLEAN = 261,                 /* BOOLEAN  */
+    CASE = 262,                    /* CASE  */
+    CHAR = 263,                    /* CHAR  */
+    CONST = 264,                   /* CONST  */
+    DIV = 265,                     /* DIV  */
+    DO = 266,                      /* DO  */
+    DOWNTO = 267,                  /* DOWNTO  */
+    ELSE = 268,                    /* ELSE  */
+    END = 269,                     /* END  */
+    FOR = 270,                     /* FOR  */
+    FUNCTION = 271,                /* FUNCTION  */
+    IF = 272,                      /* IF  */
+    INTEGER = 273,                 /* INTEGER  */
+    MOD = 274,                     /* MOD  */
+    NOT = 275,                     /* NOT  */
+    OF = 276,                      /* OF  */
+    OR = 277,                      /* OR  */
+    PROCEDURE = 278,               /* PROCEDURE  */
+    PROGRAM = 279,                 /* PROGRAM  */
+    REAL = 280,                    /* REAL  */
+    RECORD = 281,                  /* RECORD  */
+    REPEAT = 282,                  /* REPEAT  */
+    THEN = 283,                    /* THEN  */
+    TO = 284,                      /* TO  */
+    TYPE = 285,                    /* TYPE  */
+    UNTIL = 286,                   /* UNTIL  */
+    VAR = 287,                     /* VAR  */
+    WHILE = 288,                   /* WHILE  */
+    SUBBOUNDARY = 289,             /* SUBBOUNDARY  */
+    ASSIGNOP = 290,                /* ASSIGNOP  */
+    LE_OP = 291,                   /* LE_OP  */
+    GE_OP = 292,                   /* GE_OP  */
+    EQ_OP = 293,                   /* EQ_OP  */
+    NE_OP = 294,                   /* NE_OP  */
+    else_conflict = 295,           /* else_conflict  */
+    DIGITS = 296,                  /* DIGITS  */
+    NUMBER = 297,                  /* NUMBER  */
+    IDENTIFIER = 298,              /* IDENTIFIER  */
+    LETTER = 299,                  /* LETTER  */
+    BOOL = 300                     /* BOOL  */
+  };
+  typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
-#if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 40 "yacc/p2c.y"
+#line 38 ".\\yacc\\p2c.y"
 
-  Program *program;
-  ProgramBody *programBody;
-  ConstDeclarations *constDeclarations;
-  VarDeclarations *varDeclarations;
-  SubProgramDeclarations *subProgramDeclarations;
-  StatementList *statementList;
-  Common *common;
-  Procedure *procedure;
-  Function *function;
-  Statement *statement;
-  ParameterList *parameterList;
-  Variable *variable;
-  ProcedureCall *procedureCall;
-  FunctionCall *functionCall;
-  Expression *expression;
-  SimpleExpression *simpleExpression;
-  Term *term;
-  Factor *factor;
-  Not *NOt;
-  Uminus *uminus;
-  Type *type;
-  ConstValue *constValue;
-  AssignOp *assignOp;
-  IfThenElse *ifThenElse;
-  For *FOr;
-  Parameter *parameter;
-  RelOp *relOp;
-  AddOp *addOp;
-  MulOp *mulOp;
-  Id *id;
-  IdList *idList;
-  Period *period;
-  ExpressionList *expressionList;
-  ProgramHead *programHead;
-  CompoundStatement *compoundStatement;
-  ConstDeclaration *constDeclaration;
-  VarDeclaration *varDeclaration;
-  SubProgramDeclaration *subProgramDeclaration;
-  Subprogram *subprogram;
-  SubprogramHead *subprogramHead;
-  SubprogramBody *subprogramBody;
-  FormalParameter *formalParameter;
-  VarParameter *varParameter;
-  ValueParameter *valueParameter;
-  IdVarPart *idVarPart;
-  int m_int;
-  float m_float;
-  std::string *m_str;
-  char m_char;
-  bool m_bool;
+	Program* program;
+	ProgramBody* programBody;
+	ConstDeclarations* constDeclarations;
+	VarDeclarations* varDeclarations;
+	SubProgramDeclarations* subProgramDeclarations;
+	StatementList* statementList;
+	Common* common;
+	Procedure* procedure;
+	Function* function;
+	Statement* statement;
+	ParameterList* parameterList;
+	Variable* variable;
+	ProcedureCall* procedureCall;
+	FunctionCall* functionCall;
+	Expression* expression;
+	SimpleExpression* simpleExpression;
+	Term* term;
+	Factor* factor;
+	Not* NOt;
+	Uminus* uminus;
+	Type* type;
+	ConstValue* constValue;
+	AssignOp* assignOp;
+	IfThenElse* ifThenElse;
+	For* FOr;
+	Parameter* parameter;
+	RelOp* relOp;
+	AddOp* addOp;
+	MulOp* mulOp;
+	Id* id;
+	IdList* idList;
+	Period* period;
+	ExpressionList* expressionList;
+	ProgramHead* programHead;
+	CompoundStatement* compoundStatement;
+	ConstDeclaration* constDeclaration;
+	VarDeclaration* varDeclaration;
+	SubProgramDeclaration* subProgramDeclaration;
+	Subprogram* subprogram;
+	SubprogramHead* subprogramHead;
+	SubprogramBody* subprogramBody;
+	FormalParameter* formalParameter;
+	VarParameter* varParameter;
+	ValueParameter* valueParameter;
+	IdVarPart* idVarPart;
+	int mInt;
+	float mFloat;
+	std::string* mStr;
+	char mChar;
+ 	bool mBool;
 
 #line 169 "p2c.tab.h"
+
 };
 typedef union YYSTYPE YYSTYPE;
-#define YYSTYPE_IS_TRIVIAL 1
-#define YYSTYPE_IS_DECLARED 1
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
 #endif
+
 
 extern YYSTYPE yylval;
 
-int yyparse(void);
+int yyparse (void);
 
 int lexical_and_syntax_analyse();
 

@@ -33,8 +33,8 @@ struct Property
 
     Ranges array_ranges; // 数组的范围（可能是多维）
 
-    SUBPROGRAM_TYPE subprogram_type; // 若是子程序（函数或过程）则记录返回类型
-    int subprogram_args_num;         // 子程序参数个数
+    SUBPROGRAM_TYPE subprogramtype; // 若是子程序（函数或过程）则记录返回类型
+    int subprogramargs_num;         // 子程序参数个数
     vector<bool> nargs_var_or_not;   // 参数是否是变量（每个参数）
     SubprogramArgsType nargs_types;  // 每个参数的类型
 
@@ -88,7 +88,7 @@ public:
     // 将变量加入符号表
     bool add_var_symbols(VarDeclarations *var_declarations);
     // 将子函数加入符号便
-    bool add_subprogram_symbols(SubProgramDeclarations *subProgram_declarations);
+    bool add_subprogramsymbols(SubProgramDeclarations *subProgramdeclarations);
     // 判断符号表中是否有某符号
     bool exists(const string &symbol_name);
     // 判断某符号是否为保留字

@@ -1,8 +1,8 @@
-program selectsort(input, output);
+program select_sort(input, output);
 var
     n, i : integer;
     a : array[1..100] of integer;
-procedure ssort;
+procedure sort;
     var
         i, j, k, t : integer;
     begin
@@ -24,7 +24,7 @@ begin
     readln(n);
     for i := 1 to n do
         read(a[i]);
-    ssort;
+    sort;
     for i := 1 to n do
         writeln(a[i]);
     writeln;

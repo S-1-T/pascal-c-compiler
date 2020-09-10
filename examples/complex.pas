@@ -1,4 +1,4 @@
-program test(intput, output); // 这里检测注释风格1 ;
+program complex(intput, output); // 这里检测注释风格1 ;
 const
     MAX = 123;      // 检测 + - const = 各种 const 风格
     MIN = -123;

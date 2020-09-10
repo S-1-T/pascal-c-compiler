@@ -1,4 +1,4 @@
- example(input,output);                 //测试program_head的错误处理
+ example(input,output);                 //测试programhead的错误处理
 const a = '1';                          
       b := '45'                         //测试常量声明部分的错误处理                     
 var x,y,z : integer;    

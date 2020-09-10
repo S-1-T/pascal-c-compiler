@@ -1,4 +1,6 @@
 #include "codes_generator.h"
+#include "exceptions.h"
+
 #include <fstream>
 #include <strstream>
 
@@ -6,11 +8,11 @@ using namespace std;
 
 vector<pair<string, vector<int>>> arr_id_list;
 
-template <class src_type>
-string type2str(src_type src)
+template <class T>
+string type2str(T type)
 {
 	strstream ss;
-	ss << src;
+	ss << type;
 	string ret;
 	ss >> ret;
 
@@ -20,7 +22,7 @@ string type2str(src_type src)
 string Program::outputCodes() const
 {
 
-	string Code_head =
+	string head =
 		"#include <stdio.h>\n"
 		"#include <stdlib.h>\n"
 		"\n"
@@ -29,9 +31,9 @@ string Program::outputCodes() const
 		"#define false 0\n"
 		"\n";
 
-	string Code_program_body = m_PProgramBody->outputCodes();
+	string programBody = mProgramBody->outputCodes();
 
-	string codes = Code_head + Code_program_body;
+	string codes = head + programBody;
 
 	return codes;
 }
@@ -39,25 +41,25 @@ string Program::outputCodes() const
 string ProgramBody::outputCodes() const
 {
 
-	string Code_const = m_PConstDeclarations->outputCodes();
+	string _const = mConstDeclarations->outputCodes();
 
-	string Code_var = m_PVarDeclarations->outputCodes();
+	string var = mVarDeclarations->outputCodes();
 
-	string Code_sub_program = m_PSubProgramDeclarations->outputCodes();
+	string sub_program = mSubProgramDeclarations->outputCodes();
 
-	string Code_main_begin =
+	string main_begin =
 		"int main(int argc, char* argv[]) {\n";
 
-	string Code_Statement_List = m_PStatementList->outputCodes();
+	string Statement_List = mStatementList->outputCodes();
 
-	string Code_main_end =
+	string main_end =
 		"	return 0;\n"
 		"}\n"
 		"\n";
 
-	string Code_Return = Code_const + Code_var + Code_sub_program + Code_main_begin + Code_Statement_List + Code_main_end;
+	string Return = _const + var + sub_program + main_begin + Statement_List + main_end;
 
-	return Code_Return;
+	return Return;
 }
 
 string ConstDeclarations::outputCodes()
@@ -65,11 +67,11 @@ string ConstDeclarations::outputCodes()
 
 	string codes = "\n";
 
-	for (auto &i : m_ConstVector)
+	for (auto &i : mConstVector)
 	{
 		bool CONST_ID = false;
 
-		switch (i.second->func_checkValueType())
+		switch (i.second->checkValueType())
 		{
 		case TYPE_INTEGER:
 			codes += "const int ";
@@ -92,17 +94,16 @@ string ConstDeclarations::outputCodes()
 			codes += i.first->outputCodes();
 			codes += " ";
 
-			if (i.second->m_postNeg == CONST_NEGATIVE)
+			if (i.second->mPolarity == CONST_NEGATIVE)
 				codes += "-";
-			codes += i.second->m_PID->outputCodes();
+			codes += i.second->mId->outputCodes();
 			codes += " \n";
 			CONST_ID = true;
 
 			break;
 
 		default:
-			throw "Invalid Type!!!";
-			break;
+			throw TypeException();
 		}
 		if (!CONST_ID)
 		{
@@ -122,7 +123,7 @@ string VarDeclarations::outputCodes()
 {
 	string codes = "\n";
 
-	for (auto &i : m_VariableVector)
+	for (auto &i : mVariableVector)
 	{
 		if (i.second->checkIsArray())
 		{
@@ -130,22 +131,22 @@ string VarDeclarations::outputCodes()
 			codes += i.second->outputCodes();
 			codes += " ";
 
-			vector<Id *> m_IDVector = i.first->getIds();
+			vector<Id *> mIdVector = i.first->getIds();
 			vector<pair<int, int>> mv_Period = i.second->getPeriod();
-			string Code_Period = i.second->codeGetPeriod();
+			string Period = i.second->codeGetPeriod();
 
-			for (int j = 0; j < m_IDVector.size(); j++)
+			for (int j = 0; j < mIdVector.size(); j++)
 			{
 
-				string Code_Id = m_IDVector[j]->outputCodes();
+				string Id = mIdVector[j]->outputCodes();
 
-				codes += Code_Id;	  // A
-				codes += Code_Period; // [n]
+				codes += Id;	  // A
+				codes += Period; // [n]
 
-				if (j != m_IDVector.size() - 1)
+				if (j != mIdVector.size() - 1)
 					codes += ", ";
 
-				arr_id_list.emplace_back(Code_Id, vector<int>());
+				arr_id_list.emplace_back(Id, vector<int>());
 				for (auto &k : mv_Period)
 				{
 					arr_id_list[arr_id_list.size() - 1].second.push_back(k.first);
@@ -173,7 +174,7 @@ string SubProgramDeclarations::outputCodes()
 {
 	string codes;
 
-	for (auto &i : m_CommonVector)
+	for (auto &i : mCommonVector)
 	{
 		codes += i->outputCodes();
 	}
@@ -185,7 +186,7 @@ string StatementList::outputCodes(const string &name)
 {
 	string codes = "\n";
 
-	for (auto &i : m_StatementVector)
+	for (auto &i : mStatementVector)
 	{
 		codes += i->outputCodes(name);
 		codes += "\n";
@@ -202,16 +203,16 @@ string Procedure::outputCodes()
 	string codes = "\n";
 
 	codes += "void ";
-	string pro_name = m_PID->outputCodes();
+	string pro_name = mId->outputCodes();
 	codes += pro_name;
 	codes += "(";
-	if (m_PParameterList)
-		codes += m_PParameterList->outputCodes();
+	if (mParameterList)
+		codes += mParameterList->outputCodes();
 	codes += ") {\n";
 
-	codes += m_PConstDeclarations->outputCodes();
-	codes += m_PVarDeclarations->outputCodes();
-	codes += m_PStatementList->outputCodes(pro_name);
+	codes += mConstDeclarations->outputCodes();
+	codes += mVarDeclarations->outputCodes();
+	codes += mStatementList->outputCodes(pro_name);
 
 	codes += "}\n";
 	codes += "\n";
@@ -242,20 +243,19 @@ string Function::outputCodes()
 		break;
 
 	default:
-		throw "Invalid Type!!!";
-		break;
+        throw TypeException();
 	}
 
-	string functionName = m_PID->outputCodes();
+	string functionName = mId->outputCodes();
 	codes += functionName;
 	codes += "(";
-	if (m_PParameterList)
-		codes += m_PParameterList->outputCodes();
+	if (mParameterList)
+		codes += mParameterList->outputCodes();
 	codes += ") {\n";
 
-	codes += m_PConstDeclarations->outputCodes();
-	codes += m_PVarDeclarations->outputCodes();
-	codes += m_PStatementList->outputCodes(functionName);
+	codes += mConstDeclarations->outputCodes();
+	codes += mVarDeclarations->outputCodes();
+	codes += mStatementList->outputCodes(functionName);
 
 	codes += "}\n";
 	codes += "\n";
@@ -267,33 +267,32 @@ string Statement::outputCodes(const string &name) const
 {
 	string codes;
 
-	switch (m_stateType)
+	switch (mStateType)
 	{
 	case STATEMENT_ASSIGN:
-		codes += mp_AssignOp->outputCodes(name);
+		codes += mAssignOp->outputCodes(name);
 		break;
 
 	case STATEMENT_PROCEDURE:
-		codes += mp_Procedure_call->outputCodes();
+		codes += mProcedure_call->outputCodes();
 		break;
 
 	case STATEMENT_COMPOUND:
 		codes += "{\n";
-		codes += m_PStatementList->outputCodes(name);
+		codes += mStatementList->outputCodes(name);
 		codes += "}\n";
 		break;
 
 	case STATEMENT_IF:
-		codes += mp_If_Then_Else->outputCodes(name);
+		codes += mIfThenElse->outputCodes(name);
 		break;
 
 	case STATEMENT_FOR:
-		codes += mp_For->outputCodes(name);
+		codes += mFor->outputCodes(name);
 		break;
 
 	default:
-		throw "Invalid statement TYPE!!!";
-		break;
+		throw StatementException();
 	}
 
 	return codes;
@@ -303,10 +302,10 @@ string ParameterList::outputCodes()
 {
 	string codes;
 
-	for (int i = 0; i < mv_Patameter.size(); i++)
+	for (int i = 0; i < mParameters.size(); i++)
 	{
-		codes += mv_Patameter[i]->outputCodes();
-		if (i != mv_Patameter.size() - 1)
+		codes += mParameters[i]->outputCodes();
+		if (i != mParameters.size() - 1)
 		{
 			codes += ", ";
 		}
@@ -315,38 +314,37 @@ string ParameterList::outputCodes()
 	return codes;
 }
 
-string Parameter::outputCodes()
+string Parameter::outputCodes() const
 {
 	string codes;
-	string Code_Type;
+	string Type;
 	vector<Id *> mv_id = getIds();
 
-	switch (m_Type)
+	switch (mType)
 	{
 	case TYPE_INTEGER:
-		Code_Type += "int ";
+		Type += "int ";
 		break;
 
 	case TYPE_REAL:
-		Code_Type += "float ";
+		Type += "float ";
 		break;
 
 	case TYPE_CHAR:
-		Code_Type += "char ";
+		Type += "char ";
 		break;
 
 	case TYPE_BOOLEAN:
-		Code_Type += "bool ";
+		Type += "bool ";
 		break;
 
 	default:
-		throw "Invalid Type!!!";
-		break;
+		throw TypeException();
 	}
 
 	for (int i = 0; i < mv_id.size(); i++)
 	{
-		codes += Code_Type;
+		codes += Type;
 		codes += mv_id[i]->outputCodes();
 		if (i != mv_id.size() - 1)
 			codes += ", ";
@@ -359,11 +357,11 @@ string Variable::outputCodes() const
 {
 	string codes;
 
-	codes += m_PID->outputCodes();
+	codes += mId->outputCodes();
 
-	if (m_isArray)
+	if (misArray)
 	{
-		vector<Expression *> m_ExpressionVector = mp_Expression_List->getExpressions();
+		vector<Expression *> mExpressionVector = mExpressionList->getExpressions();
 
 		int index = -1;
 		for (int i = 0; i < arr_id_list.size(); i++)
@@ -373,11 +371,11 @@ string Variable::outputCodes() const
 				break;
 			}
 
-		for (int i = 0; i < m_ExpressionVector.size(); i++)
+		for (int i = 0; i < mExpressionVector.size(); i++)
 		{
 			codes += "[";
 
-			codes += m_ExpressionVector[i]->outputCodes();
+			codes += mExpressionVector[i]->outputCodes();
 
 			codes += " - ";
 
@@ -393,32 +391,32 @@ string Variable::outputCodes() const
 string ProcedureCall::outputCodes() const
 {
 	string codes;
-	string Code_FormateStr;
+	string format;
 
-	if (mp_Expression_List)
+	if (mExpressionList)
 	{
-		vector<int> m_TypeVector = mp_Expression_List->getTypes();
+		vector<int> mTypeVector = mExpressionList->getTypes();
 
-		if (m_proCall_Tpye != PROCECALL_NORMAL)
+		if (mProcedureCallType != PROCECALL_NORMAL)
 		{
-			for (int i : m_TypeVector)
+			for (int i : mTypeVector)
 			{
 				switch (i)
 				{
 				case TYPE_INTEGER:
-					Code_FormateStr += "%d";
+					format += "%d";
 					break;
 
 				case TYPE_REAL:
-					Code_FormateStr += "%f";
+					format += "%f";
 					break;
 
 				case TYPE_CHAR:
-					Code_FormateStr += "%c";
+					format += "%c";
 					break;
 
 				case TYPE_BOOLEAN:
-					Code_FormateStr += "%d";
+					format += "%d";
 					break;
 
 				default:
@@ -428,61 +426,61 @@ string ProcedureCall::outputCodes() const
 		}
 	}
 
-	string t_idName = m_PID->getName();
-	if (m_proCall_Tpye == PROCECALL_READ)
+	string t_idName = mId->getName();
+	if (mProcedureCallType == PROCECALL_READ)
 	{
 		codes += "scanf(\"";
-		codes += Code_FormateStr;
+		codes += format;
 		codes += "\"";
-		if (mp_Expression_List)
+		if (mExpressionList)
 		{
 			codes += ", ";
-			codes += mp_Expression_List->outputCodes(true);
+			codes += mExpressionList->outputCodes(true);
 		}
 		codes += ");";
 	}
-	else if (m_proCall_Tpye == PROCECALL_READLN)
+	else if (mProcedureCallType == PROCECALL_READLN)
 	{
 		codes += "scanf(\"";
-		codes += Code_FormateStr;
+		codes += format;
 		codes += "\"";
-		if (mp_Expression_List)
+		if (mExpressionList)
 		{
 			codes += ", ";
-			codes += mp_Expression_List->outputCodes(true);
+			codes += mExpressionList->outputCodes(true);
 		}
 		codes += "); getchar();";
 	}
-	else if (m_proCall_Tpye == PROCECALL_WRITE)
+	else if (mProcedureCallType == PROCECALL_WRITE)
 	{
 		codes += "printf(\"";
-		codes += Code_FormateStr;
+		codes += format;
 		codes += "\"";
-		if (mp_Expression_List)
+		if (mExpressionList)
 		{
 			codes += ", ";
-			codes += mp_Expression_List->outputCodes();
+			codes += mExpressionList->outputCodes();
 		}
 		codes += ");";
 	}
-	else if (m_proCall_Tpye == PROCECALL_WRITELN)
+	else if (mProcedureCallType == PROCECALL_WRITELN)
 	{
 		codes += "printf(\"";
-		codes += Code_FormateStr;
+		codes += format;
 		codes += "\\n\"";
-		if (mp_Expression_List)
+		if (mExpressionList)
 		{
 			codes += ", ";
-			codes += mp_Expression_List->outputCodes();
+			codes += mExpressionList->outputCodes();
 		}
 		codes += ");";
 	}
 	else
 	{
-		codes += m_PID->outputCodes();
+		codes += mId->outputCodes();
 		codes += "(";
-		if (mp_Expression_List)
-			codes += mp_Expression_List->outputCodes();
+		if (mExpressionList)
+			codes += mExpressionList->outputCodes();
 		codes += ");";
 	}
 
@@ -493,10 +491,10 @@ string FunctionCall::outputCodes() const
 {
 	string codes;
 
-	codes += m_PID->outputCodes();
+	codes += mId->outputCodes();
 	codes += "(";
-	if (mp_Expression_List)
-		codes += mp_Expression_List->outputCodes();
+	if (mExpressionList)
+		codes += mExpressionList->outputCodes();
 	codes += ")";
 
 	return codes;
@@ -506,13 +504,13 @@ string Expression::outputCodes() const
 {
 	string codes;
 
-	if (mp_Relop != nullptr)
+	if (mRelOp != nullptr)
 	{
-		codes += mp_Relop->outputCodes();
+		codes += mRelOp->outputCodes();
 	}
 	else
 	{
-		codes += mp_Simple_Expression->outputCodes();
+		codes += mSimpleExpression->outputCodes();
 	}
 
 	return codes;
@@ -522,13 +520,13 @@ string SimpleExpression::outputCodes() const
 {
 	string codes;
 
-	if (mp_AddOp != nullptr)
+	if (mAddOp != nullptr)
 	{
-		codes += mp_AddOp->outputCodes();
+		codes += mAddOp->outputCodes();
 	}
 	else
 	{
-		codes += m_PTerm->outputCodes();
+		codes += mTerm->outputCodes();
 	}
 
 	return codes;
@@ -538,13 +536,13 @@ string Term::outputCodes() const
 {
 	string codes;
 
-	if (mp_MulOp != nullptr)
+	if (mMulOp != nullptr)
 	{
-		codes += mp_MulOp->outputCodes();
+		codes += mMulOp->outputCodes();
 	}
 	else
 	{
-		codes += m_PFactor->outputCodes();
+		codes += mFactor->outputCodes();
 	}
 
 	return codes;
@@ -554,54 +552,53 @@ string Factor::outputCodes() const
 {
 	string codes;
 
-	switch (m_factorType)
+	switch (mFactorType)
 	{
 	case FACTOR_VAR:
-		codes += mp_Variable->outputCodes();
+		codes += mVariable->outputCodes();
 		break;
 
 	case FACTOR_FUNCCALL:
-		codes += mp_Function_Call->outputCodes();
+		codes += mFunction_Call->outputCodes();
 		break;
 
 	case FACTOR_BRACKETS:
 		codes += "(";
-		codes += mp_Expression->outputCodes();
+		codes += mExpression->outputCodes();
 		codes += ")";
 		break;
 
 	case FACTOR_NOT:
-		codes += mp_Not->outputCodes();
+		codes += mNot->outputCodes();
 		break;
 
 	case FACTOR_UMINUS:
-		codes += mp_Uminus->outputCodes();
+		codes += mUminus->outputCodes();
 		break;
 
 	case FACTOR_VALUE_INT:
-		codes += type2str(m_int);
+		codes += type2str(mInt);
 		break;
 
 	case FACTOR_VALUE_REAL:
-		codes += type2str(m_real);
+		codes += type2str(mReal);
 		break;
 
 	case FACTOR_VALUE_CHAR:
 		codes += "\'";
-		codes += type2str(m_char);
+		codes += type2str(mChar);
 		codes += "\'";
 		break;
 
 	case FACTOR_VALUE_BOOL:
-		if (m_bool)
+		if (mBool)
 			codes += "true";
 		else
 			codes += "false";
 		break;
 
 	default:
-		throw "Invalid FACTORTYPE!!!";
-		break;
+		throw FactorException();
 	}
 
 	return codes;
@@ -611,7 +608,7 @@ string Not::outputCodes() const
 {
 	string codes = "!";
 
-	codes += m_PFactor->outputCodes();
+	codes += mFactor->outputCodes();
 
 	return codes;
 }
@@ -620,7 +617,7 @@ string Uminus::outputCodes() const
 {
 	string codes;
 
-	switch (m_unimusType)
+	switch (mUnimusType)
 	{
 	case UMINUS_POSITIVE:
 		codes += "+";
@@ -631,11 +628,10 @@ string Uminus::outputCodes() const
 		break;
 
 	default:
-		throw "Invalid UMINUS_TYPE!!!";
-		break;
+		throw UminusException();
 	}
 
-	codes += m_PFactor->outputCodes();
+	codes += mFactor->outputCodes();
 
 	return codes;
 }
@@ -644,7 +640,7 @@ string AssignOp::outputCodes(const string &name) const
 {
 	string codes;
 
-	codes += mp_Variable->outputCodes();
+	codes += mVariable->outputCodes();
 	if (codes != name)
 	{
 		codes += " = ";
@@ -653,7 +649,7 @@ string AssignOp::outputCodes(const string &name) const
 	{
 		codes = "return ";
 	}
-	codes += mp_Expression->outputCodes();
+	codes += mExpression->outputCodes();
 	codes += ";";
 
 	return codes;
@@ -663,39 +659,39 @@ string IfThenElse::outputCodes(const string &name) const
 {
 	string codes = "if (";
 
-	codes += mp_Expression->outputCodes();
+	codes += mExpression->outputCodes();
 	codes += ") {\n";
-	codes += mp_Statement_1->outputCodes(name);
+	codes += mStatement_1->outputCodes(name);
 	codes += "\n}";
 
-	if (mp_Statement_2 != nullptr)
+	if (mStatement_2 != nullptr)
 	{
 		codes += "\nelse {\n";
-		codes += mp_Statement_2->outputCodes(name);
+		codes += mStatement_2->outputCodes(name);
 		codes += "\n}";
 	}
 
 	return codes;
 }
 
-string For::outputCodes(string name) const
+string For::outputCodes(const string& name) const
 {
 	string codes = "for (";
 
-	codes += m_PID->outputCodes();
+	codes += mId->outputCodes();
 	codes += " = ";
-	codes += mp_Expression_1->outputCodes();
+	codes += mExpression_1->outputCodes();
 	codes += " ; ";
 
-	codes += m_PID->outputCodes();
+	codes += mId->outputCodes();
 	codes += " <= ";
-	codes += mp_Expression_2->outputCodes();
+	codes += mExpression_2->outputCodes();
 	codes += " ; ";
 
-	codes += m_PID->outputCodes();
+	codes += mId->outputCodes();
 	codes += "++ ) {\n";
 
-	codes += mp_Statement->outputCodes(name);
+	codes += mStatement->outputCodes(name);
 	codes += "\n}";
 
 	return codes;
@@ -705,11 +701,11 @@ string Id::outputCodes() const
 {
 	string codes;
 
-	if (m_IsVal)
+	if (mIsVal)
 	{
 		codes += "*";
 	}
-	codes += m_Name;
+	codes += mName;
 
 	return codes;
 }
@@ -719,7 +715,7 @@ string ConstValue::outputCodes() const
 
 	string codes;
 
-	switch (m_postNeg)
+	switch (mPolarity)
 	{
 	case CONST_NEGATIVE:
 		codes += "-";
@@ -733,41 +729,39 @@ string ConstValue::outputCodes() const
 		break;
 
 	default:
-		throw "Invalid CONST_POSTNEG Type!!!!";
-		break;
+		throw ConstException();
 	}
 
-	if (m_isId)
+	if (misId)
 	{
-		codes += m_PID->outputCodes();
+		codes += mId->outputCodes();
 	}
 	else
 	{
-		switch (m_valueType)
+		switch (mValueType)
 		{
 		case TYPE_INTEGER:
-			codes += type2str(m_int);
+			codes += type2str(mInt);
 			break;
 
 		case TYPE_REAL:
-			codes += type2str(m_real);
+			codes += type2str(mReal);
 			break;
 
 		case TYPE_CHAR:
 			codes += "\'";
-			codes += type2str(m_char);
+			codes += type2str(mChar);
 			codes += "\'";
 			break;
 
 		case TYPE_BOOLEAN:
-			if (m_bool)
+			if (mBool)
 				codes += "true";
 			else
 				codes += "false";
 
 		default:
-			throw "Invalid BASIC Type!!!";
-			break;
+			throw TypeException();
 		}
 	}
 
@@ -778,10 +772,10 @@ string IdList::outputCodes()
 {
 	string codes;
 
-	for (int i = 0; i < m_IDVector.size(); i++)
+	for (int i = 0; i < mIdVector.size(); i++)
 	{
-		codes += m_IDVector[i]->outputCodes();
-		if (i != m_IDVector.size() - 1)
+		codes += mIdVector[i]->outputCodes();
+		if (i != mIdVector.size() - 1)
 			codes += ", ";
 	}
 
@@ -792,7 +786,7 @@ string Type::outputCodes() const
 {
 	string codes;
 
-	switch (m_SimpleType)
+	switch (mSimpleType)
 	{
 	case TYPE_INTEGER:
 		codes += "int";
@@ -811,8 +805,7 @@ string Type::outputCodes() const
 		break;
 
 	default:
-		throw "Invalid TYPE!!!";
-		break;
+		throw TypeException();
 	}
 
 	return codes;
@@ -822,9 +815,9 @@ string Period::outputCodes()
 {
 	string codes;
 
-	for (int i = 0; i < m_DimsVector.size(); i++)
+	for (auto & i : mDimsVector)
 	{
-		int n = m_DimsVector[i].second - m_DimsVector[i].first + 1;
+		int n = i.second - i.first + 1;
 		codes += "[";
 		codes += type2str(n);
 		codes += "]";
@@ -837,9 +830,9 @@ string RelOp::outputCodes() const
 {
 	string codes;
 
-	codes += mp_Simple_Expression_1->outputCodes();
+	codes += mSimple_Expression_1->outputCodes();
 
-	switch (m_relopType)
+	switch (mRelOpType)
 	{
 	case OP_EQUAL:
 		codes += " == ";
@@ -866,11 +859,10 @@ string RelOp::outputCodes() const
 		break;
 
 	default:
-		throw "Invalid RELOP_TYPE!!!";
-		break;
+		throw OperatorException();
 	}
 
-	codes += mp_Simple_Expression_2->outputCodes();
+	codes += mSimple_Expression_2->outputCodes();
 
 	return codes;
 }
@@ -879,9 +871,9 @@ string AddOp::outputCodes() const
 {
 	string codes;
 
-	codes += mp_Simple_Expression->outputCodes();
+	codes += mSimpleExpression->outputCodes();
 
-	switch (m_addopType)
+	switch (mAddOpType)
 	{
 	case OP_ADD:
 		codes += " + ";
@@ -896,11 +888,10 @@ string AddOp::outputCodes() const
 		break;
 
 	default:
-		throw "Invalid AddopType!!!";
-		break;
+		throw OperatorException();
 	}
 
-	codes += m_PTerm->outputCodes();
+	codes += mTerm->outputCodes();
 
 	return codes;
 }
@@ -909,9 +900,9 @@ string MulOp::outputCodes() const
 {
 	string codes;
 
-	codes += m_PTerm->outputCodes();
+	codes += mTerm->outputCodes();
 
-	switch (m_mulopType)
+	switch (mMulOpType)
 	{
 	case OP_MULTIPLY:
 		codes += " * ";
@@ -931,11 +922,10 @@ string MulOp::outputCodes() const
 		break;
 
 	default:
-		throw "Invalid MULTYPE!!!";
-		break;
+		throw OperatorException();
 	}
 
-	codes += m_PFactor->outputCodes();
+	codes += mFactor->outputCodes();
 
 	return codes;
 }
@@ -944,15 +934,15 @@ string ExpressionList::outputCodes(bool isScanf)
 {
 	string codes;
 
-	for (int i = 0; i < m_ExpressionVector.size(); i++)
+	for (int i = 0; i < mExpressionVector.size(); i++)
 	{
-		if (m_VarDefineVector[i] || isScanf)
+		if (mVarDefineVector[i] || isScanf)
 			codes += "&( ";
-		codes += m_ExpressionVector[i]->outputCodes();
-		if (m_VarDefineVector[i] || isScanf)
+		codes += mExpressionVector[i]->outputCodes();
+		if (mVarDefineVector[i] || isScanf)
 			codes += " )";
 
-		if (i != m_ExpressionVector.size() - 1)
+		if (i != mExpressionVector.size() - 1)
 			codes += ", ";
 	}
 
@@ -973,15 +963,15 @@ void generate_codes(Program *root, const string &file_name)
 
 string Type::codeGetPeriod() const
 {
-	return mp_Period->outputCodes();
+	return mPeriod->outputCodes();
 }
 
 vector<pair<int, int>> Type::getPeriod() const
 {
-	return mp_Period->getRange();
+	return mPeriod->getRange();
 }
 
 vector<Id *> Parameter::getIds() const
 {
-	return m_PIDList->getIds();
+	return mIdList->getIds();
 }

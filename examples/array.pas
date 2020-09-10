@@ -1,4 +1,4 @@
-program example(input,output);
+program arr(input,output);
 var 
     x,y,z : integer;
     a : array[1..2, 1..2] of integer;

@@ -13,21 +13,21 @@ extern map<SymbolSheetName, SymbolSheet> SymbolSheetList;
 bool Program::errorDetect() const
 {
     bool flag = true;
-    if (this->m_PProgramBody)
-        flag = m_PProgramBody->errorDetect();
+    if (this->mProgramBody)
+        flag = mProgramBody->errorDetect();
     return flag;
 }
 
 bool ProgramBody::errorDetect() const
 {
     bool flag = true;
-    if (m_PSubProgramDeclarations)
+    if (mSubProgramDeclarations)
     {
-        flag = m_PSubProgramDeclarations->definitionErrorDetect();
+        flag = mSubProgramDeclarations->definitionErrorDetect();
     }
-    if (m_PStatementList)
+    if (mStatementList)
     {
-        flag = m_PStatementList->errorDetect("0") && flag;
+        flag = mStatementList->errorDetect("0") && flag;
     }
     return flag;
 }
@@ -36,17 +36,17 @@ bool ConstDeclarations::errorDetect(const string &symbolSheetName)
 {
     set<string> idSet;
     bool flag = true;
-    for (auto const_symbol : m_ConstVector)
+    for (auto const_symbol : mConstVector)
     {
-        if (symbolSheetName != "0" && const_symbol.first->m_Name == symbolSheetName)
+        if (symbolSheetName != "0" && const_symbol.first->mName == symbolSheetName)
         {
             // 同名检查
-            cout << "子程序\"" << symbolSheetName << "\"声明的常量\"" << const_symbol.first->m_Name
+            cout << "子程序\"" << symbolSheetName << "\"声明的常量\"" << const_symbol.first->mName
                  << "\"存在与子程序名重复的错误" << endl;
             flag = false;
             break;
         }
-        auto result = idSet.insert(const_symbol.first->m_Name);
+        auto result = idSet.insert(const_symbol.first->mName);
         if (!result.second)
         { // 重复声明检查
             if (symbolSheetName == "0")
@@ -69,11 +69,11 @@ bool VarDeclarations::errorDetect(const string &symbolSheetName)
     set<string> idSet;
     SymbolSheet sheet;
     bool flag = true;
-    for (auto typeGroup : m_VariableVector)
+    for (auto typeGroup : mVariableVector)
     {
-        for (auto id : typeGroup.first->m_IDVector)
+        for (auto id : typeGroup.first->mIdVector)
         {
-            string idName = id->m_Name;
+            string idName = id->mName;
             // 同名检查
             if (symbolSheetName != "0" && idName == symbolSheetName)
             {
@@ -105,9 +105,9 @@ bool SubProgramDeclarations::errorDetect(const string &symbolSheetName)
 {
     set<string> idSet;
     bool flag = true;
-    for (auto subprogram : m_CommonVector)
+    for (auto subprogram : mCommonVector)
     {
-        string idName = subprogram->getFuncId()->m_Name;
+        string idName = subprogram->getFuncId()->mName;
         auto result = idSet.insert(idName);
         if (!result.second)
         { // 重复声明检查
@@ -122,7 +122,7 @@ bool SubProgramDeclarations::errorDetect(const string &symbolSheetName)
 bool SubProgramDeclarations::definitionErrorDetect()
 {
     bool flag = true;
-    for (auto subprogram : m_CommonVector)
+    for (auto subprogram : mCommonVector)
     {
         flag = subprogram->errorDetect() && flag;
     }
@@ -131,33 +131,33 @@ bool SubProgramDeclarations::definitionErrorDetect()
 
 bool Procedure::errorDetect()
 {
-    string procedureName = m_PID->m_Name;
+    string procedureName = mId->mName;
     SymbolSheet sheet = SymbolSheetList[procedureName];
     bool flag = true;
-    if (m_PParameterList)
-        flag = m_PParameterList->errorDetect(procedureName);
-    if (m_PConstDeclarations)
-        flag = flag && m_PConstDeclarations->errorDetect(procedureName);
-    if (m_PVarDeclarations)
-        flag = flag && m_PVarDeclarations->errorDetect(procedureName);
-    if (m_PStatementList)
-        flag = flag && m_PStatementList->errorDetect(procedureName);
+    if (mParameterList)
+        flag = mParameterList->errorDetect(procedureName);
+    if (mConstDeclarations)
+        flag = flag && mConstDeclarations->errorDetect(procedureName);
+    if (mVarDeclarations)
+        flag = flag && mVarDeclarations->errorDetect(procedureName);
+    if (mStatementList)
+        flag = flag && mStatementList->errorDetect(procedureName);
     return flag;
 }
 
 bool Function::errorDetect()
 {
-    string functionName = m_PID->m_Name;
+    string functionName = mId->mName;
     SymbolSheet sheet = SymbolSheetList[functionName];
     bool flag = true;
-    if (m_PParameterList)
-        flag = m_PParameterList->errorDetect(functionName);
-    if (m_PConstDeclarations)
-        flag = flag && m_PConstDeclarations->errorDetect(functionName);
-    if (m_PVarDeclarations)
-        flag = flag && m_PVarDeclarations->errorDetect(functionName);
-    if (m_PStatementList)
-        flag = flag && m_PStatementList->errorDetect(functionName);
+    if (mParameterList)
+        flag = mParameterList->errorDetect(functionName);
+    if (mConstDeclarations)
+        flag = flag && mConstDeclarations->errorDetect(functionName);
+    if (mVarDeclarations)
+        flag = flag && mVarDeclarations->errorDetect(functionName);
+    if (mStatementList)
+        flag = flag && mStatementList->errorDetect(functionName);
     return flag;
 }
 
@@ -165,14 +165,14 @@ bool ParameterList::errorDetect(const string &symbolSheetName)
 {
     set<string> idSet;
     bool flag = true;
-    for (auto parameter : mv_Patameter)
+    for (auto parameter : mParameters)
     {
-        bool isValue = parameter->m_IsVal;
+        bool isValue = parameter->mIsVal;
         vector<Id *> parameterSymbols = parameter->getIds();
         for (auto id : parameterSymbols)
         {
-            id->m_IsVal = isValue;
-            string idName = id->m_Name;
+            id->mIsVal = isValue;
+            string idName = id->mName;
             if (idName == symbolSheetName)
             { // 同名检查
                 cout << "子程序\"" << symbolSheetName << "\"声明的形式参数\"" << idName
@@ -196,7 +196,7 @@ bool ParameterList::errorDetect(const string &symbolSheetName)
 bool StatementList::errorDetect(const string &symbolSheetName)
 {
     bool flag = true;
-    for (auto &i : m_StatementVector)
+    for (auto &i : mStatementVector)
     {
         if (i)
         {
@@ -211,25 +211,25 @@ bool StatementList::errorDetect(const string &symbolSheetName)
 bool Statement::errorDetect(const string &symbolSheetName) const
 {
     bool flag = true;
-    if (mp_AssignOp) //检查赋值语句的错误
+    if (mAssignOp) //检查赋值语句的错误
     {
-        flag = mp_AssignOp->errorDetect(symbolSheetName);
+        flag = mAssignOp->errorDetect(symbolSheetName);
     }
-    else if (mp_Procedure_call)
+    else if (mProcedure_call)
     { //检查过程调用的错误
-        flag = mp_Procedure_call->errorDetect(symbolSheetName);
+        flag = mProcedure_call->errorDetect(symbolSheetName);
     }
-    else if (m_PStatementList)
+    else if (mStatementList)
     { //检查语句列表的错误
-        flag = m_PStatementList->errorDetect(symbolSheetName);
+        flag = mStatementList->errorDetect(symbolSheetName);
     }
-    else if (mp_If_Then_Else)
+    else if (mIfThenElse)
     { //检查分支语句的错误
-        flag = mp_If_Then_Else->errorDetect(symbolSheetName);
+        flag = mIfThenElse->errorDetect(symbolSheetName);
     }
-    else if (mp_For)
+    else if (mFor)
     { //检查循环语句的错误
-        flag = mp_For->errorDetect(symbolSheetName);
+        flag = mFor->errorDetect(symbolSheetName);
     }
     else
     {
@@ -241,52 +241,52 @@ bool Statement::errorDetect(const string &symbolSheetName) const
 bool AssignOp::errorDetect(const string &symbolSheetName) const
 {
     bool flag = true;
-    if (mp_Variable) //对赋值变量进#Line 检错
-        flag = mp_Variable->errorDetect(symbolSheetName);
-    if (mp_Expression) //对表达式进#Line 检错
-        flag = flag && mp_Expression->errorDetect(symbolSheetName);
-    int variableType = mp_Variable->getType();
-    int expressiontype = mp_Expression->getType(); //判断类型是否能转化
+    if (mVariable) //对赋值变量进#Line 检错
+        flag = mVariable->errorDetect(symbolSheetName);
+    if (mExpression) //对表达式进#Line 检错
+        flag = flag && mExpression->errorDetect(symbolSheetName);
+    int variableType = mVariable->getType();
+    int expressiontype = mExpression->getType(); //判断类型是否能转化
     bool flag1 = (variableType == expressiontype ||
                   (variableType == TYPE_INTEGER && expressiontype == TYPE_REAL) ||
                   (expressiontype == TYPE_INTEGER && variableType == TYPE_REAL));
     if (!flag1)
     {
-        std::cout << "#Line " << m_Lineno << ": 类型不能转化" << endl;
+        std::cout << "#Line " << mLineno << ": 类型不能转化" << endl;
         flag = false;
     }
     if (flag1 && variableType == 5 && expressiontype == 5)
     { //特殊处理两个数组类型进#Line 赋值
-        int leftArrayType = get_array_type(symbolSheetName, mp_Variable->m_PID->getName());
+        int leftArrayType = get_array_type(symbolSheetName, mVariable->mId->getName());
         int rightArrayType = -1;
         try
         {
             rightArrayType = get_array_type(symbolSheetName,
-                                            mp_Expression->mp_Simple_Expression->m_PTerm->m_PFactor->mp_Variable->m_PID->getName());
+                                            mExpression->mSimpleExpression->mTerm->mFactor->mVariable->mId->getName());
             if (leftArrayType != rightArrayType)
             { //判断元素类型是否相同
-                std::cout << "#Line " << m_Lineno << ": 数组类型不能转化" << endl;
+                std::cout << "#Line " << mLineno << ": 数组类型不能转化" << endl;
                 flag = false;
             } //判断数组大小是否相同
-            int leftArrayRange = get_symbol_range(symbolSheetName, mp_Variable->m_PID->getName()).size();
-            int rightArrayRange = get_symbol_range(symbolSheetName, mp_Expression->mp_Simple_Expression->m_PTerm->m_PFactor->mp_Variable->m_PID->getName()).size();
+            int leftArrayRange = get_symbol_range(symbolSheetName, mVariable->mId->getName()).size();
+            int rightArrayRange = get_symbol_range(symbolSheetName, mExpression->mSimpleExpression->mTerm->mFactor->mVariable->mId->getName()).size();
 
             if (leftArrayRange != rightArrayRange)
             {
-                std::cout << "#Line " << m_Lineno << ": 数组长度不同" << endl;
+                std::cout << "#Line " << mLineno << ": 数组长度不同" << endl;
                 flag = false;
             }
         }
         catch (...)
         {
             flag = false;
-            std::cout << "#Line " << m_Lineno << ":  AST 错误" << endl;
+            std::cout << "#Line " << mLineno << ":  AST 错误" << endl;
         }
     }
-    if (!mp_Variable || !mp_Expression)
+    if (!mVariable || !mExpression)
     { // AST 错误
         flag = false;
-        std::cout << "#Line " << m_Lineno << ":  AST 错误" << endl;
+        std::cout << "#Line " << mLineno << ":  AST 错误" << endl;
     }
     return flag;
 }
@@ -294,20 +294,20 @@ bool AssignOp::errorDetect(const string &symbolSheetName) const
 bool IfThenElse::errorDetect(const string &symbolSheetName) const
 {
     bool flag = true;
-    if (mp_Expression) //判断条件检错
-        flag = mp_Expression->errorDetect(symbolSheetName);
+    if (mExpression) //判断条件检错
+        flag = mExpression->errorDetect(symbolSheetName);
     else
     {
-        cout << "#Line " << m_Lineno << ":  AST 错误" << endl;
+        cout << "#Line " << mLineno << ":  AST 错误" << endl;
         flag = false;
     }
-    if (mp_Statement_1) //then语句检错
-        flag = mp_Statement_1->errorDetect(symbolSheetName) && flag;
-    if (mp_Statement_1 && mp_Statement_2) //else语句检错
-        flag = mp_Statement_2->errorDetect(symbolSheetName) && flag;
-    else if (!mp_Statement_1 && mp_Statement_2)
+    if (mStatement_1) //then语句检错
+        flag = mStatement_1->errorDetect(symbolSheetName) && flag;
+    if (mStatement_1 && mStatement_2) //else语句检错
+        flag = mStatement_2->errorDetect(symbolSheetName) && flag;
+    else if (!mStatement_1 && mStatement_2)
     {
-        cout << "#Line " << m_Lineno << ":  AST 错误" << endl;
+        cout << "#Line " << mLineno << ":  AST 错误" << endl;
         flag = false;
     }
     return flag;
@@ -315,75 +315,75 @@ bool IfThenElse::errorDetect(const string &symbolSheetName) const
 
 bool For::errorDetect(const string &symbolSheetName) const
 {
-    if (m_PID && mp_Expression_1 && mp_Expression_2) //判断 AST 是否出错
+    if (mId && mExpression_1 && mExpression_2) //判断 AST 是否出错
     {                                                //循环变量是否声明
-        if (lookup_symbol(symbolSheetName, m_PID->getName()))
+        if (lookup_symbol(symbolSheetName, mId->getName()))
         {
-            m_PID->m_IsVal = get_symbol_var_type(symbolSheetName, m_PID->getName());
+            mId->mIsVal = get_symbol_var_type(symbolSheetName, mId->getName());
             bool flag = true; //起始，终止表达式检错
-            int type1 = get_symbol_type(symbolSheetName, m_PID->getName());
-            flag = mp_Expression_1->errorDetect(symbolSheetName);
-            flag = flag && mp_Expression_2->errorDetect(symbolSheetName);
-            int type2 = mp_Expression_1->getType();
-            int type3 = mp_Expression_2->getType();
+            int type1 = get_symbol_type(symbolSheetName, mId->getName());
+            flag = mExpression_1->errorDetect(symbolSheetName);
+            flag = flag && mExpression_2->errorDetect(symbolSheetName);
+            int type2 = mExpression_1->getType();
+            int type3 = mExpression_2->getType();
             if (!((type1 == TYPE_INTEGER || type1 == TYPE_CHAR) && type1 == type2 && type1 == type3))
             {
                 flag = false;
-                std::cout << "#Line " << m_Lineno << ": 循环变量有问题" << endl;
+                std::cout << "#Line " << mLineno << ": 循环变量有问题" << endl;
 
             } //语句检错
-            flag = flag && mp_Statement->errorDetect(symbolSheetName);
+            flag = flag && mStatement->errorDetect(symbolSheetName);
             return flag;
         }
         else
         {
-            std::cout << "#Line " << m_Lineno << ": 未声明变量\"" << m_PID->getName() << "\"" << endl;
+            std::cout << "#Line " << mLineno << ": 未声明变量\"" << mId->getName() << "\"" << endl;
             return false;
         }
     }
     else
     {
-        std::cout << "#Line " << m_PID->m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mId->mLineno << " AST 出错" << endl;
         return false;
     }
 }
 
 bool Variable::errorDetect(const string &symbolSheetName)
 {
-    if (m_PID)
+    if (mId)
     {
-        if (lookup_symbol(symbolSheetName, m_PID->getName()))
+        if (lookup_symbol(symbolSheetName, mId->getName()))
         {
-            int symbolType = get_symbol_type(symbolSheetName, m_PID->getName());
-            m_PID->m_IsVal = get_symbol_var_type(symbolSheetName, m_PID->getName());
+            int symbolType = get_symbol_type(symbolSheetName, mId->getName());
+            mId->mIsVal = get_symbol_var_type(symbolSheetName, mId->getName());
             bool flag = true;
-            if (mp_Expression_List && symbolType != 5)
+            if (mExpressionList && symbolType != 5)
             { //判断是否是数组
-                m_isArray = false;
-                std::cout << "#Line " << m_Lineno << ": 变量非数组" << endl;
+                misArray = false;
+                std::cout << "#Line " << mLineno << ": 变量非数组" << endl;
                 flag = false;
             }
-            else if (mp_Expression_List && //判断数组维数
-                     mp_Expression_List->getExpressions().size() != get_symbol_range(symbolSheetName, m_PID->getName()).size())
+            else if (mExpressionList && //判断数组维数
+                     mExpressionList->getExpressions().size() != get_symbol_range(symbolSheetName, mId->getName()).size())
             {
-                m_isArray = true;
-                std::cout << "#Line " << m_Lineno << ": 数组维数不对" << endl;
+                misArray = true;
+                std::cout << "#Line " << mLineno << ": 数组维数不对" << endl;
                 flag = false;
             }
-            else if (mp_Expression_List)
+            else if (mExpressionList)
             { //检查数组是否越界
-                flag = mp_Expression_List->errorDetect(symbolSheetName);
-                this->type = get_array_type(symbolSheetName, m_PID->getName());
-                vector<int> rangeVal = mp_Expression_List->rangeVal;
-                vector<bool> rangeValid = mp_Expression_List->rangeValid;
-                vector<pair<int, int>> rangeTemp = get_symbol_range(symbolSheetName, m_PID->getName());
+                flag = mExpressionList->errorDetect(symbolSheetName);
+                this->type = get_array_type(symbolSheetName, mId->getName());
+                vector<int> rangeVal = mExpressionList->rangeVal;
+                vector<bool> rangeValid = mExpressionList->rangeValid;
+                vector<pair<int, int>> rangeTemp = get_symbol_range(symbolSheetName, mId->getName());
                 for (int i = 0; i < rangeTemp.size(); i++)
                 {
                     if (rangeValid[i])
                     {
                         if (rangeVal[i] < rangeTemp[i].first || rangeVal[i] > rangeTemp[i].second)
                         {
-                            std::cout << "#Line " << m_Lineno << ": 数组越界" << endl;
+                            std::cout << "#Line " << mLineno << ": 数组越界" << endl;
                             flag = false;
                         }
                     }
@@ -392,72 +392,72 @@ bool Variable::errorDetect(const string &symbolSheetName)
             else
             {
                 this->type = symbolType;
-                m_isArray = false;
+                misArray = false;
             }
             return flag;
         }
         else
         {
-            std::cout << "#Line " << m_Lineno << ": 未声明变量\"" << m_PID->getName() << "\"" << endl;
+            std::cout << "#Line " << mLineno << ": 未声明变量\"" << mId->getName() << "\"" << endl;
             return false;
         }
     }
     else
     {
-        std::cout << "#Line " << m_PID->m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mId->mLineno << " AST 出错" << endl;
         return false;
     }
 }
 
 bool FunctionCall::errorDetect(const string &symbolSheetName) const
 {
-    bool flag = lookup_func(m_PID->getName()); //判断是否为函数
+    bool flag = lookup_func(mId->getName()); //判断是否为函数
     if (!flag)
     {
-        std::cout << "#Line " << m_Lineno << ": 非函数" << endl;
+        std::cout << "#Line " << mLineno << ": 非函数" << endl;
         return false;
     }
-    int nArgs = get_symbol_narg(symbolSheetName, m_PID->getName());
+    int nArgs = get_symbol_narg(symbolSheetName, mId->getName());
     if (nArgs)
     {
         if (nArgs == -1)
         {
-            if (mp_Expression_List)
+            if (mExpressionList)
             {
-                if (!mp_Expression_List->errorDetect(symbolSheetName))
+                if (!mExpressionList->errorDetect(symbolSheetName))
                 {
                     return false;
                 }
-                vector<bool> nargs_var_or_not(this->mp_Expression_List->m_ExpressionVector.size(), false);
-                this->mp_Expression_List->m_VarDefineVector = nargs_var_or_not;
+                vector<bool> nargs_var_or_not(this->mExpressionList->mExpressionVector.size(), false);
+                this->mExpressionList->mVarDefineVector = nargs_var_or_not;
             }
             return true;
         }
         else
         {
-            if (mp_Expression_List)
+            if (mExpressionList)
             {
-                if (!mp_Expression_List->errorDetect(symbolSheetName))
+                if (!mExpressionList->errorDetect(symbolSheetName))
                 {
                     return false;
                 } //判断形参个数是否匹配
-                if (nArgs != mp_Expression_List->getTypes().size())
+                if (nArgs != mExpressionList->getTypes().size())
                 {
-                    std::cout << "#Line " << m_Lineno << ": 实参形参数量不匹配" << endl;
+                    std::cout << "#Line " << mLineno << ": 实参形参数量不匹配" << endl;
                     return false;
                 }
-                vector<int> types = mp_Expression_List->getTypes();
-                vector<int> argTypes = get_symbol_narg_type(symbolSheetName, m_PID->getName());
+                vector<int> types = mExpressionList->getTypes();
+                vector<int> argTypes = get_symbol_narg_type(symbolSheetName, mId->getName());
                 for (int i = 0; i < types.size(); i++)
                 {
                     if (types[i] != argTypes[i])
                     { //判断类型是否匹配
-                        std::cout << "#Line " << m_Lineno << ": 第" << i + 1 << "个实参形参不匹配" << endl;
+                        std::cout << "#Line " << mLineno << ": 第" << i + 1 << "个实参形参不匹配" << endl;
                         flag = false;
                     }
                 }
-                vector<bool> nArgsVarOrNot = get_symbol_nargs_var_or_not(symbolSheetName, m_PID->getName());
-                this->mp_Expression_List->m_VarDefineVector = nArgsVarOrNot;
+                vector<bool> nArgsVarOrNot = get_symbol_nargs_var_or_not(symbolSheetName, mId->getName());
+                this->mExpressionList->mVarDefineVector = nArgsVarOrNot;
             }
         }
     }
@@ -466,35 +466,35 @@ bool FunctionCall::errorDetect(const string &symbolSheetName) const
 
 bool ProcedureCall::errorDetect(const string &symbolSheetName)
 {
-    // set m_proCall_type
-    if (m_PID->getName() == "read")
+    // set mproCall_type
+    if (mId->getName() == "read")
     {
-        m_proCall_Tpye = PROCECALL_READ;
+        mProcedureCallType = PROCECALL_READ;
     }
-    else if (m_PID->getName() == "readln")
+    else if (mId->getName() == "readln")
     {
-        m_proCall_Tpye = PROCECALL_READLN;
+        mProcedureCallType = PROCECALL_READLN;
     }
-    else if (m_PID->getName() == "write")
+    else if (mId->getName() == "write")
     {
-        m_proCall_Tpye = PROCECALL_WRITE;
+        mProcedureCallType = PROCECALL_WRITE;
     }
-    else if (m_PID->getName() == "writeln")
+    else if (mId->getName() == "writeln")
     {
-        m_proCall_Tpye = PROCECALL_WRITELN;
+        mProcedureCallType = PROCECALL_WRITELN;
     }
     else
     {
-        m_proCall_Tpye = PROCECALL_NORMAL;
+        mProcedureCallType = PROCECALL_NORMAL;
     }
 
-    bool flag = lookup_procedure(m_PID->getName()) || lookup_func(m_PID->getName());
+    bool flag = lookup_procedure(mId->getName()) || lookup_func(mId->getName());
     if (!flag)
     {
-        std::cout << "#Line " << m_Lineno << ": 非过程或者函数" << endl;
+        std::cout << "#Line " << mLineno << ": 非过程或者函数" << endl;
         return false;
     }
-    int nArgs = get_symbol_narg(symbolSheetName, m_PID->getName());
+    int nArgs = get_symbol_narg(symbolSheetName, mId->getName());
     if (nArgs)
     { // builtins n == -1, normal procs n > 0
         if (nArgs == -1)
@@ -502,43 +502,43 @@ bool ProcedureCall::errorDetect(const string &symbolSheetName)
             // if this proc is a builtin
             // nArgs == -1 -> the proc has variable length (or none) of parameters of any type,
             // used in the builtin procedures, which dont require type & num check
-            if (mp_Expression_List)
+            if (mExpressionList)
             {
-                if (!mp_Expression_List->errorDetect(symbolSheetName))
+                if (!mExpressionList->errorDetect(symbolSheetName))
                 {
                     return false;
                 }
                 // for builtins, the argument cannot be a variable type
-                vector<bool> nargs_var_or_not(this->mp_Expression_List->m_ExpressionVector.size(), false);
-                this->mp_Expression_List->m_VarDefineVector = nargs_var_or_not;
+                vector<bool> nargs_var_or_not(this->mExpressionList->mExpressionVector.size(), false);
+                this->mExpressionList->mVarDefineVector = nargs_var_or_not;
             }
             return true;
         }
         else
         {
-            if (mp_Expression_List)
+            if (mExpressionList)
             {
-                if (!mp_Expression_List->errorDetect(symbolSheetName))
+                if (!mExpressionList->errorDetect(symbolSheetName))
                 {
                     return false;
                 } //判断形参实参个数
-                if (nArgs != mp_Expression_List->getTypes().size())
+                if (nArgs != mExpressionList->getTypes().size())
                 {
-                    std::cout << "#Line " << m_Lineno << ": 实参形参数量不匹配" << endl;
+                    std::cout << "#Line " << mLineno << ": 实参形参数量不匹配" << endl;
                     return false;
                 }
-                vector<int> types = mp_Expression_List->getTypes();
-                vector<int> argTypes = get_symbol_narg_type(symbolSheetName, m_PID->getName());
+                vector<int> types = mExpressionList->getTypes();
+                vector<int> argTypes = get_symbol_narg_type(symbolSheetName, mId->getName());
                 for (int i = 0; i < types.size(); i++)
                 {
                     if (types[i] != argTypes[i])
                     { //判断形参实参类型
-                        std::cout << "#Line " << m_Lineno << ": 第" << i + 1 << "个实参形参不匹配" << endl;
+                        std::cout << "#Line " << mLineno << ": 第" << i + 1 << "个实参形参不匹配" << endl;
                         flag = false;
                     }
                 }
-                vector<bool> nargs_var_or_not = get_symbol_nargs_var_or_not(symbolSheetName, m_PID->getName());
-                this->mp_Expression_List->m_VarDefineVector = nargs_var_or_not;
+                vector<bool> nargs_var_or_not = get_symbol_nargs_var_or_not(symbolSheetName, mId->getName());
+                this->mExpressionList->mVarDefineVector = nargs_var_or_not;
             }
         }
     }
@@ -547,27 +547,27 @@ bool ProcedureCall::errorDetect(const string &symbolSheetName)
 
 bool Expression::errorDetect(const string &symbolSheetName)
 {
-    if (mp_Relop)
+    if (mRelOp)
     { //运算符子树检错
-        bool flag = mp_Relop->errorDetect(symbolSheetName);
-        this->setType(mp_Relop->getType());
+        bool flag = mRelOp->errorDetect(symbolSheetName);
+        this->setType(mRelOp->getType());
         rangeVal = -1;
         rangeValid = false;
         return flag;
     }
-    else if (mp_Simple_Expression)
+    else if (mSimpleExpression)
     { //对应的简单表达式检错
-        bool flag = mp_Simple_Expression->errorDetect(symbolSheetName);
-        setType(mp_Simple_Expression->getType());
-        rangeVal = mp_Simple_Expression->getRangeVal();
-        rangeValid = mp_Simple_Expression->getRangeValid();
+        bool flag = mSimpleExpression->errorDetect(symbolSheetName);
+        setType(mSimpleExpression->getType());
+        rangeVal = mSimpleExpression->getRangeVal();
+        rangeValid = mSimpleExpression->getRangeValid();
         return flag;
     }
     else
     {
         rangeVal = -1;
         rangeValid = false;
-        std::cout << "#Line " << m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mLineno << " AST 出错" << endl;
         return false;
     }
 }
@@ -575,10 +575,10 @@ bool Expression::errorDetect(const string &symbolSheetName)
 bool ExpressionList::errorDetect(const string &symbolSheetName)
 {
     bool flag = true;
-    for (auto &i : m_ExpressionVector)
+    for (auto &i : mExpressionVector)
     {
         flag = i->errorDetect(symbolSheetName) && flag; //检测其中所有的表达式
-        m_TypeVector.push_back(i->getType());
+        mTypeVector.push_back(i->getType());
         rangeVal.push_back(i->getRangeVal());
         rangeValid.push_back(i->getRangeValid());
     }
@@ -587,42 +587,42 @@ bool ExpressionList::errorDetect(const string &symbolSheetName)
 
 bool RelOp::errorDetect(const string &symbolSheetName)
 {
-    if (mp_Simple_Expression_1 && mp_Simple_Expression_2)
+    if (mSimple_Expression_1 && mSimple_Expression_2)
     {
         bool flag;
-        int type1 = mp_Simple_Expression_1->getType();
-        int type2 = mp_Simple_Expression_2->getType(); //判断运算符两边是否能进#Line 类型转换
+        int type1 = mSimple_Expression_1->getType();
+        int type2 = mSimple_Expression_2->getType(); //判断运算符两边是否能进#Line 类型转换
         flag = (type1 == type2 ||
                 (type1 == TYPE_INTEGER && type2 == TYPE_REAL) ||
                 (type2 == TYPE_INTEGER && type1 == TYPE_REAL));
         if (!flag)
-            std::cout << "#Line " << m_Lineno << "逻辑运算符两边操作数不匹配" << endl;
+            std::cout << "#Line " << mLineno << "逻辑运算符两边操作数不匹配" << endl;
         setType(TYPE_BOOLEAN);
         return flag;
     }
     else
     {
-        std::cout << "#Line " << m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mLineno << " AST 出错" << endl;
         return false;
     }
 }
 
 bool SimpleExpression::errorDetect(const string &symbolSheetName)
 {
-    if (mp_AddOp)
+    if (mAddOp)
     { //判断运算符两边是否有错
-        bool flag = mp_AddOp->errorDetect(symbolSheetName);
-        setType(mp_AddOp->getType());
+        bool flag = mAddOp->errorDetect(symbolSheetName);
+        setType(mAddOp->getType());
         rangeVal = -1;
         rangeValid = false;
         return flag;
     }
-    else if (m_PTerm)
+    else if (mTerm)
     { //判断Term是否有错
-        bool flag = m_PTerm->errorDetect(symbolSheetName);
-        setType(m_PTerm->getType());
-        rangeVal = m_PTerm->getRangeVal();
-        rangeValid = m_PTerm->getRangeValid();
+        bool flag = mTerm->errorDetect(symbolSheetName);
+        setType(mTerm->getType());
+        rangeVal = mTerm->getRangeVal();
+        rangeValid = mTerm->getRangeValid();
         return flag;
     }
     else
@@ -630,24 +630,24 @@ bool SimpleExpression::errorDetect(const string &symbolSheetName)
         setType(-1);
         rangeVal = -1;
         rangeValid = false;
-        std::cout << "#Line " << m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mLineno << " AST 出错" << endl;
         return false;
     }
 }
 
 bool AddOp::errorDetect(const string &symbolSheetName)
 {
-    bool flag1 = mp_Simple_Expression->errorDetect(symbolSheetName);
-    bool flag2 = m_PTerm->errorDetect(symbolSheetName);
+    bool flag1 = mSimpleExpression->errorDetect(symbolSheetName);
+    bool flag2 = mTerm->errorDetect(symbolSheetName);
     bool flag3 = true;
-    int type1 = mp_Simple_Expression->getType();
-    int type2 = m_PTerm->getType(); //不同的运算符，两边有不同的要求
-    if (m_addopType == OP_ADD || m_addopType == OP_SUB)
+    int type1 = mSimpleExpression->getType();
+    int type2 = mTerm->getType(); //不同的运算符，两边有不同的要求
+    if (mAddOpType == OP_ADD || mAddOpType == OP_SUB)
     {
         flag3 = ((type1 == TYPE_INTEGER || type1 == TYPE_REAL) && (type2 == TYPE_INTEGER || type2 == TYPE_REAL));
         //即使类型不对也会附一个正确类型，出错以后不会再继续执#Line 代码翻译
         if (!flag3)
-            std::cout << "#Line " << m_Lineno << "加减号两边应该为integer 或者 real" << endl;
+            std::cout << "#Line " << mLineno << "加减号两边应该为integer 或者 real" << endl;
         if (type1 == TYPE_REAL || type2 == TYPE_REAL)
             setType(TYPE_REAL); //设置相应的类型
         else
@@ -657,7 +657,7 @@ bool AddOp::errorDetect(const string &symbolSheetName)
     {
         flag3 = (type1 == type2 && type1 == TYPE_BOOLEAN);
         if (!flag3)
-            std::cout << "#Line " << m_Lineno << "运算符两边应该为boolean类型" << endl;
+            std::cout << "#Line " << mLineno << "运算符两边应该为boolean类型" << endl;
         setType(TYPE_BOOLEAN);
     }
     return flag1 && flag2 && flag3;
@@ -665,39 +665,39 @@ bool AddOp::errorDetect(const string &symbolSheetName)
 
 bool Term::errorDetect(const string &symbolSheetName)
 {
-    if (mp_MulOp)
+    if (mMulOp)
     {
-        bool flag = mp_MulOp->errorDetect(symbolSheetName);
-        setType(mp_MulOp->getType());
+        bool flag = mMulOp->errorDetect(symbolSheetName);
+        setType(mMulOp->getType());
         rangeVal = -1;
         rangeValid = false;
         return flag;
     }
-    else if (m_PFactor)
+    else if (mFactor)
     {
-        bool flag = m_PFactor->errorDetect(symbolSheetName);
-        setType(m_PFactor->getType());
-        rangeVal = m_PFactor->getRangeVal();
-        rangeValid = m_PFactor->getRangeValid();
+        bool flag = mFactor->errorDetect(symbolSheetName);
+        setType(mFactor->getType());
+        rangeVal = mFactor->getRangeVal();
+        rangeValid = mFactor->getRangeValid();
         return flag;
     }
     else
     { //均为空， AST 错误
         rangeVal = -1;
         rangeValid = false;
-        std::cout << "#Line " << m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mLineno << " AST 出错" << endl;
         return false;
     }
 }
 
 bool MulOp::errorDetect(const string &symbolSheetName)
 {
-    if (m_PTerm && m_PFactor)
+    if (mTerm && mFactor)
     {
-        bool flag1 = m_PTerm->errorDetect(symbolSheetName);
-        bool flag2 = m_PFactor->errorDetect(symbolSheetName);
-        int type1 = m_PTerm->getType();
-        int type2 = m_PFactor->getType();
+        bool flag1 = mTerm->errorDetect(symbolSheetName);
+        bool flag2 = mFactor->errorDetect(symbolSheetName);
+        int type1 = mTerm->getType();
+        int type2 = mFactor->getType();
         int opType = this->checkMulOpType();
         bool flag3 = true; //两边必须为整型或者实型
         if (opType == OP_MULTIPLY || opType == OP_INT_DIV || opType == OP_REAL_DIV)
@@ -722,7 +722,7 @@ bool MulOp::errorDetect(const string &symbolSheetName)
         {
             if (!flag3)
             {
-                std::cout << "#Line " << m_Lineno << ": 运算符两边类型不匹配." << endl;
+                std::cout << "#Line " << mLineno << ": 运算符两边类型不匹配." << endl;
             }
             return false;
         }
@@ -730,7 +730,7 @@ bool MulOp::errorDetect(const string &symbolSheetName)
     }
     else
     {
-        std::cout << "#Line " << m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mLineno << " AST 出错" << endl;
         return false;
     }
 }
@@ -738,7 +738,7 @@ bool MulOp::errorDetect(const string &symbolSheetName)
 bool Factor::errorDetect(const string &symbolSheetName)
 {
     bool flag = true; //按类型设置节点类型，并进#Line 相应的错误检测
-    switch (m_factorType)
+    switch (mFactorType)
     {
     case FACTOR_VALUE_BOOL:
     {
@@ -750,7 +750,7 @@ bool Factor::errorDetect(const string &symbolSheetName)
     case FACTOR_VALUE_INT:
     {
 
-        rangeVal = m_int;
+        rangeVal = mInt;
         rangeValid = true;
         setType(TYPE_INTEGER);
         break;
@@ -773,39 +773,39 @@ bool Factor::errorDetect(const string &symbolSheetName)
     {
         rangeVal = -1;
         rangeValid = false;
-        flag = mp_Variable->errorDetect(symbolSheetName);
-        setType(mp_Variable->getType());
+        flag = mVariable->errorDetect(symbolSheetName);
+        setType(mVariable->getType());
         break;
     }
     case FACTOR_FUNCCALL:
     {
         rangeVal = -1;
         rangeValid = false;
-        flag = mp_Function_Call->errorDetect(symbolSheetName);
-        setType(get_func_return_type(mp_Function_Call->m_PID->getName()));
+        flag = mFunction_Call->errorDetect(symbolSheetName);
+        setType(get_func_return_type(mFunction_Call->mId->getName()));
         break;
     }
     case FACTOR_BRACKETS:
     {
         rangeVal = -1;
         rangeValid = false;
-        flag = mp_Expression->errorDetect(symbolSheetName);
-        setType(mp_Expression->getType());
+        flag = mExpression->errorDetect(symbolSheetName);
+        setType(mExpression->getType());
         break;
     }
     case FACTOR_NOT:
     {
         rangeVal = -1;
         rangeValid = false;
-        flag = mp_Not->errorDetect(symbolSheetName);
+        flag = mNot->errorDetect(symbolSheetName);
         setType(TYPE_BOOLEAN);
         break;
     }
     case FACTOR_UMINUS:
     {
-        int typeTemp = mp_Uminus->getType();
-        flag = mp_Uminus->errorDetect(symbolSheetName);
-        setType(mp_Uminus->getType());
+        int typeTemp = mUminus->getType();
+        flag = mUminus->errorDetect(symbolSheetName);
+        setType(mUminus->getType());
         if (typeTemp != TYPE_INTEGER)
         {
             rangeVal = -1;
@@ -813,7 +813,7 @@ bool Factor::errorDetect(const string &symbolSheetName)
         }
         else
         {
-            rangeVal = mp_Uminus->getRangeVal();
+            rangeVal = mUminus->getRangeVal();
             rangeValid = true;
         }
         break;
@@ -823,7 +823,7 @@ bool Factor::errorDetect(const string &symbolSheetName)
     {
         rangeVal = -1;
         rangeValid = false;
-        std::cout << "#Line " << m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mLineno << " AST 出错" << endl;
         return false;
     }
     }
@@ -832,46 +832,46 @@ bool Factor::errorDetect(const string &symbolSheetName)
 
 bool Not::errorDetect(const string &symbolSheetName) const
 {
-    if (m_PFactor)
+    if (mFactor)
     {
         bool flag = true;
-        flag = m_PFactor->errorDetect(symbolSheetName);
-        int typeTemp = m_PFactor->getType();
+        flag = mFactor->errorDetect(symbolSheetName);
+        int typeTemp = mFactor->getType();
         if (typeTemp != TYPE_BOOLEAN)
         { //只有Boolean型能取反
             flag = false;
-            std::cout << "#Line " << m_Lineno << ": 非boolean类型不能not" << endl;
+            std::cout << "#Line " << mLineno << ": 非boolean类型不能not" << endl;
         }
         return flag;
     }
     else
     {
-        std::cout << "#Line " << m_Lineno << " AST 出错" << endl;
+        std::cout << "#Line " << mLineno << " AST 出错" << endl;
         return false;
     }
 }
 
 bool Uminus::errorDetect(const string &symbolSheetName)
 {
-    if (m_PFactor)
+    if (mFactor)
     {
-        bool flag = m_PFactor->errorDetect(symbolSheetName);
-        int typeTemp = m_PFactor->getType();
+        bool flag = mFactor->errorDetect(symbolSheetName);
+        int typeTemp = mFactor->getType();
         if (typeTemp != TYPE_INTEGER && typeTemp != TYPE_REAL)
         {
             flag = false; //只有整型，实型能去算术取反
-            std::cout << "#Line " << m_Lineno << ": 类型不匹配" << endl;
+            std::cout << "#Line " << mLineno << ": 类型不匹配" << endl;
         }
-        rangeVal = m_PFactor->getRangeVal();
-        rangeVal = m_unimusType == 0 ? rangeVal : rangeValid;
-        rangeValid = m_PFactor->getRangeValid();
+        rangeVal = mFactor->getRangeVal();
+        rangeVal = mUnimusType == 0 ? rangeVal : rangeValid;
+        rangeValid = mFactor->getRangeValid();
         setType(typeTemp);
         return flag;
     }
     else
     {
         setType(TYPE_INTEGER);
-        std::cout << "#Line " << m_Lineno << ":  AST 出错" << endl;
+        std::cout << "#Line " << mLineno << ":  AST 出错" << endl;
         return false;
     }
 }
@@ -881,14 +881,14 @@ bool semantic_analyse(Program *root)
 {
     bool flag = true;
     //　创建全局符号表
-    if (root->m_PProgramBody)
-        flag = root->m_PProgramBody->createSymbolSheet().first;
+    if (root->mProgramBody)
+        flag = root->mProgramBody->createSymbolSheet().first;
     if (flag)
         assert(!SymbolSheetList.empty());
     // 为定义的函数、过程建立自符号表
-    if (!root->m_PProgramBody->m_PSubProgramDeclarations->m_CommonVector.empty())
+    if (!root->mProgramBody->mSubProgramDeclarations->mCommonVector.empty())
     {
-        for (auto subprogram : root->m_PProgramBody->m_PSubProgramDeclarations->m_CommonVector)
+        for (auto subprogram : root->mProgramBody->mSubProgramDeclarations->mCommonVector)
         {
             flag = flag && subprogram->createSymbolSheet().first;
             if (!flag)

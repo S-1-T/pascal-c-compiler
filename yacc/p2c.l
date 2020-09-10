@@ -30,71 +30,71 @@ character [\']({letter}|{digit}|[' '])[\']
 {comments1}     {yyrowno += yyleng;}
 
 
-"true"			{ yylval.m_bool=true; yyrowno += yyleng;  return BOOL;}
-"false"			{ yylval.m_bool=false; yyrowno += yyleng;  return BOOL;}
-"and"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return AND; }
-"array"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ARRAY; }
-"begin"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return BEGIN_L; }
-"boolean"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return BOOLEAN; }
-"case"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return CASE; }
-"char"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return CHAR; }
-"const"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return CONST; }
-"div"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return DIV; }
-"do"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return DO; }
-"downto"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return DOWNTO; }
-"else"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ELSE; }
-"end"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return END; }
-"for"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return FOR; }
-"function"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return FUNCTION; }
-"if"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return IF; }
-"integer"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return INTEGER; }
-"mod"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return MOD; }
-"not"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return NOT; }
-"of"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return OF; }
-"or"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return OR; }
-"procedure"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return PROCEDURE; }
-"program"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return PROGRAM; }
-"real"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return REAL; }
-"record"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return RECORD; }
-"repeat"		{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return REPEAT; }
-"then"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return THEN; }
-"to"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return TO; }
-"type"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return TYPE; }
-"until"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return UNTIL; }
-"var"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return VAR; }
-"while"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return WHILE; }
+"true"			{ yylval.mBool=true; yyrowno += yyleng;  return BOOL;}
+"false"			{ yylval.mBool=false; yyrowno += yyleng;  return BOOL;}
+"and"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return AND; }
+"array"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ARRAY; }
+"begin"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return BEGIN_L; }
+"boolean"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return BOOLEAN; }
+"case"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return CASE; }
+"char"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return CHAR; }
+"const"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return CONST; }
+"div"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return DIV; }
+"do"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return DO; }
+"downto"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return DOWNTO; }
+"else"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ELSE; }
+"end"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return END; }
+"for"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return FOR; }
+"function"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return FUNCTION; }
+"if"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return IF; }
+"integer"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return INTEGER; }
+"mod"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return MOD; }
+"not"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return NOT; }
+"of"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return OF; }
+"or"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return OR; }
+"procedure"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return PROCEDURE; }
+"program"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return PROGRAM; }
+"real"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return REAL; }
+"record"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return RECORD; }
+"repeat"		{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return REPEAT; }
+"then"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return THEN; }
+"to"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return TO; }
+"type"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return TYPE; }
+"until"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return UNTIL; }
+"var"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return VAR; }
+"while"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return WHILE; }
 
 {space}         { yyrowno += 1; }
-{character}     { yylval.m_char = yytext[1]; yyrowno += yyleng;  return LETTER; }
-{id}            { yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return IDENTIFIER; }
-{digits}        { yylval.m_int = atoi(yytext); yyrowno += yyleng;  return DIGITS; }
-{num}           { yylval.m_float = atof(yytext); yyrowno += yyleng;  return NUMBER; }
-".."			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return SUBBOUNDARY; }
-":="            { yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ASSIGNOP; }
+{character}     { yylval.mChar = yytext[1]; yyrowno += yyleng;  return LETTER; }
+{id}            { yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return IDENTIFIER; }
+{digits}        { yylval.mInt = atoi(yytext); yyrowno += yyleng;  return DIGITS; }
+{num}           { yylval.mFloat = atof(yytext); yyrowno += yyleng;  return NUMBER; }
+".."			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return SUBBOUNDARY; }
+":="            { yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ASSIGNOP; }
 
 
-"<="			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return LE_OP; }
-">="			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return GE_OP; }
-"<>"			{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return NE_OP; }
-"="				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '='; }
-"<"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '<'; }
-">"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '>'; }
+"<="			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return LE_OP; }
+">="			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return GE_OP; }
+"<>"			{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return NE_OP; }
+"="				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '='; }
+"<"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '<'; }
+">"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '>'; }
 
-","				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ','; }
-":"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ':'; }
-";"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ';'; }
-"."				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '.'; }
-"("				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '('; }
-")"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ')'; }
-"["				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '['; }
-"]"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return ']'; }
-"{"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '{'; }
-"}"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '}'; }
+","				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ','; }
+":"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ':'; }
+";"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ';'; }
+"."				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '.'; }
+"("				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '('; }
+")"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ')'; }
+"["				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '['; }
+"]"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return ']'; }
+"{"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '{'; }
+"}"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '}'; }
 
-"*"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '*'; }
-"/"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '/'; }
-"-"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '-'; }
-"+"				{ yylval.m_str = new std::string(yytext); yyrowno += yyleng;  return '+'; }
+"*"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '*'; }
+"/"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '/'; }
+"-"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '-'; }
+"+"				{ yylval.mStr = new std::string(yytext); yyrowno += yyleng;  return '+'; }
 
 
 [\r]			{}

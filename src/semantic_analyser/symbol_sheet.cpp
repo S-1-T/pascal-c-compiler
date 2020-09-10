@@ -152,7 +152,7 @@ int get_func_return_type(const string &symbol_name)
     // 子程序（函数和过程）都存在于全局总表中
     SymbolSheet global_sheet = SymbolSheetList["0"];
     if (global_sheet.symbols.find(symbol_name) != global_sheet.symbols.end() &&
-        global_sheet.symbols[symbol_name].subprogram_type == FUNC)
+        global_sheet.symbols[symbol_name].subprogramtype == FUNC)
     {
         return global_sheet.symbols[symbol_name].type;
     }
@@ -164,7 +164,7 @@ bool lookup_func(const string &symbol_name)
     // 子程序（函数和过程）都存在于全局总表中
     SymbolSheet global_sheet = SymbolSheetList["0"];
     return global_sheet.symbols.find(symbol_name) != global_sheet.symbols.end() &&
-           global_sheet.symbols[symbol_name].subprogram_type == FUNC;
+           global_sheet.symbols[symbol_name].subprogramtype == FUNC;
 }
 
 bool lookup_procedure(const string &symbol_name)
@@ -172,7 +172,7 @@ bool lookup_procedure(const string &symbol_name)
     // 子程序（函数和过程）都存在于全局总表中
     SymbolSheet global_sheet = SymbolSheetList["0"];
     return global_sheet.symbols.find(symbol_name) != global_sheet.symbols.end() &&
-           global_sheet.symbols[symbol_name].subprogram_type == PROC;
+           global_sheet.symbols[symbol_name].subprogramtype == PROC;
 }
 
 int get_symbol_narg(const string &symbolSheetName, const string &symbol_name)
@@ -184,7 +184,7 @@ int get_symbol_narg(const string &symbolSheetName, const string &symbol_name)
         sheet = global_sheet;
         if (sheet.symbols.find(symbol_name) != sheet.symbols.end())
         {
-            return sheet.symbols[symbol_name].subprogram_args_num;
+            return sheet.symbols[symbol_name].subprogramargs_num;
         }
     }
     else if (SymbolSheetList.find(symbolSheetName) != SymbolSheetList.end())
@@ -192,11 +192,11 @@ int get_symbol_narg(const string &symbolSheetName, const string &symbol_name)
         sheet = SymbolSheetList[symbolSheetName];
         if (sheet.symbols.find(symbol_name) != sheet.symbols.end())
         {
-            return sheet.symbols[symbol_name].subprogram_args_num;
+            return sheet.symbols[symbol_name].subprogramargs_num;
         }
         else if (global_sheet.symbols.find(symbol_name) != global_sheet.symbols.end())
         {
-            return global_sheet.symbols[symbol_name].subprogram_args_num;
+            return global_sheet.symbols[symbol_name].subprogramargs_num;
         }
     }
     return -1;
@@ -290,11 +290,11 @@ CreateSymbolSheetResult ProgramBody::createSymbolSheet() const
     global_sheet.sheet_name = "0";
     bool f0, f1 = false, f2 = false, f3 = false;
     f0 = global_sheet.add_reserved();
-    if (!m_PConstDeclarations->m_ConstVector.empty() && f0)
+    if (!mConstDeclarations->mConstVector.empty() && f0)
     {
-        if (m_PConstDeclarations->errorDetect(global_sheet.sheet_name))
+        if (mConstDeclarations->errorDetect(global_sheet.sheet_name))
         {
-            f1 = global_sheet.add_const_symbols(m_PConstDeclarations);
+            f1 = global_sheet.add_const_symbols(mConstDeclarations);
             if (!f1)
             {
                 cout << "向全局符号表中加入常量符号错误" << endl;
@@ -305,11 +305,11 @@ CreateSymbolSheetResult ProgramBody::createSymbolSheet() const
     {
         f1 = true;
     }
-    if (!m_PVarDeclarations->m_VariableVector.empty() && f1)
+    if (!mVarDeclarations->mVariableVector.empty() && f1)
     {
-        if (m_PVarDeclarations->errorDetect(global_sheet.sheet_name))
+        if (mVarDeclarations->errorDetect(global_sheet.sheet_name))
         {
-            f2 = global_sheet.add_var_symbols(m_PVarDeclarations);
+            f2 = global_sheet.add_var_symbols(mVarDeclarations);
             if (!f2)
             {
                 cout << "向全局符号表中加入变量符号错误" << endl;
@@ -320,11 +320,11 @@ CreateSymbolSheetResult ProgramBody::createSymbolSheet() const
     {
         f2 = true;
     }
-    if (!m_PSubProgramDeclarations->m_CommonVector.empty() && f2)
+    if (!mSubProgramDeclarations->mCommonVector.empty() && f2)
     {
-        if (m_PSubProgramDeclarations->errorDetect(global_sheet.sheet_name))
+        if (mSubProgramDeclarations->errorDetect(global_sheet.sheet_name))
         {
-            f3 = global_sheet.add_subprogram_symbols(m_PSubProgramDeclarations);
+            f3 = global_sheet.add_subprogramsymbols(mSubProgramDeclarations);
             if (!f3)
             {
                 cout << "向全局符号表中加入子函数失败" << endl;
@@ -355,14 +355,14 @@ CreateSymbolSheetResult Procedure::createSymbolSheet()
 {
     auto s = SymbolSheetList.size();
     SymbolSheet proc_sheet;
-    proc_sheet.sheet_name = m_PID->m_Name; // uses proc name
+    proc_sheet.sheet_name = mId->mName; // uses proc name
     bool f0, f1 = false, f2 = false, f3 = false;
     f0 = proc_sheet.add_reserved();
-    if (m_PParameterList && f0)
+    if (mParameterList && f0)
     {
-        if (m_PParameterList->errorDetect(proc_sheet.sheet_name))
+        if (mParameterList->errorDetect(proc_sheet.sheet_name))
         {
-            f1 = proc_sheet.add_parameterSymbols(m_PParameterList);
+            f1 = proc_sheet.add_parameterSymbols(mParameterList);
             if (!f1)
             {
                 cout << "插入参数失败：" << proc_sheet.sheet_name << endl;
@@ -373,11 +373,11 @@ CreateSymbolSheetResult Procedure::createSymbolSheet()
     {
         f1 = true;
     }
-    if (m_PConstDeclarations && f1)
+    if (mConstDeclarations && f1)
     {
-        if (m_PConstDeclarations->errorDetect(proc_sheet.sheet_name))
+        if (mConstDeclarations->errorDetect(proc_sheet.sheet_name))
         {
-            f2 = proc_sheet.add_const_symbols(m_PConstDeclarations);
+            f2 = proc_sheet.add_const_symbols(mConstDeclarations);
             if (!f2)
             {
                 cout << "插入常量符号失败：" << proc_sheet.sheet_name << endl;
@@ -388,11 +388,11 @@ CreateSymbolSheetResult Procedure::createSymbolSheet()
     {
         f2 = true;
     }
-    if (m_PVarDeclarations && f2)
+    if (mVarDeclarations && f2)
     {
-        if (m_PVarDeclarations->errorDetect(proc_sheet.sheet_name))
+        if (mVarDeclarations->errorDetect(proc_sheet.sheet_name))
         {
-            f3 = proc_sheet.add_var_symbols(m_PVarDeclarations);
+            f3 = proc_sheet.add_var_symbols(mVarDeclarations);
             if (!f3)
             {
                 cout << "插入变量符号失败：" << proc_sheet.sheet_name << endl;
@@ -424,14 +424,14 @@ CreateSymbolSheetResult Function::createSymbolSheet()
 {
     auto s = SymbolSheetList.size();
     SymbolSheet func_sheet;
-    func_sheet.sheet_name = m_PID->m_Name;
+    func_sheet.sheet_name = mId->mName;
     bool f0, f1 = false, f2 = false, f3 = false;
     f0 = func_sheet.add_reserved();
-    if (m_PParameterList && f0)
+    if (mParameterList && f0)
     {
-        if (m_PParameterList->errorDetect(func_sheet.sheet_name))
+        if (mParameterList->errorDetect(func_sheet.sheet_name))
         {
-            f1 = func_sheet.add_parameterSymbols(m_PParameterList);
+            f1 = func_sheet.add_parameterSymbols(mParameterList);
             if (!f1)
             {
                 cout << "插入参数失败：" << func_sheet.sheet_name << endl;
@@ -442,11 +442,11 @@ CreateSymbolSheetResult Function::createSymbolSheet()
     {
         f1 = true;
     }
-    if (m_PConstDeclarations && f1)
+    if (mConstDeclarations && f1)
     {
-        if (m_PConstDeclarations->errorDetect(func_sheet.sheet_name))
+        if (mConstDeclarations->errorDetect(func_sheet.sheet_name))
         {
-            f2 = func_sheet.add_const_symbols(m_PConstDeclarations);
+            f2 = func_sheet.add_const_symbols(mConstDeclarations);
             if (!f2)
             {
                 cout << "插入常量符号失败：" << func_sheet.sheet_name << endl;
@@ -457,11 +457,11 @@ CreateSymbolSheetResult Function::createSymbolSheet()
     {
         f2 = true;
     }
-    if (m_PVarDeclarations && f2)
+    if (mVarDeclarations && f2)
     {
-        if (m_PVarDeclarations->errorDetect(func_sheet.sheet_name))
+        if (mVarDeclarations->errorDetect(func_sheet.sheet_name))
         {
-            f3 = func_sheet.add_var_symbols(m_PVarDeclarations);
+            f3 = func_sheet.add_var_symbols(mVarDeclarations);
             if (!f3)
             {
                 cout << "插入变量符号失败：" << func_sheet.sheet_name << endl;
@@ -495,7 +495,7 @@ bool SymbolSheet::add_reserved()
     for (const auto &keyword : keywords)
     {
         TYPES type = RESERVED;
-        SUBPROGRAM_TYPE subprogram_type = NONE;
+        SUBPROGRAM_TYPE subprogramtype = NONE;
         bool is_const = false;
         float const_val = 0;
         bool is_var = false;
@@ -511,7 +511,7 @@ bool SymbolSheet::add_reserved()
             const_val,
             is_var,
             array_ranges,
-            subprogram_type,
+            subprogramtype,
             func_nargs,
             nargs_var_or_not,
             nargs_types,
@@ -532,7 +532,7 @@ bool SymbolSheet::add_reserved()
     for (const auto &builtins : BuiltInFunctions)
     {
         TYPES type = RESERVED;
-        SUBPROGRAM_TYPE subprgrm_type = PROC;
+        SUBPROGRAM_TYPE subprgrmtype = PROC;
         bool is_const = false;
         float const_val = 0;
         bool is_var = false;
@@ -548,7 +548,7 @@ bool SymbolSheet::add_reserved()
             const_val,
             is_var,
             array_ranges,
-            subprgrm_type,
+            subprgrmtype,
             func_nargs,
             nargs_var_or_not,
             nargs_types,
@@ -571,14 +571,14 @@ bool SymbolSheet::add_reserved()
 bool SymbolSheet::add_parameterSymbols(ParameterList *parameter_list)
 {
     bool flag = true;
-    for (auto parameter : parameter_list->mv_Patameter)
+    for (auto parameter : parameter_list->mParameters)
     {
         vector<Id *> parameterSymbols = parameter->getIds();
         auto type = (TYPES)parameter->getType();
-        SUBPROGRAM_TYPE subprogram_type = NONE;
+        SUBPROGRAM_TYPE subprogramtype = NONE;
         bool is_const = false;
         float const_val = 0;
-        bool is_var = parameter->m_IsVal;
+        bool is_var = parameter->mIsVal;
         int func_nargs = 0;
         vector<bool> nargs_var_or_not = {false};
         SubprogramArgsType nargs_types;
@@ -587,7 +587,7 @@ bool SymbolSheet::add_parameterSymbols(ParameterList *parameter_list)
         Ranges array_ranges;
         for (auto parameter_id : parameterSymbols)
         {
-            string name = parameter_id->m_Name;
+            string name = parameter_id->mName;
             // 查看是否为保留字
             if (check_is_reserved(name))
             {
@@ -601,7 +601,7 @@ bool SymbolSheet::add_parameterSymbols(ParameterList *parameter_list)
                 const_val,
                 is_var,
                 array_ranges,
-                subprogram_type,
+                subprogramtype,
                 func_nargs,
                 nargs_var_or_not,
                 nargs_types,
@@ -636,9 +636,9 @@ bool SymbolSheet::add_parameterSymbols(ParameterList *parameter_list)
 bool SymbolSheet::add_const_symbols(ConstDeclarations *const_declarations)
 {
     bool flag = true;
-    for (auto const_symbol : const_declarations->m_ConstVector)
+    for (auto const_symbol : const_declarations->mConstVector)
     {
-        string name = const_symbol.first->m_Name;
+        string name = const_symbol.first->mName;
         if (check_is_reserved(name))
         {
             cout << "常量标识符\"" << name << "\"为保留字，无法使用" << endl;
@@ -646,55 +646,55 @@ bool SymbolSheet::add_const_symbols(ConstDeclarations *const_declarations)
             break;
         }
         TYPES type;
-        SUBPROGRAM_TYPE subprogram_type = NONE;
+        SUBPROGRAM_TYPE subprogramtype = NONE;
         float const_val = 0;
         bool is_const = true;
-        if (!const_symbol.second->m_PID)
+        if (!const_symbol.second->mId)
         {
-            type = (TYPES)const_symbol.second->m_valueType;
+            type = (TYPES)const_symbol.second->mValueType;
             if (type == INT)
             {
-                const_val = const_symbol.second->m_int;
+                const_val = const_symbol.second->mInt;
             }
             else if (type == _REAL)
             {
-                const_val = const_symbol.second->m_real;
+                const_val = const_symbol.second->mReal;
             }
             else if (type == _CHAR)
             {
-                const_val = const_symbol.second->m_char;
+                const_val = const_symbol.second->mChar;
             }
             else if (type == _BOOLEAN)
             {
-                const_val = const_symbol.second->m_bool;
+                const_val = const_symbol.second->mBool;
             }
             else
             {
-                std::cout << "Line " << const_symbol.second->m_Lineno << ": 常量声明的类型错误" << endl;
+                std::cout << "Line " << const_symbol.second->mLineno << ": 常量声明的类型错误" << endl;
                 flag = false;
                 break;
             }
         }
         else
         {
-            Id *that_symbol = const_symbol.second->m_PID;
-            type = (TYPES)that_symbol->m_IDType;
-            const_val = get_const_symbol_value(that_symbol->m_Name);
+            Id *that_symbol = const_symbol.second->mId;
+            type = (TYPES)that_symbol->mIdType;
+            const_val = get_const_symbol_value(that_symbol->mName);
             if (type != INT && type != _REAL && type != _CHAR && type != _BOOLEAN)
             {
-                std::cout << "Line: " << const_symbol.second->m_Lineno << ": 常量声明的类型错误" << endl;
+                std::cout << "Line: " << const_symbol.second->mLineno << ": 常量声明的类型错误" << endl;
                 flag = false;
                 break;
             }
         }
-        if (const_symbol.second->m_postNeg == CONST_NEGATIVE) // 负常量
+        if (const_symbol.second->mPolarity == CONST_NEGATIVE) // 负常量
             const_val = -const_val;
         bool is_var = false;
         Ranges array_ranges = {};
         int func_nargs = 0;
         vector<bool> nargs_var_or_not = {false};
         SubprogramArgsType nargs_types;
-        int dec_line = const_symbol.second->m_Lineno;
+        int dec_line = const_symbol.second->mLineno;
         int ref_line = -1;
         Property p = {
             type,
@@ -702,7 +702,7 @@ bool SymbolSheet::add_const_symbols(ConstDeclarations *const_declarations)
             const_val,
             is_var,
             array_ranges,
-            subprogram_type,
+            subprogramtype,
             func_nargs,
             nargs_var_or_not,
             nargs_types,
@@ -732,11 +732,11 @@ bool SymbolSheet::add_const_symbols(ConstDeclarations *const_declarations)
 bool SymbolSheet::add_var_symbols(VarDeclarations *var_declarations)
 {
     bool flag = true;
-    for (auto vars : var_declarations->m_VariableVector)
+    for (auto vars : var_declarations->mVariableVector)
     {
-        vector<Id *> var_symbols = vars.first->m_IDVector;
+        vector<Id *> var_symbols = vars.first->mIdVector;
         auto type = (TYPES)vars.second->checkSimpleType();
-        SUBPROGRAM_TYPE subprogram_type = NONE;
+        SUBPROGRAM_TYPE subprogramtype = NONE;
         bool is_const = false;
         float const_val = 0;
         bool is_var = false;
@@ -753,7 +753,7 @@ bool SymbolSheet::add_var_symbols(VarDeclarations *var_declarations)
 
         for (auto var_symbol : var_symbols)
         {
-            string name = var_symbol->m_Name;
+            string name = var_symbol->mName;
             if (check_is_reserved(name))
             {
                 cout << "变量标识符\"" << name << "\"为关键字，无法使用" << endl;
@@ -766,7 +766,7 @@ bool SymbolSheet::add_var_symbols(VarDeclarations *var_declarations)
                 const_val,
                 is_var,
                 array_ranges,
-                subprogram_type,
+                subprogramtype,
                 func_nargs,
                 nargs_var_or_not,
                 nargs_types,
@@ -794,12 +794,12 @@ bool SymbolSheet::add_var_symbols(VarDeclarations *var_declarations)
     return flag;
 }
 
-bool SymbolSheet::add_subprogram_symbols(SubProgramDeclarations *subProgram_declarations)
+bool SymbolSheet::add_subprogramsymbols(SubProgramDeclarations *subProgramdeclarations)
 {
     bool flag = true;
-    for (auto subprogram : subProgram_declarations->m_CommonVector)
+    for (auto subprogram : subProgramdeclarations->mCommonVector)
     {
-        string name = subprogram->getFuncId()->m_Name;
+        string name = subprogram->getFuncId()->mName;
         if (check_is_reserved(name))
         {
             cout << "子函数标识符\"" << name << "\"为关键字，无法使用" << endl;
@@ -809,25 +809,25 @@ bool SymbolSheet::add_subprogram_symbols(SubProgramDeclarations *subProgram_decl
         // 如果是函数则代表返回值，如果是过程则为　VOID
         auto type = (TYPES)subprogram->checkReturnType();
         // 子程序类型（函数、过程）
-        auto subprogram_type = (SUBPROGRAM_TYPE)subprogram->getCommonType();
+        auto subprogramtype = (SUBPROGRAM_TYPE)subprogram->getCommonType();
         bool is_const = false;
         float const_val = 0;
         bool is_var = false;
         Ranges array_ranges;
-        int subprogram_args_num = 0;
+        int subprogramargs_num = 0;
         vector<bool> nargs_var_or_not;
         SubprogramArgsType nargs_types;
         if (subprogram->getParamList())
         {
-            vector<Parameter *> parameters = subprogram->getParamList()->mv_Patameter;
+            vector<Parameter *> parameters = subprogram->getParamList()->mParameters;
             for (auto ids : parameters)
             {
-                bool isVar = ids->m_IsVal;
-                subprogram_args_num += ids->getIdList()->getIdNum();
+                bool isVar = ids->mIsVal;
+                subprogramargs_num += ids->getIdList()->getIdNum();
                 IdList *id_list = ids->getIdList();
-                for (auto id : id_list->m_IDVector)
+                for (auto id : id_list->mIdVector)
                 {
-                    nargs_types.push_back(id->m_IDType);
+                    nargs_types.push_back(id->mIdType);
                     nargs_var_or_not.push_back(isVar);
                 }
             }
@@ -840,8 +840,8 @@ bool SymbolSheet::add_subprogram_symbols(SubProgramDeclarations *subProgram_decl
             const_val,
             is_var,
             array_ranges,
-            subprogram_type,
-            subprogram_args_num,
+            subprogramtype,
+            subprogramargs_num,
             nargs_var_or_not,
             nargs_types,
             dec_line,
