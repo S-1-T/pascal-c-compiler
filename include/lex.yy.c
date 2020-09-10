@@ -1210,7 +1210,7 @@ YY_RULE_SETUP
 case 67:
 YY_RULE_SETUP
 #line 103 ".\\yacc\\p2c.l"
-{ printf("row: %d, line: %d-%d error: lexical analyse error : %s \n", yylineno, yyrowno - yyleng + 1, yyrowno, yytext); }
+{ printf("line %d, row %d error: lexical analyse error : %s\n", yylineno, yyrowno, yytext); }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP

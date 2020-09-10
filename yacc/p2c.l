@@ -100,7 +100,7 @@ character [\']({letter}|{digit}|[' '])[\']
 [\r]			{}
 [\n]            { yyrowno = 1; }
 [\t]		    { yyrowno += 4; }
-.				{ printf("row: %d, line: %d-%d error: lexical analyse error : %s \n", yylineno, yyrowno - yyleng + 1, yyrowno, yytext); }
+.				{ printf("line %d, row %d error: lexical analyse error : %s\n", yylineno, yyrowno, yytext); }
 %%
 int yywrap(){
     return 1;

@@ -828,6 +828,6 @@ int lexical_and_syntax_analyse() {
 
 
 extern void yyerror(const char* s) {
-	printf("line: %d, Error '%s'\n",yylineno,s);
+	printf("line %d: '%s'\n", yylineno, s);
 	errorNum++;
 }

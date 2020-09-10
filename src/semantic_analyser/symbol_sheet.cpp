@@ -3,7 +3,7 @@
 map<SymbolSheetName, SymbolSheet> SymbolSheetList;
 
 // 针对符号表的操作
-bool lookup_symbol(const string &symbolSheetName, const string &symbol_name)
+bool lookup_symbol(const string &symbolSheetName, const string &name)
 {
     bool flag = true;
     // 查找全局表
@@ -13,7 +13,7 @@ bool lookup_symbol(const string &symbolSheetName, const string &symbol_name)
     if (symbolSheetName == "0")
     {
         sheet = global_sheet;
-        if (sheet.symbols.find(symbol_name) != sheet.symbols.end())
+        if (sheet.symbols.find(name) != sheet.symbols.end())
         {
             flag = true;
         }
@@ -25,12 +25,12 @@ bool lookup_symbol(const string &symbolSheetName, const string &symbol_name)
     else if (SymbolSheetList.find(symbolSheetName) != SymbolSheetList.end())
     {
         sheet = SymbolSheetList[symbolSheetName];
-        if (sheet.symbols.find(symbol_name) != sheet.symbols.end() ||
-            global_sheet.symbols.find(symbol_name) != global_sheet.symbols.end())
+        if (sheet.symbols.find(name) != sheet.symbols.end() ||
+            global_sheet.symbols.find(name) != global_sheet.symbols.end())
         {
             flag = true;
         }
-        else if (global_sheet.symbols.find(symbol_name) == global_sheet.symbols.end())
+        else if (global_sheet.symbols.find(name) == global_sheet.symbols.end())
         {
             flag = false;
         }

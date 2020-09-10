@@ -51,7 +51,7 @@ typedef pair<bool, SymbolSheetName> CreateSymbolSheetResult;
 
 // 针对符号表的方法
 // 查看符号是否存在
-bool lookup_symbol(const string &symbolSheetName, const string &symbol_name);
+bool lookup_symbol(const string &symbolSheetName, const string &name);
 // 获取符号类型
 int get_symbol_type(const string &symbolSheetName, const string &symbol_name);
 // 获取数组类型的下标范围

@@ -1,13 +1,15 @@
-program example(input,output);
+program gcd(void);
 var 
-    x,y,z : integer;
-function gcd(a,b:integer) : integer;
+    x, y : integer;
+function gcd(a, b : integer) : integer;
     begin
-        if a mod b = 0
-            then gcd := b
-            else gcd := gcd(b, a mod b)
+        if a mod b = 0 then
+            gcd := b
+        else
+            gcd := gcd(b, a mod b)
     end;
 begin
-    read(x,y);
-    write(gcd(x,y));
+    x := 24;
+    y := 36;
+    writeln(gcd(x,y));
 end.
