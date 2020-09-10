@@ -15,6 +15,8 @@ SET(semantic_analyser ${semantic_analyser_dir})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin/)
 
+add_compile_options(-Wno-deprecated)
+
 add_executable(pascal_c_compiler
         ${compiler}
         ${codes_generator}
