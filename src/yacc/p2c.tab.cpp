@@ -66,7 +66,8 @@
 /* "%code top" blocks.  */
 #line 6 ".\\yacc\\p2c.y"
 
-	#include "lex.yy.c"
+	#include "yacc/lex.yy.c"
+
 	#include <cstdio>
 	#include <string>
 	#include <iostream>
@@ -78,7 +79,7 @@
 	Program* root;					// AST 根节点
 	int errorNum = 0;				// 错误数量
 
-	int yyparse(void);				// 语法分析接口
+	int yyparse();				    // 语法分析接口
 	void yyerror(const char* s);	// 输出错误信息
 	extern int yylineno;			// 行号信息
 
@@ -86,7 +87,7 @@
 
 	using namespace std;
 
-#line 90 "p2c.tab.c"
+#line 91 "p2c.tab.c"
 
 
 
@@ -112,7 +113,7 @@
 #  endif
 # endif
 
-#include "../include/p2c.tab.h"
+#include "yacc/p2c.tab.h"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -588,17 +589,17 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   137,   137,   143,   150,   153,   158,   162,   167,   175,
-     191,   194,   200,   208,   218,   229,   240,   251,   257,   263,
-     269,   275,   281,   287,   293,   301,   304,   311,   315,   322,
-     328,   335,   341,   344,   347,   350,   357,   361,   367,   370,
-     373,   379,   383,   389,   399,   405,   411,   415,   422,   425,
-     431,   435,   443,   448,   455,   461,   467,   470,   475,   481,
-     486,   491,   494,   501,   512,   522,   532,   542,   545,   558,
-     561,   564,   571,   590,   593,   599,   610,   623,   626,   634,
-     638,   645,   651,   657,   663,   669,   675,   681,   690,   693,
-     696,   699,   705,   708,   711,   714,   717,   720,   725,   728,
-     733,   739,   745,   751,   757,   767,   780,   793,   803
+       0,   138,   138,   144,   151,   154,   159,   163,   168,   176,
+     192,   195,   201,   209,   219,   230,   241,   252,   258,   264,
+     270,   276,   282,   288,   294,   302,   305,   312,   316,   323,
+     329,   336,   342,   345,   348,   351,   358,   362,   368,   371,
+     374,   380,   384,   390,   400,   406,   412,   416,   423,   426,
+     432,   436,   444,   449,   456,   462,   468,   471,   476,   482,
+     487,   492,   495,   502,   513,   523,   533,   543,   546,   559,
+     562,   565,   572,   591,   594,   600,   611,   624,   627,   635,
+     639,   646,   652,   658,   664,   670,   676,   682,   691,   694,
+     697,   700,   706,   709,   712,   715,   718,   721,   726,   729,
+     734,   740,   746,   752,   758,   768,   781,   794,   804
 };
 #endif
 
@@ -1328,16 +1329,16 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: programhead programbody '.'  */
-#line 137 ".\\yacc\\p2c.y"
+#line 138 ".\\yacc\\p2c.y"
                                         {
 		(yyval.program) = new Program((yyvsp[-2].programHead)->mId, (yyvsp[-2].programHead)->mIdList, (yyvsp[-1].programBody));
 		root = (yyval.program);
 	}
-#line 1337 "p2c.tab.c"
+#line 1338 "p2c.tab.c"
     break;
 
   case 3: /* programhead: PROGRAM IDENTIFIER '(' identifier_list ')' ';'  */
-#line 143 ".\\yacc\\p2c.y"
+#line 144 ".\\yacc\\p2c.y"
                                                          {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[-4].mStr));
@@ -1345,43 +1346,43 @@ yyreduce:
 		tmp -> mIdType = TYPE_ID;
 		(yyval.programHead) = new ProgramHead(tmp, (yyvsp[-2].idList));
 	}
-#line 1349 "p2c.tab.c"
+#line 1350 "p2c.tab.c"
     break;
 
   case 4: /* programhead: PROGRAM error  */
-#line 150 ".\\yacc\\p2c.y"
+#line 151 ".\\yacc\\p2c.y"
                         {
 		(yyval.programHead) = new ProgramHead(nullptr,nullptr);
 	}
-#line 1357 "p2c.tab.c"
+#line 1358 "p2c.tab.c"
     break;
 
   case 5: /* programhead: error  */
-#line 153 ".\\yacc\\p2c.y"
+#line 154 ".\\yacc\\p2c.y"
                 {
 		(yyval.programHead) = new ProgramHead(nullptr,nullptr);
 	}
-#line 1365 "p2c.tab.c"
+#line 1366 "p2c.tab.c"
     break;
 
   case 6: /* programbody: const_declarations var_declarations subprogramdeclarations compound_statement  */
-#line 158 ".\\yacc\\p2c.y"
+#line 159 ".\\yacc\\p2c.y"
                                                                                         {
 		(yyval.programBody) = new ProgramBody((yyvsp[-3].constDeclarations), (yyvsp[-2].varDeclarations), (yyvsp[-1].subProgramDeclarations), (yyvsp[0].compoundStatement));
 	}
-#line 1373 "p2c.tab.c"
+#line 1374 "p2c.tab.c"
     break;
 
   case 7: /* programbody: error const_declarations var_declarations subprogramdeclarations compound_statement  */
-#line 162 ".\\yacc\\p2c.y"
+#line 163 ".\\yacc\\p2c.y"
                                                                                              {
 		(yyval.programBody) = new ProgramBody();
 	}
-#line 1381 "p2c.tab.c"
+#line 1382 "p2c.tab.c"
     break;
 
   case 8: /* identifier_list: identifier_list ',' IDENTIFIER  */
-#line 167 ".\\yacc\\p2c.y"
+#line 168 ".\\yacc\\p2c.y"
                                          {
 		(yyval.idList) = new IdList();
 		(yyval.idList) = (yyvsp[-2].idList);
@@ -1390,11 +1391,11 @@ yyreduce:
 		tmp -> mLineno = yylineno;
 		(yyval.idList) -> mIdVector.push_back(tmp);
 	}
-#line 1394 "p2c.tab.c"
+#line 1395 "p2c.tab.c"
     break;
 
   case 9: /* identifier_list: IDENTIFIER  */
-#line 175 ".\\yacc\\p2c.y"
+#line 176 ".\\yacc\\p2c.y"
                      {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[0].mStr));
@@ -1403,27 +1404,27 @@ yyreduce:
 		(yyval.idList) -> mIdVector.push_back(tmp);
 		(yyval.idList) -> mLineno = yylineno;
 	}
-#line 1407 "p2c.tab.c"
+#line 1408 "p2c.tab.c"
     break;
 
   case 10: /* const_declarations: CONST const_declaration ';'  */
-#line 191 ".\\yacc\\p2c.y"
+#line 192 ".\\yacc\\p2c.y"
                                       {
 		(yyval.constDeclarations) = new ConstDeclarations((yyvsp[-1].constDeclaration) -> mConstVector);
 	}
-#line 1415 "p2c.tab.c"
+#line 1416 "p2c.tab.c"
     break;
 
   case 11: /* const_declarations: %empty  */
-#line 194 ".\\yacc\\p2c.y"
+#line 195 ".\\yacc\\p2c.y"
           {
 		(yyval.constDeclarations) = new ConstDeclarations();
 	}
-#line 1423 "p2c.tab.c"
+#line 1424 "p2c.tab.c"
     break;
 
   case 12: /* const_declaration: const_declaration ';' IDENTIFIER '=' const_variable  */
-#line 200 ".\\yacc\\p2c.y"
+#line 201 ".\\yacc\\p2c.y"
                                                               {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[-2].mStr));
@@ -1432,11 +1433,11 @@ yyreduce:
 		(yyvsp[-4].constDeclaration) -> mConstVector.push_back(p_Const(tmp, (yyvsp[0].constValue)));
 		(yyval.constDeclaration) = new ConstDeclaration((yyvsp[-4].constDeclaration) -> mConstVector);
 	}
-#line 1436 "p2c.tab.c"
+#line 1437 "p2c.tab.c"
     break;
 
   case 13: /* const_declaration: IDENTIFIER '=' const_variable  */
-#line 208 ".\\yacc\\p2c.y"
+#line 209 ".\\yacc\\p2c.y"
                                         {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[-2].mStr));
@@ -1444,11 +1445,11 @@ yyreduce:
 		(yyval.constDeclaration) = new ConstDeclaration();
 		(yyval.constDeclaration) -> mConstVector.push_back(p_Const(tmp,(yyvsp[0].constValue)));
 	}
-#line 1448 "p2c.tab.c"
+#line 1449 "p2c.tab.c"
     break;
 
   case 14: /* const_variable: '+' IDENTIFIER  */
-#line 218 ".\\yacc\\p2c.y"
+#line 219 ".\\yacc\\p2c.y"
                          {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mLineno = yylineno;
@@ -1460,11 +1461,11 @@ yyreduce:
 		tmp -> mLineno = yylineno;
 		(yyval.constValue) -> mId = tmp;
 	}
-#line 1464 "p2c.tab.c"
+#line 1465 "p2c.tab.c"
     break;
 
   case 15: /* const_variable: '-' IDENTIFIER  */
-#line 229 ".\\yacc\\p2c.y"
+#line 230 ".\\yacc\\p2c.y"
                          {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mLineno = yylineno;
@@ -1476,11 +1477,11 @@ yyreduce:
 		tmp -> mLineno = yylineno;
 		(yyval.constValue) -> mId = tmp;
 	}
-#line 1480 "p2c.tab.c"
+#line 1481 "p2c.tab.c"
     break;
 
   case 16: /* const_variable: IDENTIFIER  */
-#line 240 ".\\yacc\\p2c.y"
+#line 241 ".\\yacc\\p2c.y"
                      {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mLineno = yylineno;
@@ -1492,145 +1493,145 @@ yyreduce:
 		tmp -> mLineno = yylineno;
 		(yyval.constValue) -> mId = tmp;
 	}
-#line 1496 "p2c.tab.c"
+#line 1497 "p2c.tab.c"
     break;
 
   case 17: /* const_variable: '+' NUMBER  */
-#line 251 ".\\yacc\\p2c.y"
+#line 252 ".\\yacc\\p2c.y"
                      {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_POSITIVE;
 		(yyval.constValue) -> mValueType = TYPE_REAL;
 		(yyval.constValue) -> mReal = (yyvsp[0].mFloat);
 	}
-#line 1507 "p2c.tab.c"
+#line 1508 "p2c.tab.c"
     break;
 
   case 18: /* const_variable: '-' NUMBER  */
-#line 257 ".\\yacc\\p2c.y"
+#line 258 ".\\yacc\\p2c.y"
                      {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_NEGATIVE;
 		(yyval.constValue) -> mValueType = TYPE_REAL;
 		(yyval.constValue) -> mReal = (yyvsp[0].mFloat);
 	}
-#line 1518 "p2c.tab.c"
+#line 1519 "p2c.tab.c"
     break;
 
   case 19: /* const_variable: NUMBER  */
-#line 263 ".\\yacc\\p2c.y"
+#line 264 ".\\yacc\\p2c.y"
                  {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_POSITIVE;
 		(yyval.constValue) -> mValueType = TYPE_REAL;
 		(yyval.constValue) -> mReal = (yyvsp[0].mFloat);
 	}
-#line 1529 "p2c.tab.c"
+#line 1530 "p2c.tab.c"
     break;
 
   case 20: /* const_variable: '+' DIGITS  */
-#line 269 ".\\yacc\\p2c.y"
+#line 270 ".\\yacc\\p2c.y"
                      {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_POSITIVE;
 		(yyval.constValue) -> mValueType = TYPE_INTEGER;
 		(yyval.constValue) -> mInt = (yyvsp[0].mInt);
 	}
-#line 1540 "p2c.tab.c"
+#line 1541 "p2c.tab.c"
     break;
 
   case 21: /* const_variable: '-' DIGITS  */
-#line 275 ".\\yacc\\p2c.y"
+#line 276 ".\\yacc\\p2c.y"
                      {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_NEGATIVE;
 		(yyval.constValue) -> mValueType = TYPE_INTEGER;
 		(yyval.constValue) -> mInt = (yyvsp[0].mInt);
 	}
-#line 1551 "p2c.tab.c"
+#line 1552 "p2c.tab.c"
     break;
 
   case 22: /* const_variable: DIGITS  */
-#line 281 ".\\yacc\\p2c.y"
+#line 282 ".\\yacc\\p2c.y"
                  {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_POSITIVE;
 		(yyval.constValue) -> mValueType = TYPE_INTEGER;
 		(yyval.constValue) -> mInt = (yyvsp[0].mInt);
 	}
-#line 1562 "p2c.tab.c"
+#line 1563 "p2c.tab.c"
     break;
 
   case 23: /* const_variable: LETTER  */
-#line 287 ".\\yacc\\p2c.y"
+#line 288 ".\\yacc\\p2c.y"
                  {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_NULL;
 		(yyval.constValue) -> mValueType = TYPE_CHAR;
 		(yyval.constValue) -> mChar = (yyvsp[0].mChar);
 	}
-#line 1573 "p2c.tab.c"
+#line 1574 "p2c.tab.c"
     break;
 
   case 24: /* const_variable: BOOL  */
-#line 293 ".\\yacc\\p2c.y"
+#line 294 ".\\yacc\\p2c.y"
                {
 		(yyval.constValue) = new ConstValue();
 		(yyval.constValue) -> mPolarity = CONST_NULL;
 		(yyval.constValue) -> mValueType = TYPE_BOOLEAN;
 		(yyval.constValue) -> mBool = (yyvsp[0].mBool);
 	}
-#line 1584 "p2c.tab.c"
+#line 1585 "p2c.tab.c"
     break;
 
   case 25: /* var_declarations: VAR var_declaration ';'  */
-#line 301 ".\\yacc\\p2c.y"
+#line 302 ".\\yacc\\p2c.y"
                                   {
 		(yyval.varDeclarations) = new VarDeclarations((yyvsp[-1].varDeclaration) -> mVariableVector);
 	}
-#line 1592 "p2c.tab.c"
+#line 1593 "p2c.tab.c"
     break;
 
   case 26: /* var_declarations: %empty  */
-#line 304 ".\\yacc\\p2c.y"
+#line 305 ".\\yacc\\p2c.y"
           {
 		vector<p_Var> tmp;
 		(yyval.varDeclarations) = new VarDeclarations(tmp);
 	}
-#line 1601 "p2c.tab.c"
+#line 1602 "p2c.tab.c"
     break;
 
   case 27: /* var_declaration: var_declaration ';' identifier_list ':' type  */
-#line 311 ".\\yacc\\p2c.y"
+#line 312 ".\\yacc\\p2c.y"
                                                        {
 		(yyval.varDeclaration) = new VarDeclaration((yyvsp[-4].varDeclaration) -> mVariableVector);
 		(yyval.varDeclaration) -> mVariableVector.push_back(p_Var((yyvsp[-2].idList), (yyvsp[0].type)));
 	}
-#line 1610 "p2c.tab.c"
+#line 1611 "p2c.tab.c"
     break;
 
   case 28: /* var_declaration: identifier_list ':' type  */
-#line 315 ".\\yacc\\p2c.y"
+#line 316 ".\\yacc\\p2c.y"
                                    {
 		(yyval.varDeclaration) = new VarDeclaration();
 		(yyval.varDeclaration) -> mVariableVector.push_back(p_Var((yyvsp[-2].idList), (yyvsp[0].type)));
 	}
-#line 1619 "p2c.tab.c"
+#line 1620 "p2c.tab.c"
     break;
 
   case 29: /* type: standard_type  */
-#line 322 ".\\yacc\\p2c.y"
+#line 323 ".\\yacc\\p2c.y"
                         {
 		(yyval.type) = new Type();
 		(yyval.type) -> mSimpleType = (yyvsp[0].mInt);
 		(yyval.type) -> misArray = false;
 		(yyval.type) -> mLineno = yylineno;
 	}
-#line 1630 "p2c.tab.c"
+#line 1631 "p2c.tab.c"
     break;
 
   case 30: /* type: ARRAY '[' period ']' OF standard_type  */
-#line 328 ".\\yacc\\p2c.y"
+#line 329 ".\\yacc\\p2c.y"
                                                 {
 		(yyval.type) = new Type();
 		(yyval.type) -> mLineno = yylineno;
@@ -1638,110 +1639,110 @@ yyreduce:
 		(yyval.type) -> mPeriod = (yyvsp[-3].period);
 		(yyval.type) -> mSimpleType = (yyvsp[0].mInt);
 	}
-#line 1642 "p2c.tab.c"
+#line 1643 "p2c.tab.c"
     break;
 
   case 31: /* type: error  */
-#line 335 ".\\yacc\\p2c.y"
+#line 336 ".\\yacc\\p2c.y"
                 {
 		(yyval.type) = new Type();
 	}
-#line 1650 "p2c.tab.c"
+#line 1651 "p2c.tab.c"
     break;
 
   case 32: /* standard_type: INTEGER  */
-#line 341 ".\\yacc\\p2c.y"
+#line 342 ".\\yacc\\p2c.y"
                   {
 		(yyval.mInt) = TYPE_INTEGER;
 	}
-#line 1658 "p2c.tab.c"
+#line 1659 "p2c.tab.c"
     break;
 
   case 33: /* standard_type: REAL  */
-#line 344 ".\\yacc\\p2c.y"
+#line 345 ".\\yacc\\p2c.y"
                {
 		(yyval.mInt) = TYPE_REAL;
 	}
-#line 1666 "p2c.tab.c"
+#line 1667 "p2c.tab.c"
     break;
 
   case 34: /* standard_type: BOOLEAN  */
-#line 347 ".\\yacc\\p2c.y"
+#line 348 ".\\yacc\\p2c.y"
                   {
 		(yyval.mInt) = TYPE_BOOLEAN;
 	}
-#line 1674 "p2c.tab.c"
+#line 1675 "p2c.tab.c"
     break;
 
   case 35: /* standard_type: CHAR  */
-#line 350 ".\\yacc\\p2c.y"
+#line 351 ".\\yacc\\p2c.y"
                {
 		(yyval.mInt) = TYPE_CHAR;
 	}
-#line 1682 "p2c.tab.c"
+#line 1683 "p2c.tab.c"
     break;
 
   case 36: /* period: period ',' SDIGITS SUBBOUNDARY SDIGITS  */
-#line 357 ".\\yacc\\p2c.y"
+#line 358 ".\\yacc\\p2c.y"
                                                  {
 		(yyval.period) = new Period((yyvsp[-4].period) -> mDimsVector);
 		(yyval.period) -> mDimsVector.push_back(p_Per((yyvsp[-2].mInt), (yyvsp[0].mInt)));
 	}
-#line 1691 "p2c.tab.c"
+#line 1692 "p2c.tab.c"
     break;
 
   case 37: /* period: SDIGITS SUBBOUNDARY SDIGITS  */
-#line 361 ".\\yacc\\p2c.y"
+#line 362 ".\\yacc\\p2c.y"
                                       {
 		(yyval.period) = new Period();
 		(yyval.period) -> mDimsVector.push_back(p_Per((yyvsp[-2].mInt), (yyvsp[0].mInt)));
 	}
-#line 1700 "p2c.tab.c"
+#line 1701 "p2c.tab.c"
     break;
 
   case 38: /* SDIGITS: DIGITS  */
-#line 367 ".\\yacc\\p2c.y"
+#line 368 ".\\yacc\\p2c.y"
                 {
 		(yyval.mInt) = (yyvsp[0].mInt);
 	}
-#line 1708 "p2c.tab.c"
+#line 1709 "p2c.tab.c"
     break;
 
   case 39: /* SDIGITS: '+' DIGITS  */
-#line 370 ".\\yacc\\p2c.y"
+#line 371 ".\\yacc\\p2c.y"
                     {
 		(yyval.mInt) = (yyvsp[0].mInt);
 	}
-#line 1716 "p2c.tab.c"
+#line 1717 "p2c.tab.c"
     break;
 
   case 40: /* SDIGITS: '-' DIGITS  */
-#line 373 ".\\yacc\\p2c.y"
+#line 374 ".\\yacc\\p2c.y"
                     {
 		(yyval.mInt) = -(yyvsp[0].mInt);
 	}
-#line 1724 "p2c.tab.c"
+#line 1725 "p2c.tab.c"
     break;
 
   case 41: /* subprogramdeclarations: subprogramdeclarations subprogram ';'  */
-#line 379 ".\\yacc\\p2c.y"
+#line 380 ".\\yacc\\p2c.y"
                                                 {
 		(yyval.subProgramDeclarations) = new SubProgramDeclarations((yyvsp[-2].subProgramDeclarations) -> mCommonVector);
 		(yyval.subProgramDeclarations) -> mCommonVector.push_back((yyvsp[-1].common));
 	}
-#line 1733 "p2c.tab.c"
+#line 1734 "p2c.tab.c"
     break;
 
   case 42: /* subprogramdeclarations: %empty  */
-#line 383 ".\\yacc\\p2c.y"
+#line 384 ".\\yacc\\p2c.y"
           {
 		(yyval.subProgramDeclarations) = new SubProgramDeclarations();
 	}
-#line 1741 "p2c.tab.c"
+#line 1742 "p2c.tab.c"
     break;
 
   case 43: /* subprogram: subprogramhead subprogrambody  */
-#line 389 ".\\yacc\\p2c.y"
+#line 390 ".\\yacc\\p2c.y"
                                         {
 		if((yyvsp[-1].subprogramHead) -> mSimpleType == TYPE_NULL) {
 			(yyval.common) = new Procedure(yylineno, (yyvsp[-1].subprogramHead) -> mId, (yyvsp[-1].subprogramHead)-> mFormalParameter -> mParameterList, (yyvsp[0].subprogramBody) -> mConstDeclarations, (yyvsp[0].subprogramBody) -> mVarDeclarations, (yyvsp[0].subprogramBody)-> mCompoundStatement -> mStatementList);
@@ -1750,181 +1751,181 @@ yyreduce:
 			(yyval.common) = new Function((yyvsp[-1].subprogramHead) -> mSimpleType, yylineno, (yyvsp[-1].subprogramHead) -> mId, (yyvsp[-1].subprogramHead)-> mFormalParameter -> mParameterList, (yyvsp[0].subprogramBody) -> mConstDeclarations, (yyvsp[0].subprogramBody) -> mVarDeclarations, (yyvsp[0].subprogramBody)-> mCompoundStatement -> mStatementList);
 		}
 	}
-#line 1754 "p2c.tab.c"
+#line 1755 "p2c.tab.c"
     break;
 
   case 44: /* subprogramhead: FUNCTION IDENTIFIER formal_parameter ':' standard_type ';'  */
-#line 399 ".\\yacc\\p2c.y"
+#line 400 ".\\yacc\\p2c.y"
                                                                      {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[-4].mStr));
 		tmp -> mLineno = yylineno;
 		(yyval.subprogramHead) = new SubprogramHead(tmp, (yyvsp[-3].formalParameter), (yyvsp[-1].mInt));
 	}
-#line 1765 "p2c.tab.c"
+#line 1766 "p2c.tab.c"
     break;
 
   case 45: /* subprogramhead: PROCEDURE IDENTIFIER formal_parameter ';'  */
-#line 405 ".\\yacc\\p2c.y"
+#line 406 ".\\yacc\\p2c.y"
                                                     {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[-2].mStr));
 		tmp -> mLineno = yylineno;
 		(yyval.subprogramHead) = new SubprogramHead(tmp, (yyvsp[-1].formalParameter), TYPE_NULL);
 	}
-#line 1776 "p2c.tab.c"
+#line 1777 "p2c.tab.c"
     break;
 
   case 46: /* subprogramhead: FUNCTION error ';'  */
-#line 411 ".\\yacc\\p2c.y"
+#line 412 ".\\yacc\\p2c.y"
                              {
 		Id* tmp = new Id();
 		(yyval.subprogramHead) = new SubprogramHead(tmp,new FormalParameter(),TYPE_NULL);
 	}
-#line 1785 "p2c.tab.c"
+#line 1786 "p2c.tab.c"
     break;
 
   case 47: /* subprogramhead: PROCEDURE error ';'  */
-#line 415 ".\\yacc\\p2c.y"
+#line 416 ".\\yacc\\p2c.y"
                              {
 		Id* tmp = new Id();
 		(yyval.subprogramHead) = new SubprogramHead(tmp,new FormalParameter(),TYPE_NULL);
 	}
-#line 1794 "p2c.tab.c"
+#line 1795 "p2c.tab.c"
     break;
 
   case 48: /* formal_parameter: '(' parameter_list ')'  */
-#line 422 ".\\yacc\\p2c.y"
+#line 423 ".\\yacc\\p2c.y"
                                  {
 		(yyval.formalParameter) = new FormalParameter((yyvsp[-1].parameterList));
 	}
-#line 1802 "p2c.tab.c"
+#line 1803 "p2c.tab.c"
     break;
 
   case 49: /* formal_parameter: %empty  */
-#line 425 ".\\yacc\\p2c.y"
+#line 426 ".\\yacc\\p2c.y"
           {
 		(yyval.formalParameter) = new FormalParameter(nullptr);
 	}
-#line 1810 "p2c.tab.c"
+#line 1811 "p2c.tab.c"
     break;
 
   case 50: /* parameter_list: parameter_list ';' parameter  */
-#line 431 ".\\yacc\\p2c.y"
+#line 432 ".\\yacc\\p2c.y"
                                        {
 		(yyval.parameterList) = new ParameterList(yylineno, (yyvsp[-2].parameterList) -> mParameters);
 		(yyval.parameterList) -> mParameters.push_back((yyvsp[0].parameter));
 	}
-#line 1819 "p2c.tab.c"
+#line 1820 "p2c.tab.c"
     break;
 
   case 51: /* parameter_list: parameter  */
-#line 435 ".\\yacc\\p2c.y"
+#line 436 ".\\yacc\\p2c.y"
                     {
 		(yyval.parameterList) = new ParameterList();
 		(yyval.parameterList) -> mLineno = yylineno;
 		(yyval.parameterList) -> mParameters.push_back((yyvsp[0].parameter));
 	}
-#line 1829 "p2c.tab.c"
+#line 1830 "p2c.tab.c"
     break;
 
   case 52: /* parameter: var_parameter  */
-#line 443 ".\\yacc\\p2c.y"
+#line 444 ".\\yacc\\p2c.y"
                         {
 		(yyval.parameter) = new Parameter(true, yylineno, (yyvsp[0].varParameter) -> mValueParameter -> mIdList);
 		(yyval.parameter) -> mType = (yyvsp[0].varParameter) -> mValueParameter -> mSimpleType;
 
 	}
-#line 1839 "p2c.tab.c"
+#line 1840 "p2c.tab.c"
     break;
 
   case 53: /* parameter: value_parameter  */
-#line 448 ".\\yacc\\p2c.y"
+#line 449 ".\\yacc\\p2c.y"
                           {
 		(yyval.parameter) = new Parameter(false, yylineno, (yyvsp[0].valueParameter) -> mIdList);
 		(yyval.parameter) -> mType = (yyvsp[0].valueParameter) -> mSimpleType;
 	}
-#line 1848 "p2c.tab.c"
+#line 1849 "p2c.tab.c"
     break;
 
   case 54: /* var_parameter: VAR value_parameter  */
-#line 455 ".\\yacc\\p2c.y"
+#line 456 ".\\yacc\\p2c.y"
                               {
 		(yyval.varParameter) = new VarParameter((yyvsp[0].valueParameter));
 	}
-#line 1856 "p2c.tab.c"
+#line 1857 "p2c.tab.c"
     break;
 
   case 55: /* value_parameter: identifier_list ':' standard_type  */
-#line 461 ".\\yacc\\p2c.y"
+#line 462 ".\\yacc\\p2c.y"
                                             {
 		(yyval.valueParameter) = new ValueParameter((yyvsp[-2].idList), (yyvsp[0].mInt));
 	}
-#line 1864 "p2c.tab.c"
+#line 1865 "p2c.tab.c"
     break;
 
   case 56: /* subprogrambody: const_declarations var_declarations compound_statement  */
-#line 467 ".\\yacc\\p2c.y"
+#line 468 ".\\yacc\\p2c.y"
                                                                  {
 		(yyval.subprogramBody) = new SubprogramBody((yyvsp[-2].constDeclarations), (yyvsp[-1].varDeclarations), (yyvsp[0].compoundStatement));
 	}
-#line 1872 "p2c.tab.c"
+#line 1873 "p2c.tab.c"
     break;
 
   case 57: /* subprogrambody: error const_declarations var_declarations compound_statement  */
-#line 470 ".\\yacc\\p2c.y"
+#line 471 ".\\yacc\\p2c.y"
                                                                       {
 		(yyval.subprogramBody) = new SubprogramBody(nullptr,nullptr,new CompoundStatement());
 	}
-#line 1880 "p2c.tab.c"
+#line 1881 "p2c.tab.c"
     break;
 
   case 58: /* compound_statement: BEGIN_L statement_list END  */
-#line 475 ".\\yacc\\p2c.y"
+#line 476 ".\\yacc\\p2c.y"
                                      {
 		(yyval.compoundStatement) = new CompoundStatement((yyvsp[-1].statementList));
 	}
-#line 1888 "p2c.tab.c"
+#line 1889 "p2c.tab.c"
     break;
 
   case 59: /* statement_list: statement_list ';' statement  */
-#line 481 ".\\yacc\\p2c.y"
+#line 482 ".\\yacc\\p2c.y"
                                        {
 		(yyval.statementList) = new StatementList((yyvsp[-2].statementList) -> mStatementVector);
 		if((yyvsp[0].statement) != nullptr)
 			(yyval.statementList) -> mStatementVector.push_back((yyvsp[0].statement));
 	}
-#line 1898 "p2c.tab.c"
+#line 1899 "p2c.tab.c"
     break;
 
   case 60: /* statement_list: statement  */
-#line 486 ".\\yacc\\p2c.y"
+#line 487 ".\\yacc\\p2c.y"
                     {
 		(yyval.statementList) = new StatementList();
 		if((yyvsp[0].statement) != nullptr)
 			(yyval.statementList) -> mStatementVector.push_back((yyvsp[0].statement));
 	}
-#line 1908 "p2c.tab.c"
+#line 1909 "p2c.tab.c"
     break;
 
   case 61: /* statement_list: statement_list ';' error  */
-#line 491 ".\\yacc\\p2c.y"
+#line 492 ".\\yacc\\p2c.y"
                                    {
 		(yyval.statementList) = new StatementList();
 	}
-#line 1916 "p2c.tab.c"
+#line 1917 "p2c.tab.c"
     break;
 
   case 62: /* statement_list: error  */
-#line 494 ".\\yacc\\p2c.y"
+#line 495 ".\\yacc\\p2c.y"
                 {
 		(yyval.statementList) = new StatementList();
 	}
-#line 1924 "p2c.tab.c"
+#line 1925 "p2c.tab.c"
     break;
 
   case 63: /* statement: variable ASSIGNOP expression  */
-#line 501 ".\\yacc\\p2c.y"
+#line 502 ".\\yacc\\p2c.y"
                                        {	//赋值
 		(yyval.statement) = new Statement();
 		(yyval.statement) -> mStateType = STATEMENT_ASSIGN;
@@ -1936,11 +1937,11 @@ yyreduce:
 		(yyval.statement) -> mIfThenElse = nullptr;
 		(yyval.statement) -> mFor = nullptr;
 	}
-#line 1940 "p2c.tab.c"
+#line 1941 "p2c.tab.c"
     break;
 
   case 64: /* statement: call_procedure_statement  */
-#line 512 ".\\yacc\\p2c.y"
+#line 513 ".\\yacc\\p2c.y"
                                    {	//函数
 		(yyval.statement) = new Statement();
 		(yyval.statement) -> mStateType = STATEMENT_PROCEDURE;
@@ -1951,11 +1952,11 @@ yyreduce:
 		(yyval.statement) -> mIfThenElse = nullptr;
 		(yyval.statement) -> mFor = nullptr;
 	}
-#line 1955 "p2c.tab.c"
+#line 1956 "p2c.tab.c"
     break;
 
   case 65: /* statement: compound_statement  */
-#line 522 ".\\yacc\\p2c.y"
+#line 523 ".\\yacc\\p2c.y"
                              {	//函数内部
 		(yyval.statement) = new Statement();
 		(yyval.statement) -> mStateType = STATEMENT_COMPOUND;
@@ -1966,11 +1967,11 @@ yyreduce:
 		(yyval.statement) -> mIfThenElse = nullptr;
 		(yyval.statement) -> mFor = nullptr;
 	}
-#line 1970 "p2c.tab.c"
+#line 1971 "p2c.tab.c"
     break;
 
   case 66: /* statement: IF expression THEN statement else_part  */
-#line 532 ".\\yacc\\p2c.y"
+#line 533 ".\\yacc\\p2c.y"
                                                  {	//if语句
 		(yyval.statement) = new Statement();
 		(yyval.statement) -> mStateType = STATEMENT_IF;
@@ -1981,19 +1982,19 @@ yyreduce:
 		(yyval.statement) -> mStatementList = nullptr;
 		(yyval.statement) -> mFor = nullptr;
 	}
-#line 1985 "p2c.tab.c"
+#line 1986 "p2c.tab.c"
     break;
 
   case 67: /* statement: IF error THEN statement else_part  */
-#line 542 ".\\yacc\\p2c.y"
+#line 543 ".\\yacc\\p2c.y"
                                             {	//expression部分出错
 		(yyval.statement) = new Statement();
 	}
-#line 1993 "p2c.tab.c"
+#line 1994 "p2c.tab.c"
     break;
 
   case 68: /* statement: FOR IDENTIFIER ASSIGNOP expression TO expression DO statement  */
-#line 545 ".\\yacc\\p2c.y"
+#line 546 ".\\yacc\\p2c.y"
                                                                         {	//for循环
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[-6].mStr));
@@ -2007,35 +2008,35 @@ yyreduce:
 		(yyval.statement) -> mStatementList = nullptr;
 		(yyval.statement) -> mIfThenElse = nullptr;
 	}
-#line 2011 "p2c.tab.c"
+#line 2012 "p2c.tab.c"
     break;
 
   case 69: /* statement: FOR error TO expression DO statement  */
-#line 558 ".\\yacc\\p2c.y"
+#line 559 ".\\yacc\\p2c.y"
                                                {
 		(yyval.statement) = new Statement();
 	}
-#line 2019 "p2c.tab.c"
+#line 2020 "p2c.tab.c"
     break;
 
   case 70: /* statement: FOR IDENTIFIER ASSIGNOP expression TO error DO statement  */
-#line 561 ".\\yacc\\p2c.y"
+#line 562 ".\\yacc\\p2c.y"
                                                                    {
 		(yyval.statement) = new Statement();
 	}
-#line 2027 "p2c.tab.c"
+#line 2028 "p2c.tab.c"
     break;
 
   case 71: /* statement: %empty  */
-#line 564 ".\\yacc\\p2c.y"
+#line 565 ".\\yacc\\p2c.y"
           {
 		(yyval.statement) = nullptr;
 	}
-#line 2035 "p2c.tab.c"
+#line 2036 "p2c.tab.c"
     break;
 
   case 72: /* variable: IDENTIFIER IdVarPart  */
-#line 571 ".\\yacc\\p2c.y"
+#line 572 ".\\yacc\\p2c.y"
                                {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[-1].mStr));
@@ -2051,27 +2052,27 @@ yyreduce:
 			(yyval.variable) -> mExpressionList = nullptr;
 		}
 	}
-#line 2055 "p2c.tab.c"
+#line 2056 "p2c.tab.c"
     break;
 
   case 73: /* IdVarPart: '[' expression_list ']'  */
-#line 590 ".\\yacc\\p2c.y"
+#line 591 ".\\yacc\\p2c.y"
                                   {
 		(yyval.idVarPart) = new IdVarPart((yyvsp[-1].expressionList));
 	}
-#line 2063 "p2c.tab.c"
+#line 2064 "p2c.tab.c"
     break;
 
   case 74: /* IdVarPart: %empty  */
-#line 593 ".\\yacc\\p2c.y"
+#line 594 ".\\yacc\\p2c.y"
           {
 		(yyval.idVarPart) = new IdVarPart(nullptr);
 	}
-#line 2071 "p2c.tab.c"
+#line 2072 "p2c.tab.c"
     break;
 
   case 75: /* call_procedure_statement: IDENTIFIER  */
-#line 599 ".\\yacc\\p2c.y"
+#line 600 ".\\yacc\\p2c.y"
                      {
 		Id* tmp = new Id();
 		tmp -> mName = *((yyvsp[0].mStr));
@@ -2083,11 +2084,11 @@ yyreduce:
 		(yyval.procedureCall) -> mExpressionList = nullptr;
 
 	}
-#line 2087 "p2c.tab.c"
+#line 2088 "p2c.tab.c"
     break;
 
   case 76: /* call_procedure_statement: IDENTIFIER '(' expression_list ')'  */
-#line 610 ".\\yacc\\p2c.y"
+#line 611 ".\\yacc\\p2c.y"
                                              {
 		(yyval.procedureCall) = new ProcedureCall();
 		(yyval.procedureCall) -> mLineno = yylineno;
@@ -2098,262 +2099,262 @@ yyreduce:
 		(yyval.procedureCall) -> mId = tmp;
 		(yyval.procedureCall) -> mExpressionList = (yyvsp[-1].expressionList);
 	}
-#line 2102 "p2c.tab.c"
+#line 2103 "p2c.tab.c"
     break;
 
   case 77: /* else_part: ELSE statement  */
-#line 623 ".\\yacc\\p2c.y"
+#line 624 ".\\yacc\\p2c.y"
                          {
 		(yyval.statement) = (yyvsp[0].statement);
 	}
-#line 2110 "p2c.tab.c"
+#line 2111 "p2c.tab.c"
     break;
 
   case 78: /* else_part: %empty  */
-#line 626 ".\\yacc\\p2c.y"
+#line 627 ".\\yacc\\p2c.y"
                              {
 		(yyval.statement) = nullptr;
 	}
-#line 2118 "p2c.tab.c"
+#line 2119 "p2c.tab.c"
     break;
 
   case 79: /* expression_list: expression_list ',' expression  */
-#line 634 ".\\yacc\\p2c.y"
+#line 635 ".\\yacc\\p2c.y"
                                          {
 		(yyval.expressionList) = new ExpressionList((yyvsp[-2].expressionList) -> mExpressionVector, (yyvsp[-2].expressionList) -> mTypeVector);
 		(yyval.expressionList) -> mExpressionVector.push_back((yyvsp[0].expression));
 	}
-#line 2127 "p2c.tab.c"
+#line 2128 "p2c.tab.c"
     break;
 
   case 80: /* expression_list: expression  */
-#line 638 ".\\yacc\\p2c.y"
+#line 639 ".\\yacc\\p2c.y"
                      {
 		(yyval.expressionList) = new ExpressionList();
 		(yyval.expressionList) -> mExpressionVector.push_back((yyvsp[0].expression));
 	}
-#line 2136 "p2c.tab.c"
+#line 2137 "p2c.tab.c"
     break;
 
   case 81: /* expression: simple_expression '>' simple_expression  */
-#line 645 ".\\yacc\\p2c.y"
+#line 646 ".\\yacc\\p2c.y"
                                                   {
 		(yyval.expression) = new Expression();
 		(yyval.expression) -> mLineno = yylineno;
 		(yyval.expression) -> mSimpleExpression = nullptr;
 		(yyval.expression) -> mRelOp = new RelOp(OP_LARGER, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].simpleExpression));
 	}
-#line 2147 "p2c.tab.c"
+#line 2148 "p2c.tab.c"
     break;
 
   case 82: /* expression: simple_expression '<' simple_expression  */
-#line 651 ".\\yacc\\p2c.y"
+#line 652 ".\\yacc\\p2c.y"
                                                   {
 		(yyval.expression) = new Expression();
 		(yyval.expression) -> mLineno = yylineno;
 		(yyval.expression) -> mSimpleExpression = nullptr;
 		(yyval.expression) -> mRelOp = new RelOp(OP_LESS, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].simpleExpression));
 	}
-#line 2158 "p2c.tab.c"
+#line 2159 "p2c.tab.c"
     break;
 
   case 83: /* expression: simple_expression NE_OP simple_expression  */
-#line 657 ".\\yacc\\p2c.y"
+#line 658 ".\\yacc\\p2c.y"
                                                     {
 		(yyval.expression) = new Expression();
 		(yyval.expression) -> mLineno = yylineno;
 		(yyval.expression) -> mSimpleExpression = nullptr;
 		(yyval.expression) -> mRelOp = new RelOp(OP_NOT_EQUAL, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].simpleExpression));
 	}
-#line 2169 "p2c.tab.c"
+#line 2170 "p2c.tab.c"
     break;
 
   case 84: /* expression: simple_expression LE_OP simple_expression  */
-#line 663 ".\\yacc\\p2c.y"
+#line 664 ".\\yacc\\p2c.y"
                                                     {
 		(yyval.expression) = new Expression();
 		(yyval.expression) -> mLineno = yylineno;
 		(yyval.expression) -> mSimpleExpression = nullptr;
 		(yyval.expression) -> mRelOp = new RelOp(OP_LESS_EQUAL, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].simpleExpression));
 	}
-#line 2180 "p2c.tab.c"
+#line 2181 "p2c.tab.c"
     break;
 
   case 85: /* expression: simple_expression GE_OP simple_expression  */
-#line 669 ".\\yacc\\p2c.y"
+#line 670 ".\\yacc\\p2c.y"
                                                     {
 		(yyval.expression) = new Expression();
 		(yyval.expression) -> mLineno = yylineno;
 		(yyval.expression) -> mSimpleExpression = nullptr;
 		(yyval.expression) -> mRelOp = new RelOp(OP_LARGER_EQUAL, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].simpleExpression));
 	}
-#line 2191 "p2c.tab.c"
+#line 2192 "p2c.tab.c"
     break;
 
   case 86: /* expression: simple_expression '=' simple_expression  */
-#line 675 ".\\yacc\\p2c.y"
+#line 676 ".\\yacc\\p2c.y"
                                                   {
 		(yyval.expression) = new Expression();
 		(yyval.expression) -> mLineno = yylineno;
 		(yyval.expression) -> mSimpleExpression = nullptr;
 		(yyval.expression) -> mRelOp = new RelOp(OP_EQUAL, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].simpleExpression));
 	}
-#line 2202 "p2c.tab.c"
+#line 2203 "p2c.tab.c"
     break;
 
   case 87: /* expression: simple_expression  */
-#line 681 ".\\yacc\\p2c.y"
+#line 682 ".\\yacc\\p2c.y"
                             {
 		(yyval.expression) = new Expression();
 		(yyval.expression) -> mLineno = yylineno;
 		(yyval.expression) -> mSimpleExpression = (yyvsp[0].simpleExpression);
 		(yyval.expression) -> mRelOp = nullptr;
 	}
-#line 2213 "p2c.tab.c"
+#line 2214 "p2c.tab.c"
     break;
 
   case 88: /* simple_expression: term  */
-#line 690 ".\\yacc\\p2c.y"
+#line 691 ".\\yacc\\p2c.y"
                {
 		(yyval.simpleExpression) = new SimpleExpression(yylineno, nullptr, (yyvsp[0].term));
 	}
-#line 2221 "p2c.tab.c"
+#line 2222 "p2c.tab.c"
     break;
 
   case 89: /* simple_expression: simple_expression '+' term  */
-#line 693 ".\\yacc\\p2c.y"
+#line 694 ".\\yacc\\p2c.y"
                                      {
 		(yyval.simpleExpression) = new SimpleExpression(yylineno, new AddOp(OP_ADD, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].term)),nullptr);
 	}
-#line 2229 "p2c.tab.c"
+#line 2230 "p2c.tab.c"
     break;
 
   case 90: /* simple_expression: simple_expression '-' term  */
-#line 696 ".\\yacc\\p2c.y"
+#line 697 ".\\yacc\\p2c.y"
                                      {
 		(yyval.simpleExpression) = new SimpleExpression(yylineno, new AddOp(OP_SUB, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].term)),nullptr);
 	}
-#line 2237 "p2c.tab.c"
+#line 2238 "p2c.tab.c"
     break;
 
   case 91: /* simple_expression: simple_expression OR term  */
-#line 699 ".\\yacc\\p2c.y"
+#line 700 ".\\yacc\\p2c.y"
                                     {
 		(yyval.simpleExpression) = new SimpleExpression(yylineno, new AddOp(OP_OR, yylineno, (yyvsp[-2].simpleExpression), (yyvsp[0].term)),nullptr);
 	}
-#line 2245 "p2c.tab.c"
+#line 2246 "p2c.tab.c"
     break;
 
   case 92: /* term: term '*' factor  */
-#line 705 ".\\yacc\\p2c.y"
+#line 706 ".\\yacc\\p2c.y"
                           {
 		(yyval.term) = new Term(yylineno, new MulOp(OP_MULTIPLY, yylineno, (yyvsp[-2].term), (yyvsp[0].factor)), nullptr);
 	}
-#line 2253 "p2c.tab.c"
+#line 2254 "p2c.tab.c"
     break;
 
   case 93: /* term: term '/' factor  */
-#line 708 ".\\yacc\\p2c.y"
+#line 709 ".\\yacc\\p2c.y"
                           {
 		(yyval.term) = new Term(yylineno, new MulOp(OP_REAL_DIV, yylineno, (yyvsp[-2].term), (yyvsp[0].factor)), nullptr);
 	}
-#line 2261 "p2c.tab.c"
+#line 2262 "p2c.tab.c"
     break;
 
   case 94: /* term: term AND factor  */
-#line 711 ".\\yacc\\p2c.y"
+#line 712 ".\\yacc\\p2c.y"
                           {
 		(yyval.term) = new Term(yylineno, new MulOp(OP_AND, yylineno, (yyvsp[-2].term), (yyvsp[0].factor)), nullptr);
 	}
-#line 2269 "p2c.tab.c"
+#line 2270 "p2c.tab.c"
     break;
 
   case 95: /* term: term DIV factor  */
-#line 714 ".\\yacc\\p2c.y"
+#line 715 ".\\yacc\\p2c.y"
                           {
 		(yyval.term) = new Term(yylineno, new MulOp(OP_INT_DIV, yylineno, (yyvsp[-2].term), (yyvsp[0].factor)), nullptr);
 	}
-#line 2277 "p2c.tab.c"
+#line 2278 "p2c.tab.c"
     break;
 
   case 96: /* term: term MOD factor  */
-#line 717 ".\\yacc\\p2c.y"
+#line 718 ".\\yacc\\p2c.y"
                           {
 		(yyval.term) = new Term(yylineno, new MulOp(OP_MOD, yylineno, (yyvsp[-2].term), (yyvsp[0].factor)), nullptr);
 	}
-#line 2285 "p2c.tab.c"
+#line 2286 "p2c.tab.c"
     break;
 
   case 97: /* term: factor  */
-#line 720 ".\\yacc\\p2c.y"
+#line 721 ".\\yacc\\p2c.y"
                  {
 		(yyval.term) = new Term(yylineno, nullptr, (yyvsp[0].factor));
 	}
-#line 2293 "p2c.tab.c"
+#line 2294 "p2c.tab.c"
     break;
 
   case 98: /* SNUMBER: NUMBER  */
-#line 725 ".\\yacc\\p2c.y"
+#line 726 ".\\yacc\\p2c.y"
                {
 		(yyval.mFloat) = (yyvsp[0].mFloat);
 	}
-#line 2301 "p2c.tab.c"
+#line 2302 "p2c.tab.c"
     break;
 
   case 99: /* SNUMBER: '-' NUMBER  */
-#line 728 ".\\yacc\\p2c.y"
+#line 729 ".\\yacc\\p2c.y"
                     {
 		(yyval.mFloat) = -(yyvsp[0].mFloat);
 	}
-#line 2309 "p2c.tab.c"
+#line 2310 "p2c.tab.c"
     break;
 
   case 100: /* factor: SDIGITS  */
-#line 733 ".\\yacc\\p2c.y"
+#line 734 ".\\yacc\\p2c.y"
                   {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
 		(yyval.factor) -> mInt = (yyvsp[0].mInt);
 		(yyval.factor) -> mFactorType = FACTOR_VALUE_INT;
 	}
-#line 2320 "p2c.tab.c"
+#line 2321 "p2c.tab.c"
     break;
 
   case 101: /* factor: SNUMBER  */
-#line 739 ".\\yacc\\p2c.y"
+#line 740 ".\\yacc\\p2c.y"
                   {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
 		(yyval.factor) -> mReal = (yyvsp[0].mFloat);
 		(yyval.factor) -> mFactorType = FACTOR_VALUE_REAL;
 	}
-#line 2331 "p2c.tab.c"
+#line 2332 "p2c.tab.c"
     break;
 
   case 102: /* factor: LETTER  */
-#line 745 ".\\yacc\\p2c.y"
+#line 746 ".\\yacc\\p2c.y"
                  {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
 		(yyval.factor) -> mChar = (yyvsp[0].mChar);
 		(yyval.factor) -> mFactorType = FACTOR_VALUE_CHAR;
 	}
-#line 2342 "p2c.tab.c"
+#line 2343 "p2c.tab.c"
     break;
 
   case 103: /* factor: BOOL  */
-#line 751 ".\\yacc\\p2c.y"
+#line 752 ".\\yacc\\p2c.y"
                {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
 		(yyval.factor) -> mBool = (yyvsp[0].mBool);
 		(yyval.factor) -> mFactorType = FACTOR_VALUE_BOOL;
 	}
-#line 2353 "p2c.tab.c"
+#line 2354 "p2c.tab.c"
     break;
 
   case 104: /* factor: variable  */
-#line 757 ".\\yacc\\p2c.y"
+#line 758 ".\\yacc\\p2c.y"
                    {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
@@ -2364,11 +2365,11 @@ yyreduce:
 		(yyval.factor) -> mUminus = nullptr;
 		(yyval.factor) -> mFactorType = FACTOR_VAR;
 	}
-#line 2368 "p2c.tab.c"
+#line 2369 "p2c.tab.c"
     break;
 
   case 105: /* factor: IDENTIFIER '(' expression_list ')'  */
-#line 767 ".\\yacc\\p2c.y"
+#line 768 ".\\yacc\\p2c.y"
                                              {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
@@ -2382,11 +2383,11 @@ yyreduce:
 		(yyval.factor) -> mUminus = nullptr;
 		(yyval.factor) -> mFactorType = FACTOR_FUNCCALL;
 	}
-#line 2386 "p2c.tab.c"
+#line 2387 "p2c.tab.c"
     break;
 
   case 106: /* factor: IDENTIFIER '(' ')'  */
-#line 780 ".\\yacc\\p2c.y"
+#line 781 ".\\yacc\\p2c.y"
                             {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
@@ -2400,11 +2401,11 @@ yyreduce:
 		(yyval.factor) -> mUminus = nullptr;
 		(yyval.factor) -> mFactorType = FACTOR_FUNCCALL;
 	}
-#line 2404 "p2c.tab.c"
+#line 2405 "p2c.tab.c"
     break;
 
   case 107: /* factor: '(' expression ')'  */
-#line 793 ".\\yacc\\p2c.y"
+#line 794 ".\\yacc\\p2c.y"
                              {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
@@ -2415,11 +2416,11 @@ yyreduce:
 		(yyval.factor) -> mUminus = nullptr;
 		(yyval.factor) -> mFactorType = FACTOR_BRACKETS;
 	}
-#line 2419 "p2c.tab.c"
+#line 2420 "p2c.tab.c"
     break;
 
   case 108: /* factor: NOT factor  */
-#line 803 ".\\yacc\\p2c.y"
+#line 804 ".\\yacc\\p2c.y"
                      {
 		(yyval.factor) = new Factor();
 		(yyval.factor) -> mLineno = yylineno;
@@ -2432,11 +2433,11 @@ yyreduce:
 		(yyval.factor) -> mUminus = nullptr;
 		(yyval.factor) -> mFactorType = FACTOR_NOT;
 	}
-#line 2436 "p2c.tab.c"
+#line 2437 "p2c.tab.c"
     break;
 
 
-#line 2440 "p2c.tab.c"
+#line 2441 "p2c.tab.c"
 
       default: break;
     }
@@ -2630,15 +2631,15 @@ yyreturn:
   return yyresult;
 }
 
-#line 816 ".\\yacc\\p2c.y"
+#line 817 ".\\yacc\\p2c.y"
 
 
 
 int lexical_and_syntax_analyse() {
-	int ans = yyparse();
-	if(errorNum)
-		cout<< "The number of syntax error is: "<< errorNum <<endl;
-    if(ans || errorNum !=0 )
+	int failed = yyparse();
+	if (errorNum != 0)
+		cout<< "检测出语法错误数: "<< errorNum << endl;
+    if (failed != 0 || errorNum != 0 )
     	return 1;
     else
     	return 0;
