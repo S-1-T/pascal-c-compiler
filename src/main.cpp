@@ -1,6 +1,6 @@
-#include "p2c.tab.h"
-#include "semantic_analyser.h"
-#include "codes_generator.h"
+#include "yacc/p2c.tab.h"
+#include "yacc/semantic_analyser.h"
+#include "codes/codes_generator.h"
 
 #include <string>
 #include <iostream>

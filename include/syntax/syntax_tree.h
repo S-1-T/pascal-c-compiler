@@ -3,7 +3,7 @@
 #ifndef PASCAL_C_COMPILER_SYNTAX_TREE_H
 #define PASCAL_C_COMPILER_SYNTAX_TREE_H
 
-#include "const.h"
+#include "defines/const.h"
 
 #include <utility>
 #include <vector>

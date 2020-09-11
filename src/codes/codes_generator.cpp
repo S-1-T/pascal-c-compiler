@@ -1,6 +1,6 @@
-#include "codes_generator.h"
-#include "exceptions.h"
-#include "utils.h"
+#include "codes/codes_generator.h"
+#include "exceptions/exceptions.h"
+#include "utils/utils.h"
 
 #include <fstream>
 #include <strstream>

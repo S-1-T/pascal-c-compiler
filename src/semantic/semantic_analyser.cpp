@@ -1,5 +1,5 @@
-#include "syntax_tree.h"
-#include "symbol_sheet.h"
+#include "syntax/syntax_tree.h"
+#include "semantic/symbol_sheet.h"
 
 #include <iostream>
 #include <map>

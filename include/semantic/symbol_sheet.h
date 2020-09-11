@@ -6,8 +6,8 @@
 #include <vector>
 #include <map>
 
-#include "syntax_tree.h"
-#include "types.h"
+#include "syntax/syntax_tree.h"
+#include "defines/types.h"
 
 using namespace std;
 

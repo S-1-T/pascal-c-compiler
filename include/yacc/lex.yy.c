@@ -582,7 +582,7 @@ char *yytext;
 #line 1 ".\\yacc\\p2c.l"
 #line 2 ".\\yacc\\p2c.l"
 #include <stdio.h>
-#include "p2c.tab.h"
+#include "yacc/p2c.tab.h"
 #include <string.h>
 extern YYSTYPE yylval;
 extern char* yytext;

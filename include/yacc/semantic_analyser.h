@@ -6,7 +6,7 @@
 #include <utility>
 #include <iostream>
 
-#include "syntax_tree.h"
+#include "syntax/syntax_tree.h"
 
 bool semantic_analyse(Program *root);
 

@@ -1,6 +1,6 @@
 %{
 #include <stdio.h>
-#include "p2c.tab.h"
+#include "yacc/p2c.tab.h"
 #include <string.h>
 extern YYSTYPE yylval;
 extern char* yytext;

@@ -1,10 +1,11 @@
 %code requires {
-	#include "const.h"
-	#include "syntax_tree.h"
+	#include "defines/const.h"
+	#include "syntax/syntax_tree.h"
 }
 
 %code top {
-	#include "lex.yy.c"
+	#include "yacc/lex.yy.c"
+
 	#include <cstdio>
 	#include <string>
 	#include <iostream>
@@ -16,7 +17,7 @@
 	Program* root;					// AST 根节点
 	int errorNum = 0;				// 错误数量
 
-	int yyparse(void);				// 语法分析接口
+	int yyparse();				    // 语法分析接口
 	void yyerror(const char* s);	// 输出错误信息
 	extern int yylineno;			// 行号信息
 
@@ -817,10 +818,10 @@ factor
 
 
 int lexical_and_syntax_analyse() {
-	int ans = yyparse();
-	if(errorNum)
-		cout<< "The number of syntax error is: "<< errorNum <<endl;
-    if(ans || errorNum !=0 )
+	int failed = yyparse();
+	if (errorNum != 0)
+		cout<< "检测出语法错误数: "<< errorNum << endl;
+    if (failed != 0 || errorNum != 0 )
     	return 1;
     else
     	return 0;

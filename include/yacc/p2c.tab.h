@@ -47,8 +47,8 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 1 ".\\yacc\\p2c.y"
 
-	#include "const.h"
-	#include "syntax_tree.h"
+	#include "defines/const.h"
+	#include "syntax/syntax_tree.h"
 
 #line 54 "p2c.tab.h"
 
@@ -112,7 +112,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 38 ".\\yacc\\p2c.y"
+#line 39 ".\\yacc\\p2c.y"
 
 	Program* program;
 	ProgramBody* programBody;

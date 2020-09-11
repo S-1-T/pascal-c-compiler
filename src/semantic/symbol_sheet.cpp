@@ -1,4 +1,4 @@
-#include "symbol_sheet.h"
+#include "semantic/symbol_sheet.h"
 
 map<SymbolSheetName, SymbolSheet> SymbolSheetList;
 
